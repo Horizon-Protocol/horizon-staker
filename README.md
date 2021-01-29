@@ -1,3 +1,3 @@
-# Staking site for the Horizon platform
+# Horizon Staker
 
-This project is the frontend pages for the Horizon platform.
+This project is the frontend pages for staking of Horizon.
