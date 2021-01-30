@@ -6,7 +6,7 @@ import logo from "@assets/logo.png";
 const useStyles = makeStyles({
   container: {
     position: "relative",
-    padding: "42px 0",
+    padding: "36px 0",
     borderBottom: "1px solid #11263B",
   },
   logo: {
@@ -15,7 +15,7 @@ const useStyles = makeStyles({
   connect: {
     position: "absolute",
     right: 24,
-    top: 42,
+    top: 38,
     fontSize: 14,
     paddingLeft: 18,
     paddingRight: 18,
