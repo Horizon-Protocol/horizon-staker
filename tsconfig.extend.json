@@ -5,7 +5,10 @@
       "@": ["./"],
       "@/*": ["./*"],
       "@components": ["./components"],
-      "@components/*": ["./components/*"]
+      "@components/*": ["./components/*"],
+      "@assets/*": ["./assets/*"],
+      "@utils": ["./utils"],
+      "@utils/*": ["./utils/*"]
     }
   }
 }
