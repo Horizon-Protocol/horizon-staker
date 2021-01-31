@@ -1,5 +1,4 @@
 import {
-  Divider,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -10,40 +9,61 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { Close } from "@material-ui/icons";
-import {
-  SUPPORTED_WALLET_ENUM,
-  SUPPORTED_WALLETS,
-  Wallet,
-} from "@utils/constants";
+import { SUPPORTED_WALLETS, Wallet } from "@utils/constants";
 import { useWalletState } from "@states/wallet";
 
 const useStyles = makeStyles(({ palette, typography }) => ({
-  title: {
+  header: {
     minWidth: 350,
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
   },
-  titleText: {
+  title: {
     ...typography.h6,
+    textTransform: "uppercase",
   },
   closeIcon: {
     padding: 4,
   },
-  item: {
-    marginBottom: 12,
-    borderRadius: 6,
-    "&:hover": {
-      background: "rgba(52,129,183,0.1)",
-    },
-  },
   logo: {
-    width: 40,
-    height: 40,
+    width: 32,
+    height: 32,
   },
 }));
+
+const StyledDialog = withStyles(({ palette }) => ({
+  paper: {
+    border: `1px solid ${palette.divider}`,
+    borderRadius: 10,
+  },
+}))(Dialog);
+
+const StyledListItem = withStyles(({ palette }) => ({
+  root: {
+    padding: 12,
+    marginBottom: 24,
+    borderRadius: 6,
+    backgroundColor: "rgba(28, 57, 95, 0.6)",
+    "&:hover": {
+      backgroundColor: "rgba(28, 57, 95, 1)",
+    },
+  },
+}))(ListItem);
+
+const StyledListItemText = withStyles(({ palette }) => ({
+  root: {
+    paddingRight: 56,
+  },
+  primary: {
+    textAlign: "center",
+    fontWeight: 700,
+    textTransform: "uppercase",
+    letterSpacing: 0.88,
+  },
+}))(ListItemText);
 
 export default function WalletsDialog(
   props: Omit<DialogProps, "open" | "onClose">
@@ -60,25 +80,23 @@ export default function WalletsDialog(
   };
 
   return (
-    <Dialog open={open.get()} onClose={handleClose} {...props}>
-      <DialogTitle disableTypography classes={{ root: classes.title }}>
-        <span className={classes.titleText}>Connect to a wallet</span>
+    <StyledDialog open={open.get()} onClose={handleClose} {...props}>
+      <DialogTitle disableTypography classes={{ root: classes.header }}>
+        <span className={classes.title}>Connect wallet</span>
         <IconButton
-          color='primary'
+          color='inherit'
           onClick={handleClose}
           classes={{ root: classes.closeIcon }}
         >
           <Close />
         </IconButton>
       </DialogTitle>
-      <Divider />
       <DialogContent>
         <List component='nav'>
           {SUPPORTED_WALLETS.map((wallet) => (
-            <ListItem
+            <StyledListItem
               key={wallet.key}
               button
-              classes={{ root: classes.item }}
               onClick={() => handleSelectWallet(wallet)}
             >
               <ListItemIcon>
@@ -88,11 +106,11 @@ export default function WalletsDialog(
                   className={classes.logo}
                 />
               </ListItemIcon>
-              <ListItemText primary={wallet.label} />
-            </ListItem>
+              <StyledListItemText primary={wallet.label} />
+            </StyledListItem>
           ))}
         </List>
       </DialogContent>
-    </Dialog>
+    </StyledDialog>
   );
 }

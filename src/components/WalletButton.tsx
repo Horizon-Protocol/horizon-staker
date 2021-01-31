@@ -4,9 +4,11 @@ import { useWalletState } from "@states/wallet";
 
 const StyledButton = withStyles(({ palette }) => ({
   root: {
+    fontWeight: 700,
     height: 32,
     borderRadius: 16,
     color: palette.text.primary,
+    textTransform: "none",
   },
 }))(Button);
 

@@ -15,15 +15,15 @@ export interface Wallet {
 
 export const SUPPORTED_WALLETS: Wallet[] = [
   {
-    key: SUPPORTED_WALLET_ENUM.BINANCE,
-    label: "Binance Chain Wallet",
-    logo: BinanceLogo,
-    injection: "BinanceChain",
-  },
-  {
     key: SUPPORTED_WALLET_ENUM.METAMASK,
     label: "Metamask",
     logo: MetamaskLogo,
     injection: "ethereum",
+  },
+  {
+    key: SUPPORTED_WALLET_ENUM.BINANCE,
+    label: "Binance Wallet",
+    logo: BinanceLogo,
+    injection: "BinanceChain",
   },
 ];
