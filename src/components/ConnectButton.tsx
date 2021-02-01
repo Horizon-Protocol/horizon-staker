@@ -12,7 +12,10 @@ const StyledButton = withStyles(({ palette }) => ({
   },
 }))(Button);
 
-export default function ConnectButton(props: ButtonProps) {
+interface Props extends ButtonProps {
+  rounded?: boolean;
+}
+export default function ConnectButton({ rounded, ...props }: Props) {
   const { open } = useWalletState();
 
   return (
