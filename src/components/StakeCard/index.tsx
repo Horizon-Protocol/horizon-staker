@@ -8,8 +8,11 @@ import {
   CardContent,
   Link,
 } from "@material-ui/core";
+import BigNumber from "bignumber.js";
 import Stats from "./Stats";
+import Earned from "./Earned";
 import phbLogo from "@assets/phb.png";
+import { useWalletState } from "@/states/wallet";
 
 const useStyles = makeStyles(() => ({
   title: {
@@ -21,6 +24,8 @@ const useStyles = makeStyles(() => ({
     lineHeight: "22px",
   },
 }));
+
+const emptyAmount = new BigNumber("123456789000.12345683833");
 
 const StyledCard = withStyles(({ palette }) => ({
   root: {
@@ -48,6 +53,7 @@ const StyledHeader = withStyles({
 
 const StyledContent = withStyles(() => ({
   root: {
+    padding: 0,
     backgroundColor: "rgba(12,17,29,0.5)",
   },
 }))(CardContent);
@@ -60,6 +66,9 @@ const StyledActions = withStyles(({ palette }) => ({
 
 export default function StakeCard() {
   const classes = useStyles();
+  const { detail } = useWalletState();
+
+  const isConnected = !!detail.get();
 
   return (
     <StyledCard variant='outlined'>
@@ -75,6 +84,7 @@ export default function StakeCard() {
       />
       <StyledContent>
         <Stats />
+        <Earned amount={emptyAmount} />
       </StyledContent>
       <StyledActions>
         <Button size='small'>Buy PHB</Button>

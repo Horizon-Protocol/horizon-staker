@@ -2,7 +2,9 @@ import { Box, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
-  root: {},
+  root: {
+    padding: "20px 16px",
+  },
   item: {
     padding: "4px 0",
     display: "flex",
