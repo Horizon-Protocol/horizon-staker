@@ -1,6 +1,7 @@
 import { Box, Button, Typography } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import BigNumber from "bignumber.js";
+import PrimaryButton from "@components/PrimaryButton";
 
 const useStyles = makeStyles({
   root: {
@@ -34,13 +35,6 @@ const Amount = withStyles({
   },
 })(Typography);
 
-const Harvest = withStyles({
-  root: {
-    flex: "0 0 120px",
-    fontWeight: 700,
-  },
-})(Button);
-
 interface Props {
   amount: BigNumber;
   onHarvest?: () => void;
@@ -48,24 +42,17 @@ interface Props {
 
 export default function Earned({ amount, onHarvest }: Props) {
   const classes = useStyles();
-  console.log(amount.toFormat());
   return (
     <Box className={classes.root}>
       <Box className={classes.amount}>
         <AmountLabel variant='caption' color='primary'>
           HZN EARNED
         </AmountLabel>
-        <Amount variant='body1'>{amount.toFormat(8)}</Amount>
+        <Amount variant='body1'>{amount.toFormat(2)}</Amount>
       </Box>
-      <Harvest
-        color='primary'
-        variant='contained'
-        size='large'
-        disabled
-        onClick={onHarvest}
-      >
+      <PrimaryButton size='large' disabled={amount.lte(0)} onClick={onHarvest}>
         Harvest
-      </Harvest>
+      </PrimaryButton>
     </Box>
   );
 }

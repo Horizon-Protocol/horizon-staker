@@ -2,13 +2,12 @@ import { createMuiTheme } from "@material-ui/core/styles";
 
 const theme = createMuiTheme({
   palette: {
-    type: "dark",
+    // type: "dark",
     primary: {
-      // Purple and green play nicely together.
       main: "#62B5DB",
     },
     secondary: {
-      main: "rgba(98,181,219,0.1)",
+      main: "rgba(98,181,219, 0.1)",
     },
     text: {
       primary: "#FFFFFF",
