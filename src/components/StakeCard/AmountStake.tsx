@@ -1,5 +1,5 @@
-import { useCallback, useState } from "react";
-import { Box, Button, Typography } from "@material-ui/core";
+import { useCallback, useState, useMemo } from "react";
+import { Box, Button, Collapse, Typography } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import BigNumber from "bignumber.js";
 import AmountInput from "./AmountInput";
@@ -13,7 +13,7 @@ const useStyles = makeStyles(({ palette }) => ({
     display: "flex",
     alignItems: "center",
   },
-  amount: {
+  staked: {
     flex: 1,
     overflow: "hidden",
   },
@@ -33,6 +33,7 @@ const AmountLabel = withStyles({
     fontSize: 12,
     fontWeight: 900,
     letterSpacing: "1px",
+    textTransform: "uppercase",
   },
 })(Typography);
 
@@ -57,55 +58,82 @@ const InputButton = withStyles(({ palette }) => ({
 }))(Button);
 
 interface Props {
-  symbol: "phb" | "hzn" | "bnb-lp";
-  amount: BigNumber;
+  token: TokenEnum;
+  staked: BigNumber;
 }
 
-export default function AmountStake({ symbol, amount }: Props) {
+enum Action {
+  Stake = 1,
+  Unstake,
+}
+
+const Actions = [
+  {
+    key: Action.Stake,
+    label: "+",
+  },
+  {
+    key: Action.Unstake,
+    label: "-",
+  },
+];
+
+export default function AmountStake({ token, staked }: Props) {
   const classes = useStyles();
-  const [lastClick, setLastClick] = useState<"+" | "-">();
+  const [currentAction, setCurrentAction] = useState<Action>();
+  const [input, setInput] = useState<string>();
 
-  const handleIncrease: React.MouseEventHandler = useCallback((e) => {
-    setLastClick("+");
-  }, []);
+  const amount = useMemo(
+    () => new BigNumber((input || "0").replace(/,/g, "")),
+    [input]
+  );
 
-  const handleDecrease: React.MouseEventHandler = useCallback((e) => {
-    setLastClick("-");
+  // const currentActionLabel: string = Action[Action.Stake];
+
+  const handleAction: (action: Action) => void = useCallback((action) => {
+    console.log(action);
+    setCurrentAction((prevAction) =>
+      prevAction === action ? undefined : action
+    );
   }, []);
 
   return (
     <>
       <Box className={classes.root}>
         <Box className={classes.amountBox}>
-          <Box className={classes.amount}>
+          <Box className={classes.staked}>
             <AmountLabel variant='caption' color='primary'>
-              HZN EARNED
+              {token} Staked
             </AmountLabel>
-            <Amount variant='body1'>{amount.toFormat(2)}</Amount>
+            <Amount variant='body1'>{staked.toFormat(2)}</Amount>
           </Box>
           <Box className={classes.buttons}>
-            <InputButton
-              variant='contained'
-              color={lastClick === "+" ? "primary" : "secondary"}
-              size='small'
-              onClick={handleIncrease}
-            >
-              +
-            </InputButton>
-            <InputButton
-              variant='contained'
-              color={lastClick === "-" ? "primary" : "secondary"}
-              size='small'
-              onClick={handleDecrease}
-            >
-              -
-            </InputButton>
+            {Actions.map(({ key, label }) => (
+              <InputButton
+                key={key}
+                variant='contained'
+                color={currentAction === key ? "primary" : "secondary"}
+                size='small'
+                onClick={() => handleAction(key)}
+              >
+                {label}
+              </InputButton>
+            ))}
           </Box>
         </Box>
       </Box>
-      <Box className={classes.inputBox}>
-        <AmountInput symbol={symbol} maxAmount={amount} />
-      </Box>
+      <Collapse in={!!currentAction}>
+        <Box className={classes.inputBox}>
+          <AmountInput
+            token={token}
+            input={input}
+            onInput={setInput}
+            amount={amount}
+            max={staked}
+            btnLabel={currentAction ? Action[currentAction] : ""}
+          />
+        </Box>
+      </Collapse>
     </>
   );
 }

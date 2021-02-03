@@ -1,8 +1,11 @@
 // import { Wallet } from "@binance-chain/bsc-use-wallet";
 import { createState, useState } from "@hookstate/core";
 
-const state = createState<State.Wallet>({
-  open: false,
+const state = createState<State.Balance>({
+  HZN: {
+    available: 0,
+    staked: 0,
+  },
 });
 
 export function useWalletState() {

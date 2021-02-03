@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { Close } from "@material-ui/icons";
-import { SUPPORTED_WALLETS, Wallet } from "@utils/constants";
+import { SUPPORTED_WALLETS } from "@utils/constants";
 import { useWalletState } from "@states/wallet";
 
 const useStyles = makeStyles(({ palette, typography }) => ({
@@ -75,7 +75,7 @@ export default function WalletsDialog(
     open.set(false);
   };
 
-  const handleSelectWallet = (wallet: Wallet) => {
+  const handleSelectWallet = (wallet: WalletDetail) => {
     merge({ detail: wallet, open: false });
   };
 

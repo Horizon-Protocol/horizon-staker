@@ -9,6 +9,7 @@ import {
   Link,
 } from "@material-ui/core";
 import BigNumber from "bignumber.js";
+import { Token } from "@utils/constants";
 import { useWalletState } from "@/states/wallet";
 import phbLogo from "@assets/phb.png";
 import ConnectButton from "../ConnectButton";
@@ -88,7 +89,7 @@ export default function StakeCard() {
         <Stats />
         <Earned amount={defaultAmount} />
         {!connected && <ConnectButton fullWidth rounded size='large' />}
-        {connected && <AmountStake symbol='phb' amount={defaultAmount} />}
+        {connected && <AmountStake token={Token.PHB} staked={defaultAmount} />}
       </StyledContent>
       <StyledActions>
         <Button size='small'>Buy PHB</Button>

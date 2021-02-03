@@ -1,27 +1,38 @@
 import BinanceLogo from "@assets/wallets/binance.svg";
 import MetamaskLogo from "@assets/wallets/metamask.svg";
 
-export enum SUPPORTED_WALLET_ENUM {
-  BINANCE,
-  METAMASK,
+export enum Token {
+  PHB = "PHB",
+  HZN = "PHB",
+  HZN_BNB_LP = "HZN-BNB LP",
 }
 
-export interface Wallet {
-  key: SUPPORTED_WALLET_ENUM;
-  label: string;
-  logo: string;
-  injection: string;
+export enum SupportedWallet {
+  Metamask = "Metamask",
+  Binance = "Binance",
 }
 
-export const SUPPORTED_WALLETS: Wallet[] = [
+declare global {
+  type TokenEnum = Token;
+  type SupportedWalletEnum = SupportedWallet;
+
+  interface WalletDetail {
+    key: SupportedWalletEnum;
+    label: string;
+    logo: string;
+    injection: string;
+  }
+}
+
+export const SUPPORTED_WALLETS: WalletDetail[] = [
   {
-    key: SUPPORTED_WALLET_ENUM.METAMASK,
+    key: SupportedWallet.Metamask,
     label: "Metamask",
     logo: MetamaskLogo,
     injection: "ethereum",
   },
   {
-    key: SUPPORTED_WALLET_ENUM.BINANCE,
+    key: SupportedWallet.Binance,
     label: "Binance Wallet",
     logo: BinanceLogo,
     injection: "BinanceChain",
