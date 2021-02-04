@@ -93,7 +93,9 @@ export default function StakeCard() {
         {connected && <AmountStake token={Token.PHB} staked={defaultAmount} />}
       </StyledContent>
       <StyledActions>
-        <ExternalLink logo={binanceLogo}>Buy PHB</ExternalLink>
+        <ExternalLink href='https://binance.com' logo={binanceLogo}>
+          Buy PHB
+        </ExternalLink>
       </StyledActions>
     </StyledCard>
   );

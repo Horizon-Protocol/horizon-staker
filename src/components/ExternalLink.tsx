@@ -5,51 +5,60 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 const StyledLink = withStyles(({ palette }) => ({
   root: {
     display: "block",
+    width: "100%",
   },
 }))(Link);
 
 const StyledButton = withStyles(({ palette }) => ({
   root: {
-    color: "#FFF",
+    color: palette.primary.main,
     height: 32,
     borderRadius: "16px",
     backgroundColor: palette.secondary.main,
   },
 }))(Button);
 
-const StyledEndIcon = withStyles(() => ({
-  root: {
-    color: "#FFF",
-  },
-}))(CallMade);
-
 const useStyles = makeStyles(() => ({
   logo: {
+    flex: 0,
     height: 18,
+  },
+  text: {
+    flex: 1,
+    padding: "0 10px",
+    textAlign: "left",
+  },
+  endIcon: {
+    flex: "0 0 18px",
+    color: "#FFF",
   },
 }));
 
 interface Props extends ButtonProps {
+  href?: string;
   logo?: string;
 }
 
-export default function ExternalLink({ logo, children, ...props }: Props) {
+export default function ExternalLink({
+  href = "/",
+  logo,
+  children,
+  ...props
+}: Props) {
   const classes = useStyles();
 
   return (
-    <StyledLink href='https://baidu.com' color='primary' underline='none'>
+    <StyledLink href={href} target='_blank' color='primary' underline='none'>
       <StyledButton
         variant='contained'
         color='secondary'
         fullWidth
-        startIcon={
-          logo ? <img src={logo} alt='logo' className={classes.logo} /> : null
-        }
-        endIcon={<CallMade />}
         size='small'
         {...props}
       >
-        {children}
+        {logo ? <img src={logo} alt='logo' className={classes.logo} /> : null}
+        <span className={classes.text}>{children}</span>
+        <CallMade className={classes.endIcon} />
       </StyledButton>
     </StyledLink>
   );
