@@ -1,6 +1,5 @@
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import {
-  Button,
   Typography,
   Card,
   CardHeader,
@@ -11,7 +10,9 @@ import {
 import BigNumber from "bignumber.js";
 import { Token } from "@utils/constants";
 import { useWalletState } from "@/states/wallet";
-import phbLogo from "@assets/phb.png";
+import ExternalLink from "@components/ExternalLink";
+import phbBg from "@assets/phb.png";
+import binanceLogo from "@assets/exchanges/binance.png";
 import ConnectButton from "../ConnectButton";
 import Stats from "./Stats";
 import Earned from "./Earned";
@@ -32,14 +33,13 @@ const defaultAmount = new BigNumber("123456789000.12345683833");
 
 const StyledCard = withStyles(({ palette }) => ({
   root: {
-    minHeight: 500,
     width: 340,
     borderRadius: 20,
     backgroundColor: "transparent",
     backgroundRepeat: "no-repeat",
     backgroundSize: "360px 240px",
     backgroundPosition: "top -56px right -84px",
-    backgroundImage: `url(${phbLogo})`,
+    backgroundImage: `url(${phbBg})`,
     border: `1px solid ${palette.divider}`,
   },
 }))(Card);
@@ -63,6 +63,7 @@ const StyledContent = withStyles(() => ({
 
 const StyledActions = withStyles(({ palette }) => ({
   root: {
+    backgroundColor: "rgba(28,57,95,0.25)",
     borderTop: `1px solid ${palette.divider}`,
   },
 }))(CardActions);
@@ -92,7 +93,7 @@ export default function StakeCard() {
         {connected && <AmountStake token={Token.PHB} staked={defaultAmount} />}
       </StyledContent>
       <StyledActions>
-        <Button size='small'>Buy PHB</Button>
+        <ExternalLink logo={binanceLogo}>Buy PHB</ExternalLink>
       </StyledActions>
     </StyledCard>
   );
