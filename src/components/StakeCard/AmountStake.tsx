@@ -2,12 +2,12 @@ import { useCallback, useState, useMemo } from "react";
 import { Box, Button, Collapse, Typography } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import BigNumber from "bignumber.js";
+import { cardContent } from "@utils/theme/common";
 import AmountInput from "./AmountInput";
 
 const useStyles = makeStyles(({ palette }) => ({
   root: {
-    padding: "20px 16px",
-    backgroundColor: "rgba(28,57,95,0.25)",
+    ...cardContent,
   },
   amountBox: {
     display: "flex",
@@ -24,7 +24,7 @@ const useStyles = makeStyles(({ palette }) => ({
     color: palette.text.primary,
   },
   inputBox: {
-    padding: "20px 16px",
+    padding: cardContent.padding,
   },
 }));
 
@@ -60,6 +60,7 @@ const InputButton = withStyles(({ palette }) => ({
 interface Props {
   token: TokenEnum;
   staked: BigNumber;
+  logo?: string;
 }
 
 enum Action {
@@ -78,7 +79,7 @@ const Actions = [
   },
 ];
 
-export default function AmountStake({ token, staked }: Props) {
+export default function AmountStake({ token, staked, logo }: Props) {
   const classes = useStyles();
   const [currentAction, setCurrentAction] = useState<Action>();
   const [input, setInput] = useState<string>();
@@ -87,8 +88,6 @@ export default function AmountStake({ token, staked }: Props) {
     () => new BigNumber((input || "0").replace(/,/g, "")),
     [input]
   );
-
-  // const currentActionLabel: string = Action[Action.Stake];
 
   const handleAction: (action: Action) => void = useCallback((action) => {
     console.log(action);
@@ -126,6 +125,7 @@ export default function AmountStake({ token, staked }: Props) {
         <Box className={classes.inputBox}>
           <AmountInput
             token={token}
+            logo={logo}
             input={input}
             onInput={setInput}
             amount={amount}

@@ -2,26 +2,22 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import {
   Typography,
   Card,
+  CardProps,
   CardHeader,
   CardActions,
   CardContent,
-  Link,
 } from "@material-ui/core";
 import BigNumber from "bignumber.js";
-import { Token } from "@utils/constants";
-import { useWalletState } from "@/states/wallet";
+import defaultTheme from "@utils/theme";
+import { useWalletState } from "@states/wallet";
 import ExternalLink from "@components/ExternalLink";
-import phbBg from "@assets/phb.png";
-import binanceLogo from "@assets/exchanges/binance.png";
 import ConnectButton from "../ConnectButton";
+import CardSection from "./CardSection";
 import Stats from "./Stats";
 import Earned from "./Earned";
 import AmountStake from "./AmountStake";
 
 const useStyles = makeStyles(() => ({
-  title: {
-    fontSize: 14,
-  },
   desc: {
     color: "#C1D3E0",
     fontSize: "14px",
@@ -34,12 +30,12 @@ const defaultAmount = new BigNumber("123456789000.12345683833");
 const StyledCard = withStyles(({ palette }) => ({
   root: {
     width: 340,
+    flex: "0 0 340px",
     borderRadius: 20,
     backgroundColor: "transparent",
     backgroundRepeat: "no-repeat",
-    backgroundSize: "360px 240px",
+    backgroundSize: "auto 220px",
     backgroundPosition: "top -56px right -84px",
-    backgroundImage: `url(${phbBg})`,
     border: `1px solid ${palette.divider}`,
   },
 }))(Card);
@@ -61,42 +57,93 @@ const StyledContent = withStyles(() => ({
   },
 }))(CardContent);
 
-const StyledActions = withStyles(({ palette }) => ({
+const StyledLinks = withStyles(({ palette }) => ({
   root: {
+    padding: 16,
     backgroundColor: "rgba(28,57,95,0.25)",
     borderTop: `1px solid ${palette.divider}`,
   },
 }))(CardActions);
 
-export default function StakeCard() {
+interface LinkProps {
+  href: string;
+  logo: string;
+  text: string;
+}
+export interface RenderConnectedProps {
+  token: TokenEnum;
+  logo?: string;
+  staked: BigNumber;
+}
+
+export interface StakeCardProps extends CardProps {
+  token: TokenEnum;
+  desc: string | React.ReactNode;
+  bg: string;
+  color?: string;
+  logo?: string;
+  links?: LinkProps[];
+  renderConnected?: (props: RenderConnectedProps) => React.ReactNode;
+}
+
+export default function StakeCard({
+  token,
+  bg,
+  color = defaultTheme.palette.primary.main,
+  desc,
+  logo,
+  links,
+  renderConnected,
+  ...props
+}: StakeCardProps) {
   const classes = useStyles();
   const { detail } = useWalletState();
 
-  const connected = true; //!!detail.get();
+  const connected = !!detail.get();
 
   return (
-    <StyledCard variant='outlined'>
+    <StyledCard
+      variant='outlined'
+      style={{
+        backgroundImage: `url(${bg})`,
+      }}
+      {...props}
+    >
       <StyledHeader
-        title='Stake PHB'
+        title={`Stake ${token}`}
         subheader={
           <Typography className={classes.desc} color='textSecondary'>
-            Stake BEP-20 PHB to earn HZN. <br />
-            To convert your existing PHX or BEP-2 PHB to BEP-20 PHB, click{" "}
-            <Link href='https://horizonprotocol.com'>here</Link>.
+            {desc}
           </Typography>
         }
+        style={{
+          color,
+        }}
       />
       <StyledContent>
         <Stats />
         <Earned amount={defaultAmount} />
-        {!connected && <ConnectButton fullWidth rounded size='large' />}
-        {connected && <AmountStake token={Token.PHB} staked={defaultAmount} />}
+        {connected ? (
+          renderConnected ? (
+            renderConnected({ token, logo, staked: defaultAmount })
+          ) : (
+            <AmountStake logo={logo} token={token} staked={defaultAmount} />
+          )
+        ) : (
+          <CardSection>
+            <ConnectButton fullWidth rounded size='large' />
+          </CardSection>
+        )}
       </StyledContent>
-      <StyledActions>
-        <ExternalLink href='https://binance.com' logo={binanceLogo}>
-          Buy PHB
-        </ExternalLink>
-      </StyledActions>
+      {links?.length ? (
+        <StyledLinks>
+          {links.map(({ href, logo, text }) => (
+            <ExternalLink key={href} href={href} logo={logo}>
+              {text}
+            </ExternalLink>
+          ))}
+        </StyledLinks>
+      ) : null}
     </StyledCard>
   );
 }

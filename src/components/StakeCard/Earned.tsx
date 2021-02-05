@@ -1,12 +1,12 @@
 import { Box, Button, Typography } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import BigNumber from "bignumber.js";
+import { cardContent } from "@utils/theme/common";
 import PrimaryButton from "@components/PrimaryButton";
 
 const useStyles = makeStyles({
   root: {
-    padding: "20px 16px",
-    backgroundColor: "rgba(28,57,95,0.25)",
+    ...cardContent,
     display: "flex",
     alignItems: "center",
   },

@@ -3,7 +3,7 @@ import MetamaskLogo from "@assets/wallets/metamask.svg";
 
 export enum Token {
   PHB = "PHB",
-  HZN = "PHB",
+  HZN = "HZN",
   HZN_BNB_LP = "HZN-BNB LP",
 }
 

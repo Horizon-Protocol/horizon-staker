@@ -16,6 +16,12 @@ const useStyles = makeStyles(({ palette }) => ({
   },
   token: {
     padding: 12,
+    display: " inline-flex",
+    alignItems: "center",
+  },
+  logo: {
+    height: 22,
+    marginRight: 8,
   },
   input: {
     flex: 1,
@@ -40,6 +46,7 @@ interface Props {
   amount: BigNumber;
   max: BigNumber;
   btnLabel: string;
+  logo?: string;
 }
 
 export default function AmountInput({
@@ -49,6 +56,7 @@ export default function AmountInput({
   amount,
   max,
   btnLabel,
+  logo,
 }: Props) {
   const classes = useStyles();
 
@@ -63,7 +71,10 @@ export default function AmountInput({
   return (
     <Box className={classes.root}>
       <Box className={classes.inputBox}>
-        <span className={classes.token}>{token}</span>
+        <span className={classes.token}>
+          {logo ? <img src={logo} alt={""} className={classes.logo} /> : null}
+          <Typography>{token}</Typography>
+        </span>
         <InputBase
           value={input}
           onChange={(e) => onInput(e.target.value)}
