@@ -18,6 +18,7 @@ ReactDOM.render(
           horizontal: "right",
           vertical: "top",
         }}
+        preventDuplicate
       >
         <UseWalletProvider chainId={CHAIN_MAP[ChainId]}>
           <App />

@@ -58,11 +58,11 @@ const cards: StakeCardProps[] = [
       </>
     ),
     links: [
-      {
-        href: "https://binance.com",
-        logo: bnbLogo,
-        text: "Buy HZN",
-      },
+      // {
+      //   href: "https://binance.com",
+      //   logo: bnbLogo,
+      //   text: "Buy HZN",
+      // },
       {
         href: "https://exchange.pancakeswap.finance/",
         logo: cakeLogo,

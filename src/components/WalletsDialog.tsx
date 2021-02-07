@@ -1,3 +1,4 @@
+import { useCallback, useEffect } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -70,17 +71,22 @@ export default function WalletsDialog(
   props: Omit<DialogProps, "open" | "onClose">
 ) {
   const classes = useStyles();
-  const { connect, account, balance, chainId, error } = useWallet();
+  const { connect, connected, account, balance, chainId, error } = useWallet();
   const { open, merge } = useWalletState();
 
-  const handleClose = () => {
-    open.set(false);
-  };
+  const handleClose = useCallback(() => open.set(false), []);
 
   const handleSelectWallet = async (wallet: WalletDetail) => {
-    await connect(wallet.connectorId);
-    // merge({ detail: wallet, open: false });
+    merge({ detail: wallet });
+    connect(wallet.connectorId);
   };
+
+  useEffect(() => {
+    if (connected) {
+      open.set(false);
+    }
+  }, [connected]);
+
   return (
     <StyledDialog open={open.get()} onClose={handleClose} {...props}>
       <DialogTitle disableTypography classes={{ root: classes.header }}>

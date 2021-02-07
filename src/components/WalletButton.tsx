@@ -1,6 +1,8 @@
+import { useMemo } from "react";
 import { Button, ButtonProps } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { useWalletState } from "@states/wallet";
+import useWallet from "@/hooks/useWallet";
 
 const StyledButton = withStyles(({ palette }) => ({
   root: {
@@ -21,9 +23,11 @@ const useStyles = makeStyles({
 
 export default function WalletButton(props: ButtonProps) {
   const classes = useStyles();
+  const { shortAccount, status } = useWallet();
   const { open, detail } = useWalletState();
 
   const detailData = detail.get();
+
   if (!detailData) {
     return null;
   }
@@ -43,7 +47,7 @@ export default function WalletButton(props: ButtonProps) {
       }
       {...props}
     >
-      {detailData.label}
+      {shortAccount}
     </StyledButton>
   );
 }

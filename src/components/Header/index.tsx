@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import ConnectButton from "@components/ConnectButton";
 import WalletButton from "@components/WalletButton";
 import logo from "@assets/logo.png";
-import { useWalletState } from "@states/wallet";
+import useWallet from "@hooks/useWallet";
 
 const useStyles = makeStyles({
   container: {
@@ -26,12 +26,12 @@ const useStyles = makeStyles({
 
 export default function Header() {
   const classes = useStyles();
-  const { detail } = useWalletState();
+  const { connected } = useWallet();
 
   return (
     <Grid container justify='center' classes={{ container: classes.container }}>
       <img src={logo} alt='Horizon Mintr' className={classes.logo} />
-      {detail.get() ? (
+      {connected ? (
         <WalletButton classes={{ root: classes.connect }} />
       ) : (
         <ConnectButton classes={{ root: classes.connect }} />
