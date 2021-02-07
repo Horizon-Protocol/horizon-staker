@@ -1,7 +1,6 @@
 {
   "name": "horizon-staker",
   "version": "0.1.0",
-  "private": true,
   "dependencies": {
     "@binance-chain/bsc-use-wallet": "^0.8.1",
     "@craco/craco": "^6.1.0",
