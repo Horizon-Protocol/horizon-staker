@@ -4,6 +4,8 @@ import ConnectButton from "@components/ConnectButton";
 import WalletButton from "@components/WalletButton";
 import logo from "@assets/logo.png";
 import useWallet from "@hooks/useWallet";
+import { DemoAmount } from "@utils/formatters";
+import WalletInfo from "./WalletInfo";
 
 const useStyles = makeStyles({
   container: {
@@ -22,6 +24,16 @@ const useStyles = makeStyles({
     paddingLeft: 18,
     paddingRight: 18,
   },
+  walletInfo: {
+    position: "absolute",
+    right: 24,
+    top: 12,
+  },
+  walletButton: {
+    position: "absolute",
+    bottom: 0,
+    top: 12,
+  },
 });
 
 export default function Header() {
@@ -32,7 +44,14 @@ export default function Header() {
     <Grid container justify='center' classes={{ container: classes.container }}>
       <img src={logo} alt='Horizon Mintr' className={classes.logo} />
       {connected ? (
-        <WalletButton classes={{ root: classes.connect }} />
+        <>
+          <WalletInfo
+            hzn={DemoAmount}
+            phb={DemoAmount}
+            className={classes.walletInfo}
+          />
+          <WalletButton classes={{ root: classes.walletButton }} />
+        </>
       ) : (
         <ConnectButton classes={{ root: classes.connect }} />
       )}
