@@ -27,6 +27,7 @@ const useStyles = makeStyles({
 
 export default function ConnectButton({ rounded, ...props }: Props) {
   const classes = useStyles();
+
   const { open } = useWalletState();
 
   return (

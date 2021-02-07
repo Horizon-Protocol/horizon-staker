@@ -1,8 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { ThemeProvider } from "@material-ui/styles";
+import { SnackbarProvider } from "notistack";
 import "fontsource-roboto";
+import { UseWalletProvider } from "@binance-chain/bsc-use-wallet";
 import theme from "@utils/theme";
+import { ChainId, CHAIN_MAP } from "@utils/constants";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
@@ -10,7 +13,16 @@ import reportWebVitals from "./reportWebVitals";
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <App />
+      <SnackbarProvider
+        anchorOrigin={{
+          horizontal: "right",
+          vertical: "top",
+        }}
+      >
+        <UseWalletProvider chainId={CHAIN_MAP[ChainId]}>
+          <App />
+        </UseWalletProvider>
+      </SnackbarProvider>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")

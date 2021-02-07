@@ -13,6 +13,7 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { Close } from "@material-ui/icons";
 import { SUPPORTED_WALLETS } from "@utils/constants";
 import { useWalletState } from "@states/wallet";
+import useWallet from "@hooks/useWallet";
 
 const useStyles = makeStyles(({ palette, typography }) => ({
   header: {
@@ -69,16 +70,17 @@ export default function WalletsDialog(
   props: Omit<DialogProps, "open" | "onClose">
 ) {
   const classes = useStyles();
+  const { connect, account, balance, chainId, error } = useWallet();
   const { open, merge } = useWalletState();
 
   const handleClose = () => {
     open.set(false);
   };
 
-  const handleSelectWallet = (wallet: WalletDetail) => {
-    merge({ detail: wallet, open: false });
+  const handleSelectWallet = async (wallet: WalletDetail) => {
+    await connect(wallet.connectorId);
+    // merge({ detail: wallet, open: false });
   };
-
   return (
     <StyledDialog open={open.get()} onClose={handleClose} {...props}>
       <DialogTitle disableTypography classes={{ root: classes.header }}>
