@@ -1,9 +1,14 @@
 import { useEffect, useMemo } from "react";
 import { useSnackbar } from "notistack";
-import { providers } from "ethers";
+import { providers, utils } from "ethers";
 import { useWallet as useBscWallet } from "@binance-chain/bsc-use-wallet";
 import { CHAIN_NAME_MAP } from "@utils/constants";
 import { formatAddress } from "@utils/formatters";
+
+const PHBFilter = {
+  address: "0x171B2B6B6Efc088E3D77a3F5Cc1E0F9C9301F9dD",
+  topics: [utils.id("Transfer(address,address,uint256)")],
+};
 
 export default function useWallet() {
   const wallet = useBscWallet<providers.ExternalProvider>();
@@ -65,6 +70,19 @@ export default function useWallet() {
   useEffect(() => {
     if (provider) {
       console.log("provider", provider);
+      provider.on(PHBFilter, (log, event) => {
+        console.log(log, event);
+      });
+      provider.on("block", (blockNumber) => {
+        provider
+          .getBalance("0xf718d89efa5362a36b898aa0cdf6a1d925a4b243")
+          .then((res) => {
+            console.log("PHB:", res.toString());
+          });
+      });
+      return () => {
+        provider.removeAllListeners();
+      };
     }
   }, [provider]);
 

@@ -16,8 +16,8 @@ const StyledButton = withStyles(({ palette }) => ({
 
 const useStyles = makeStyles({
   icon: {
-    width: 24,
-    height: 24,
+    width: 20,
+    height: 20,
   },
 });
 
