@@ -71,14 +71,22 @@ export default function WalletsDialog(
   props: Omit<DialogProps, "open" | "onClose">
 ) {
   const classes = useStyles();
-  const { connect, connected, account, balance, chainId, error } = useWallet();
-  const { open, merge } = useWalletState();
+  const { connect, connected, reset } = useWallet();
+  const { detail, open, merge } = useWalletState();
 
   const handleClose = useCallback(() => open.set(false), []);
 
   const handleSelectWallet = async (wallet: WalletDetail) => {
-    merge({ detail: wallet });
-    connect(wallet.connectorId);
+    if (wallet.key === detail.get()?.key) {
+      open.set(false);
+    } else {
+      // change wallet
+      reset();
+      merge({ detail: wallet });
+      setTimeout(() => {
+        connect(wallet.connectorId);
+      }, 50);
+    }
   };
 
   useEffect(() => {

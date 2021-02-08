@@ -22,7 +22,24 @@ export default function useWallet() {
     [wallet.status]
   );
 
+  const chainName = useMemo(
+    () => (wallet.chainId ? CHAIN_NAME_MAP[wallet.chainId] : ""),
+    [wallet.chainId]
+  );
+
+  const provider = useMemo(
+    () =>
+      wallet.ethereum && wallet.chainId
+        ? new providers.Web3Provider(wallet.ethereum, {
+            name: chainName,
+            chainId: wallet.chainId,
+          })
+        : null,
+    [wallet.ethereum, wallet.chainId, chainName]
+  );
+
   useEffect(() => {
+    // error
     if (wallet.error) {
       let errorMsg = "Failed to connect wallet";
       switch (wallet.error.name) {
@@ -43,25 +60,14 @@ export default function useWallet() {
       }
       enqueueSnackbar(errorMsg, { variant: "error" });
     }
-  }, [wallet.error, enqueueSnackbar]);
+  }, [wallet.error]);
 
-  const chainName = useMemo(
-    () => (wallet.chainId ? CHAIN_NAME_MAP[wallet.chainId] : ""),
-    [wallet.chainId]
-  );
+  useEffect(() => {
+    if (provider) {
+      console.log("provider", provider);
+    }
+  }, [provider]);
 
-  const provider = useMemo(
-    () =>
-      wallet.ethereum && wallet.chainId
-        ? new providers.Web3Provider(wallet.ethereum, {
-            name: chainName,
-            chainId: wallet.chainId,
-          })
-        : null,
-    [wallet.ethereum, wallet.chainId, chainName]
-  );
-
-  console.log("provider", provider);
   return {
     ...wallet,
     connecting,
