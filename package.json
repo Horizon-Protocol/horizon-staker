@@ -16,6 +16,7 @@
     "@types/react-dom": "^16.9.8",
     "bignumber.js": "^9.0.1",
     "clsx": "^1.1.1",
+    "ethers": "^5.0.29",
     "fontsource-roboto": "^4.0.0",
     "notistack": "^1.0.3",
     "react": "^17.0.1",

@@ -71,15 +71,7 @@ export default function WalletsDialog(
   props: Omit<DialogProps, "open" | "onClose">
 ) {
   const classes = useStyles();
-  const {
-    connect,
-    connected,
-    ethereum,
-    account,
-    balance,
-    chainId,
-    error,
-  } = useWallet();
+  const { connect, connected, account, balance, chainId, error } = useWallet();
   const { open, merge } = useWalletState();
 
   const handleClose = useCallback(() => open.set(false), []);
@@ -94,10 +86,6 @@ export default function WalletsDialog(
       open.set(false);
     }
   }, [connected]);
-
-  if (ethereum) {
-    console.log("ethereum", ethereum?.send);
-  }
 
   return (
     <StyledDialog open={open.get()} onClose={handleClose} {...props}>
