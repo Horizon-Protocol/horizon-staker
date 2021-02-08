@@ -5,7 +5,7 @@ import { SnackbarProvider } from "notistack";
 import "fontsource-roboto";
 import { UseWalletProvider } from "@binance-chain/bsc-use-wallet";
 import theme from "@utils/theme";
-import { ChainId, CHAIN_MAP } from "@utils/constants";
+import { ChainId } from "@utils/constants";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
@@ -20,7 +20,7 @@ ReactDOM.render(
         }}
         preventDuplicate
       >
-        <UseWalletProvider chainId={CHAIN_MAP[ChainId]}>
+        <UseWalletProvider chainId={ChainId}>
           <App />
         </UseWalletProvider>
       </SnackbarProvider>

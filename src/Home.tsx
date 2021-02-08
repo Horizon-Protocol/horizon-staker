@@ -6,6 +6,7 @@ import StakeCard, {
 } from "@components/StakeCard";
 import ApproveContract from "@components/ApproveContract";
 import { Token } from "@utils/constants";
+import useBalancePolling from "@hooks/useBalancePolling";
 import phbBg from "@assets/bgs/phb.png";
 import hznBg from "@assets/bgs/hzn.png";
 import bnbBg from "@assets/bgs/bnb.png";
@@ -95,6 +96,9 @@ const cards: StakeCardProps[] = [
 
 export default function Home() {
   const classes = useStyles();
+
+  useBalancePolling();
+
   return (
     <div className={classes.container}>
       {cards.map((card) => (

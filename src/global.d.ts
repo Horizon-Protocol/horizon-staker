@@ -1,6 +1,6 @@
 declare namespace NodeJS {
   interface ProcessEnv {
-    readonly CHAIN_ID: ChainEnum;
+    readonly CHAIN_ID: string;
   }
 }
 
@@ -10,11 +10,12 @@ declare namespace State {
     detail?: WalletDetail;
   }
 
-  interface BalanceDetail {
-    staked: BigNumber;
-    available: BigNumber;
-  }
   interface Balance {
-    [k: TokenEnum]: BalanceDetail;
+    available: {
+      [k: TokenEnum]: ethers.BigNumber;
+    };
+    staked: {
+      [k: TokenEnum]: ethers.BigNumber;
+    };
   }
 }

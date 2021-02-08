@@ -2,7 +2,7 @@ import { useEffect, useMemo } from "react";
 import { useSnackbar } from "notistack";
 import { providers, utils } from "ethers";
 import { useWallet as useBscWallet } from "@binance-chain/bsc-use-wallet";
-import { CHAIN_NAME_MAP } from "@utils/constants";
+import { ChainName } from "@utils/constants";
 import { formatAddress } from "@utils/formatters";
 
 const PHBFilter = {
@@ -27,20 +27,15 @@ export default function useWallet() {
     [wallet.status]
   );
 
-  const chainName = useMemo(
-    () => (wallet.chainId ? CHAIN_NAME_MAP[wallet.chainId] : ""),
-    [wallet.chainId]
-  );
-
   const provider = useMemo(
     () =>
       wallet.ethereum && wallet.chainId
         ? new providers.Web3Provider(wallet.ethereum, {
-            name: chainName,
+            name: ChainName,
             chainId: wallet.chainId,
           })
         : null,
-    [wallet.ethereum, wallet.chainId, chainName]
+    [wallet.ethereum, wallet.chainId]
   );
 
   useEffect(() => {
@@ -67,24 +62,23 @@ export default function useWallet() {
     }
   }, [wallet.error]);
 
-  useEffect(() => {
-    if (provider) {
-      console.log("provider", provider);
-      provider.on(PHBFilter, (log, event) => {
-        console.log(log, event);
-      });
-      provider.on("block", (blockNumber) => {
-        provider
-          .getBalance("0xf718d89efa5362a36b898aa0cdf6a1d925a4b243")
-          .then((res) => {
-            console.log("PHB:", res.toString());
-          });
-      });
-      return () => {
-        provider.removeAllListeners();
-      };
-    }
-  }, [provider]);
+  // useEffect(() => {
+  //   if (provider) {
+  //     provider.on(PHBFilter, (log, event) => {
+  //       console.log(log, event);
+  //     });
+  //     provider.on("block", (blockNumber) => {
+  //       provider
+  //         .getBalance("0xf718d89efa5362a36b898aa0cdf6a1d925a4b243")
+  //         .then((res) => {
+  //           console.log("PHB:", res.toString());
+  //         });
+  //     });
+  //     return () => {
+  //       provider.removeAllListeners();
+  //     };
+  //   }
+  // }, [provider]);
 
   return {
     ...wallet,
@@ -92,6 +86,6 @@ export default function useWallet() {
     connected,
     shortAccount,
     provider,
-    chainName,
+    ChainName,
   };
 }

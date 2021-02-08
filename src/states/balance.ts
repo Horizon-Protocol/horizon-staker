@@ -1,14 +1,23 @@
 // import { Wallet } from "@binance-chain/bsc-use-wallet";
 import { createState, useState } from "@hookstate/core";
+import { BigNumber } from "ethers";
+import { Token } from "@utils/constants";
 
+const Zero = BigNumber.from(0);
 const state = createState<State.Balance>({
-  HZN: {
-    available: 0,
-    staked: 0,
+  available: {
+    [Token.PHB]: Zero,
+    [Token.HZN]: Zero,
+    [Token.HZN_BNB_LP]: Zero,
+  },
+  staked: {
+    [Token.PHB]: Zero,
+    [Token.HZN]: Zero,
+    [Token.HZN_BNB_LP]: Zero,
   },
 });
 
-export function useWalletState() {
+export default function useBalanceState() {
   // This function exposes the state directly.
   // i.e. the state is accessible directly outside of this module.
   // The state for settings in SettingsState.ts wraps the state by an interface.

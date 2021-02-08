@@ -1,7 +1,7 @@
 import { Button, ButtonProps } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { useWalletState } from "@states/wallet";
-import useWallet from "@/hooks/useWallet";
+import { ChainName } from "@utils/constants";
 
 const StyledButton = withStyles(({ palette }) => ({
   root: {
@@ -23,7 +23,6 @@ const useStyles = makeStyles({
 
 export default function WalletButton(props: ButtonProps) {
   const classes = useStyles();
-  const { chainName } = useWallet();
   const { open, detail } = useWalletState();
 
   const detailData = detail.get();
@@ -46,7 +45,7 @@ export default function WalletButton(props: ButtonProps) {
       }
       {...props}
     >
-      {chainName}
+      {ChainName}
     </StyledButton>
   );
 }

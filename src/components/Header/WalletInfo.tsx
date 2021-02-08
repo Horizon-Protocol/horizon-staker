@@ -1,11 +1,13 @@
+import { useCallback, useEffect } from "react";
 import { Box, BoxProps, Typography } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import BigNumber from "bignumber.js";
 import { useWalletState } from "@states/wallet";
-import useWallet from "@/hooks/useWallet";
-import { Token } from "@/utils/constants";
-import { getBalanceNumber, getFullDisplayBalance } from "@/utils/formatters";
+import useWallet from "@hooks/useWallet";
+import { usePhb } from "@hooks/useContract";
+import { Token } from "@utils/constants";
+import { getBalanceNumber, getFullDisplayBalance } from "@utils/formatters";
 
 const useStyles = makeStyles({
   root: {
@@ -46,15 +48,15 @@ interface Props extends BoxProps {
 }
 
 export default function WalletInfo({ hzn, phb, className, ...props }: Props) {
-  const { shortAccount, connected } = useWallet();
-  const classes = useStyles({ connected });
   const { detail } = useWalletState();
 
-  const detailData = detail.get();
+  const { account, shortAccount, connected } = useWallet();
 
-  if (!detailData) {
-    return null;
-  }
+  const classes = useStyles({ connected });
+
+  const phbContract = usePhb();
+
+  const detailData = detail.get();
 
   const balances = [
     {
@@ -66,6 +68,22 @@ export default function WalletInfo({ hzn, phb, className, ...props }: Props) {
       amount: getFullDisplayBalance(phb),
     },
   ];
+
+  const fetchBalance = useCallback(async () => {
+    if (phbContract) {
+      console.log(phbContract);
+      const phbAmouont = await phbContract.balanceOf(account);
+      console.log("phbAmouont", phbAmouont);
+    }
+  }, [account, phbContract]);
+
+  useEffect(() => {
+    fetchBalance();
+  }, [fetchBalance]);
+
+  if (!detailData) {
+    return null;
+  }
 
   return (
     <Box className={clsx(classes.root, className)} {...props}>
