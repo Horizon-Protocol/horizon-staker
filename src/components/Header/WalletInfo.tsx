@@ -48,7 +48,7 @@ interface Props extends BoxProps {
 export default function WalletInfo({ hzn, phb, className, ...props }: Props) {
   const { shortAccount, connected } = useWallet();
   const classes = useStyles({ connected });
-  const { open, detail } = useWalletState();
+  const { detail } = useWalletState();
 
   const detailData = detail.get();
 
@@ -69,7 +69,7 @@ export default function WalletInfo({ hzn, phb, className, ...props }: Props) {
 
   return (
     <Box className={clsx(classes.root, className)} {...props}>
-      <Typography variant='body2' onClick={() => open.set(true)}>
+      <Typography variant='body2'>
         <i className={classes.dot} />
         {shortAccount}
       </Typography>

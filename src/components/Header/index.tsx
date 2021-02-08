@@ -31,8 +31,7 @@ const useStyles = makeStyles({
   },
   walletButton: {
     position: "absolute",
-    bottom: 0,
-    top: 12,
+    bottom: -16,
   },
 });
 

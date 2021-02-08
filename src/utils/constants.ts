@@ -36,6 +36,13 @@ export const CHAIN_MAP = {
   [Chain.TESTNET]: 97,
 };
 
+export const CHAIN_NAME_MAP: {
+  [k: number]: string;
+} = {
+  56: "BSC Mainnet",
+  97: "BSC Testnet",
+};
+
 export const SUPPORTED_WALLETS: WalletDetail[] = [
   {
     key: SupportedWallet.Metamask,

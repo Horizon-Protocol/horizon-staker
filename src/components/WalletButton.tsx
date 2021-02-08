@@ -1,16 +1,17 @@
-import { useMemo } from "react";
 import { Button, ButtonProps } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { useWalletState } from "@states/wallet";
+import { CHAIN_NAME_MAP } from "@utils/constants";
 import useWallet from "@/hooks/useWallet";
 
 const StyledButton = withStyles(({ palette }) => ({
   root: {
-    fontWeight: 700,
-    height: 32,
-    borderRadius: 16,
+    height: 30,
     color: palette.text.primary,
     textTransform: "none",
+    borderRadius: 24,
+    backgroundColor: "#0A171F",
+    border: "1px solid #11263B",
   },
 }))(Button);
 
@@ -23,10 +24,12 @@ const useStyles = makeStyles({
 
 export default function WalletButton(props: ButtonProps) {
   const classes = useStyles();
-  const { shortAccount, status } = useWallet();
+  const { chainId } = useWallet();
   const { open, detail } = useWalletState();
 
   const detailData = detail.get();
+
+  const chainName = chainId ? CHAIN_NAME_MAP[chainId] : chainId;
 
   if (!detailData) {
     return null;
@@ -34,8 +37,7 @@ export default function WalletButton(props: ButtonProps) {
 
   return (
     <StyledButton
-      variant='contained'
-      color='primary'
+      variant='outlined'
       size='small'
       onClick={() => open.set(true)}
       startIcon={
@@ -47,7 +49,7 @@ export default function WalletButton(props: ButtonProps) {
       }
       {...props}
     >
-      {shortAccount}
+      {chainName}
     </StyledButton>
   );
 }

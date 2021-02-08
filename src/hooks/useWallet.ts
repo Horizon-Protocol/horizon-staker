@@ -1,10 +1,11 @@
 import { useEffect, useMemo } from "react";
 import { useSnackbar } from "notistack";
+import { HttpProvider } from "web3-core";
 import { useWallet as useBscWallet } from "@binance-chain/bsc-use-wallet";
 import { formatAddress } from "@utils/formatters";
 
 export default function useWallet() {
-  const wallet = useBscWallet();
+  const wallet = useBscWallet<HttpProvider>();
 
   const { enqueueSnackbar } = useSnackbar();
 

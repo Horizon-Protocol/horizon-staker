@@ -15,7 +15,7 @@ import cakeLogo from "@assets/tokens/cake.png";
 
 const useStyles = makeStyles({
   container: {
-    padding: 24,
+    padding: "6vh 24px 24px",
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "center",
