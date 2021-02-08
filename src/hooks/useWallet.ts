@@ -2,10 +2,11 @@ import { useEffect, useMemo } from "react";
 import { useSnackbar } from "notistack";
 import { providers } from "ethers";
 import { useWallet as useBscWallet } from "@binance-chain/bsc-use-wallet";
+import { CHAIN_NAME_MAP } from "@utils/constants";
 import { formatAddress } from "@utils/formatters";
 
 export default function useWallet() {
-  const wallet = useBscWallet<any>();
+  const wallet = useBscWallet<providers.ExternalProvider>();
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -44,16 +45,29 @@ export default function useWallet() {
     }
   }, [wallet.error, enqueueSnackbar]);
 
+  const chainName = useMemo(
+    () => (wallet.chainId ? CHAIN_NAME_MAP[wallet.chainId] : ""),
+    [wallet.chainId]
+  );
+
   const provider = useMemo(
     () =>
-      wallet.ethereum
-        ? new providers.Web3Provider(
-            wallet.ethereum as providers.ExternalProvider
-          )
+      wallet.ethereum && wallet.chainId
+        ? new providers.Web3Provider(wallet.ethereum, {
+            name: chainName,
+            chainId: wallet.chainId,
+          })
         : null,
-    [wallet.ethereum]
+    [wallet.ethereum, wallet.chainId, chainName]
   );
 
   console.log("provider", provider);
-  return { ...wallet, connecting, connected, shortAccount, provider };
+  return {
+    ...wallet,
+    connecting,
+    connected,
+    shortAccount,
+    provider,
+    chainName,
+  };
 }

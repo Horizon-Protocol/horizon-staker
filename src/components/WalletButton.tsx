@@ -1,7 +1,6 @@
 import { Button, ButtonProps } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { useWalletState } from "@states/wallet";
-import { CHAIN_NAME_MAP } from "@utils/constants";
 import useWallet from "@/hooks/useWallet";
 
 const StyledButton = withStyles(({ palette }) => ({
@@ -24,12 +23,10 @@ const useStyles = makeStyles({
 
 export default function WalletButton(props: ButtonProps) {
   const classes = useStyles();
-  const { chainId } = useWallet();
+  const { chainName } = useWallet();
   const { open, detail } = useWalletState();
 
   const detailData = detail.get();
-
-  const chainName = chainId ? CHAIN_NAME_MAP[chainId] : chainId;
 
   if (!detailData) {
     return null;
