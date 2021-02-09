@@ -3,8 +3,8 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { cardContent } from "@utils/theme/common";
 import PrimaryButton from "@components/PrimaryButton";
 import useBalanceState from "@states/balance";
-import { Token } from "@/utils/constants";
-import { getFullDisplayBalance } from "@/utils/formatters";
+import { Token } from "@utils/constants";
+import { getFullDisplayBalance } from "@utils/formatters";
 
 const useStyles = makeStyles({
   root: {

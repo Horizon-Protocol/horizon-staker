@@ -1,4 +1,4 @@
-import useBalanceState from "@/states/balance";
+import useBalanceState from "@states/balance";
 import { Box, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { cardContent } from "@utils/theme/common";

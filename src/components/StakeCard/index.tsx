@@ -8,7 +8,7 @@ import {
   CardContent,
 } from "@material-ui/core";
 import defaultTheme from "@utils/theme";
-import useWallet from "@/hooks/useWallet";
+import useWallet from "@hooks/useWallet";
 import ExternalLink from "@components/ExternalLink";
 import ConnectButton from "../ConnectButton";
 import CardSection from "./CardSection";
