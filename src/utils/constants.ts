@@ -52,6 +52,7 @@ export const CHAIN_NAME_MAP: {
   56: "BSC Mainnet",
   97: "BSC Testnet",
 };
+
 export const CONTRACT_ADDRESS: {
   [chain: number]: {
     [t in Token]: string;
@@ -68,6 +69,7 @@ export const CONTRACT_ADDRESS: {
     [Token.HZN_BNB_LP]: "",
   },
 };
+export const STAKING_CONTRACT_ADDRESS = "";
 
 const EnvChainId = parseInt(process.env.CHAIN_ID);
 

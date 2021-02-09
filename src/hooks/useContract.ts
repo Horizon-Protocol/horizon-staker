@@ -28,3 +28,5 @@ export const usePHB = () => {
 export const useHZN = () => {
   return useERC20(Addresses[Token.HZN]);
 };
+
+export default useContract;
