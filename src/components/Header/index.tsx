@@ -1,11 +1,10 @@
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import ConnectButton from "@components/ConnectButton";
-import WalletButton from "@components/WalletButton";
 import logo from "@assets/logo.png";
 import useWallet from "@hooks/useWallet";
-import { DemoAmount } from "@utils/formatters";
 import WalletInfo from "./WalletInfo";
+import WalletIndicator from "./WalletIndicator";
 
 const useStyles = makeStyles({
   container: {
@@ -29,7 +28,7 @@ const useStyles = makeStyles({
     right: 24,
     top: 12,
   },
-  walletButton: {
+  walletIndicator: {
     position: "absolute",
     bottom: -16,
   },
@@ -45,7 +44,7 @@ export default function Header() {
       {connected ? (
         <>
           <WalletInfo className={classes.walletInfo} />
-          <WalletButton classes={{ root: classes.walletButton }} />
+          <WalletIndicator classes={{ root: classes.walletIndicator }} />
         </>
       ) : (
         <ConnectButton classes={{ root: classes.connect }} />

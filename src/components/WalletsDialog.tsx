@@ -13,7 +13,7 @@ import {
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { Close } from "@material-ui/icons";
 import { SUPPORTED_WALLETS } from "@utils/constants";
-import { useWalletState } from "@states/wallet";
+import useWalletState from "@states/wallet";
 import useWallet from "@hooks/useWallet";
 
 const useStyles = makeStyles(({ palette, typography }) => ({

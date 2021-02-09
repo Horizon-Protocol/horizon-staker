@@ -1,6 +1,6 @@
 import { Button, ButtonProps } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-import { useWalletState } from "@states/wallet";
+import useWalletState from "@states/wallet";
 
 interface Props extends ButtonProps {
   rounded?: boolean;

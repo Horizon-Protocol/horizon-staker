@@ -10,7 +10,7 @@ const state = createState<Wallet>({
   open: false,
 });
 
-export function useWalletState() {
+export default function useWalletState() {
   // This function exposes the state directly.
   // i.e. the state is accessible directly outside of this module.
   // The state for settings in SettingsState.ts wraps the state by an interface.

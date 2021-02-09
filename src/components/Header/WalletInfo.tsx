@@ -1,3 +1,5 @@
+import { useMemo } from "react";
+import { constants } from "ethers";
 import { Box, BoxProps, Typography } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
@@ -5,7 +7,6 @@ import useBalanceState from "@states/balance";
 import useWallet from "@hooks/useWallet";
 import { Token } from "@utils/constants";
 import { getFullDisplayBalance } from "@utils/formatters";
-import { useMemo } from "react";
 
 const useStyles = makeStyles({
   root: {

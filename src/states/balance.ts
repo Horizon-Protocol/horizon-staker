@@ -4,23 +4,22 @@ import { BigNumber, constants } from "ethers";
 import { Token } from "@utils/constants";
 
 // WARN: hookstate doesn't support non js primitive values
+
+type BalanceDetail = {
+  [k in TokenEnum]: BigNumber;
+};
+type StatsDetail = {
+  [k in TokenEnum]: {
+    apy: number;
+    total: BigNumber;
+  };
+};
 interface Balance {
-  loading: false;
-  available: {
-    [k in TokenEnum]: BigNumber;
-  };
-  staked: {
-    [k in TokenEnum]: BigNumber;
-  };
-  earned: {
-    [k in TokenEnum]: BigNumber;
-  };
-  stats: {
-    [k in TokenEnum]: {
-      apy: number;
-      total: BigNumber;
-    };
-  };
+  loading: boolean;
+  available: BalanceDetail;
+  staked: BalanceDetail;
+  earned: BalanceDetail;
+  stats: StatsDetail;
 }
 
 const state = createState<Balance>({
