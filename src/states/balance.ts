@@ -1,28 +1,30 @@
 // import { Wallet } from "@binance-chain/bsc-use-wallet";
 import { createState, useState } from "@hookstate/core";
+import { BigNumber, constants } from "ethers";
 import { Token } from "@utils/constants";
 
+// WARN: hookstate doesn't support non js primitive values
 interface Balance {
   loading: false;
   available: {
-    [k in TokenEnum]: number;
+    [k in TokenEnum]: BigNumber;
   };
   staked: {
-    [k in TokenEnum]: number;
+    [k in TokenEnum]: BigNumber;
   };
 }
 
 const state = createState<Balance>({
   loading: false,
   available: {
-    [Token.PHB]: 0,
-    [Token.HZN]: 0,
-    [Token.HZN_BNB_LP]: 0,
+    [Token.PHB]: constants.Zero,
+    [Token.HZN]: constants.Zero,
+    [Token.HZN_BNB_LP]: constants.Zero,
   },
   staked: {
-    [Token.PHB]: 0,
-    [Token.HZN]: 0,
-    [Token.HZN_BNB_LP]: 0,
+    [Token.PHB]: constants.Zero,
+    [Token.HZN]: constants.Zero,
+    [Token.HZN_BNB_LP]: constants.Zero,
   },
 });
 

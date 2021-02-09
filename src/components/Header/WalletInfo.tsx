@@ -4,6 +4,7 @@ import clsx from "clsx";
 import useBalanceState from "@states/balance";
 import useWallet from "@hooks/useWallet";
 import { Token } from "@utils/constants";
+import { getFullDisplayBalance } from "@utils/formatters";
 import { useMemo } from "react";
 
 const useStyles = makeStyles({
@@ -67,7 +68,9 @@ export default function WalletInfo({ className, ...props }: BoxProps) {
       <Box className={classes.balance}>
         {balances.map(({ token, amount }) => (
           <Box key={token}>
-            <Typography variant='caption'>{amount}</Typography>
+            <Typography variant='caption'>
+              {getFullDisplayBalance(amount)}
+            </Typography>
             <StyledUnit variant='caption'>{token} Balance</StyledUnit>
           </Box>
         ))}

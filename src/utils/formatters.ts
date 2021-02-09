@@ -1,4 +1,10 @@
-import { BigNumber, constants } from "ethers";
+import { BigNumber } from "ethers";
+import numbro from "numbro";
+
+numbro.setDefaults({
+  thousandSeparated: true,
+  trimMantissa: true,
+});
 
 export const DemoAmount = BigNumber.from("1952428793453544044");
 
@@ -8,7 +14,7 @@ export const getBalanceNumber = (balance: BigNumber, decimals = 18) =>
   balance.div(Ten.pow(decimals)).toNumber();
 
 export const getFullDisplayBalance = (balance: BigNumber, decimals = 18) => {
-  return getBalanceNumber(balance, decimals).toFixed();
+  return numbro(getBalanceNumber(balance, decimals)).format();
 };
 
 export const formatAddress = (address: string, size: number = 8) => {

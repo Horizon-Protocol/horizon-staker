@@ -20,6 +20,7 @@
     "ethers": "^5.0.29",
     "fontsource-roboto": "^4.0.0",
     "notistack": "^1.0.3",
+    "numbro": "^2.3.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-number-format": "^4.4.4",

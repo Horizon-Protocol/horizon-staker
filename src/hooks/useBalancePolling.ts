@@ -2,7 +2,6 @@ import { useCallback } from "react";
 import useInterval from "@use-it/interval";
 import useBalanceState from "@states/balance";
 import { Token } from "@utils/constants";
-import { getBalanceNumber } from "@utils/formatters";
 import { usePHB, useHZN } from "./useContract";
 import useWallet from "./useWallet";
 
@@ -19,8 +18,8 @@ export default function useBalancePolling(delay: number = 5000) {
         hznContract.balanceOf(account),
       ]);
       available.merge({
-        [Token.PHB]: getBalanceNumber(phb),
-        [Token.HZN]: getBalanceNumber(hzn),
+        [Token.PHB]: phb,
+        [Token.HZN]: hzn,
       });
     }
   }, [account, phbContract, hznContract]);
