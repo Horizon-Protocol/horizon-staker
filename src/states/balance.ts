@@ -1,19 +1,28 @@
 // import { Wallet } from "@binance-chain/bsc-use-wallet";
 import { createState, useState } from "@hookstate/core";
-import { BigNumber } from "ethers";
 import { Token } from "@utils/constants";
 
-const Zero = BigNumber.from(0);
-const state = createState<State.Balance>({
+interface Balance {
+  loading: false;
   available: {
-    [Token.PHB]: Zero,
-    [Token.HZN]: Zero,
-    [Token.HZN_BNB_LP]: Zero,
+    [k in TokenEnum]: number;
+  };
+  staked: {
+    [k in TokenEnum]: number;
+  };
+}
+
+const state = createState<Balance>({
+  loading: false,
+  available: {
+    [Token.PHB]: 0,
+    [Token.HZN]: 0,
+    [Token.HZN_BNB_LP]: 0,
   },
   staked: {
-    [Token.PHB]: Zero,
-    [Token.HZN]: Zero,
-    [Token.HZN_BNB_LP]: Zero,
+    [Token.PHB]: 0,
+    [Token.HZN]: 0,
+    [Token.HZN_BNB_LP]: 0,
   },
 });
 

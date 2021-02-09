@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import BigNumber from "bignumber.js";
 import defaultTheme from "@utils/theme";
-import { useWalletState } from "@states/wallet";
+import useWallet from "@/hooks/useWallet";
 import ExternalLink from "@components/ExternalLink";
 import ConnectButton from "../ConnectButton";
 import CardSection from "./CardSection";
@@ -97,9 +97,7 @@ export default function StakeCard({
   ...props
 }: StakeCardProps) {
   const classes = useStyles();
-  const { detail } = useWalletState();
-
-  const connected = !!detail.get();
+  const { connected } = useWallet();
 
   return (
     <StyledCard

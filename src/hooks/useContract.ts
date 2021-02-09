@@ -21,6 +21,10 @@ export const useERC20 = (address: string) => {
   return useContract(address, erc20Abi);
 };
 
-export const usePhb = () => {
+export const usePHB = () => {
   return useERC20(Addresses[Token.PHB]);
+};
+
+export const useHZN = () => {
+  return useERC20(Addresses[Token.HZN]);
 };

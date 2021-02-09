@@ -5,10 +5,10 @@ import { useWallet as useBscWallet } from "@binance-chain/bsc-use-wallet";
 import { ChainName } from "@utils/constants";
 import { formatAddress } from "@utils/formatters";
 
-const PHBFilter = {
-  address: "0x171B2B6B6Efc088E3D77a3F5Cc1E0F9C9301F9dD",
-  topics: [utils.id("Transfer(address,address,uint256)")],
-};
+// const PHBFilter = {
+//   address: "0x171B2B6B6Efc088E3D77a3F5Cc1E0F9C9301F9dD",
+//   topics: [utils.id("Transfer(address,address,uint256)")],
+// };
 
 export default function useWallet() {
   const wallet = useBscWallet<providers.ExternalProvider>();

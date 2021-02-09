@@ -1,7 +1,12 @@
 // import { Wallet } from "@binance-chain/bsc-use-wallet";
 import { createState, useState } from "@hookstate/core";
 
-const state = createState<State.Wallet>({
+interface Wallet {
+  open: boolean;
+  detail?: WalletDetail;
+}
+
+const state = createState<Wallet>({
   open: false,
 });
 

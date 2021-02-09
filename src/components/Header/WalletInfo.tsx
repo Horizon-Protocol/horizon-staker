@@ -1,13 +1,10 @@
-import { useCallback, useEffect } from "react";
 import { Box, BoxProps, Typography } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
-import BigNumber from "bignumber.js";
-import { useWalletState } from "@states/wallet";
+import useBalanceState from "@states/balance";
 import useWallet from "@hooks/useWallet";
-import { usePhb } from "@hooks/useContract";
 import { Token } from "@utils/constants";
-import { getBalanceNumber, getFullDisplayBalance } from "@utils/formatters";
+import { useMemo } from "react";
 
 const useStyles = makeStyles({
   root: {
@@ -42,48 +39,24 @@ const StyledUnit = withStyles(() => ({
   },
 }))(Typography);
 
-interface Props extends BoxProps {
-  hzn: BigNumber;
-  phb: BigNumber;
-}
-
-export default function WalletInfo({ hzn, phb, className, ...props }: Props) {
-  const { detail } = useWalletState();
-
-  const { account, shortAccount, connected } = useWallet();
-
+export default function WalletInfo({ className, ...props }: BoxProps) {
+  const { shortAccount, connected } = useWallet();
   const classes = useStyles({ connected });
 
-  const phbContract = usePhb();
+  const { available } = useBalanceState();
 
-  const detailData = detail.get();
-
-  const balances = [
-    {
-      token: Token.HZN,
-      amount: getBalanceNumber(hzn),
-    },
-    {
-      token: Token.PHB,
-      amount: getFullDisplayBalance(phb),
-    },
-  ];
-
-  const fetchBalance = useCallback(async () => {
-    if (phbContract) {
-      console.log(phbContract);
-      const phbAmouont = await phbContract.balanceOf(account);
-      console.log("phbAmouont", phbAmouont);
-    }
-  }, [account, phbContract]);
-
-  useEffect(() => {
-    fetchBalance();
-  }, [fetchBalance]);
-
-  if (!detailData) {
-    return null;
-  }
+  const balances = useMemo(() => {
+    return [
+      {
+        token: Token.HZN,
+        amount: available[Token.HZN].get(),
+      },
+      {
+        token: Token.PHB,
+        amount: available[Token.PHB].get(),
+      },
+    ];
+  }, [available]);
 
   return (
     <Box className={clsx(classes.root, className)} {...props}>

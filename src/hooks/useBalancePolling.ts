@@ -1,23 +1,29 @@
 import { useCallback } from "react";
 import useInterval from "@use-it/interval";
-import { BigNumber } from "ethers";
 import useBalanceState from "@states/balance";
 import { Token } from "@utils/constants";
-import { usePhb } from "./useContract";
+import { getBalanceNumber } from "@utils/formatters";
+import { usePHB, useHZN } from "./useContract";
 import useWallet from "./useWallet";
 
 export default function useBalancePolling(delay: number = 5000) {
   const { account } = useWallet();
-  const phbContract = usePhb();
+  const phbContract = usePHB();
+  const hznContract = useHZN();
   const { available } = useBalanceState();
 
   const fetchBalances = useCallback(async () => {
-    if (phbContract) {
-      const [phb] = await Promise.all([phbContract.balanceOf(account)]);
-      console.log("phb==", phb);
-      // available[Token.PHB].set(phb);
+    if (phbContract && hznContract) {
+      const [phb, hzn] = await Promise.all([
+        phbContract.balanceOf(account),
+        hznContract.balanceOf(account),
+      ]);
+      available.merge({
+        [Token.PHB]: getBalanceNumber(phb),
+        [Token.HZN]: getBalanceNumber(hzn),
+      });
     }
-  }, [account, phbContract]);
+  }, [account, phbContract, hznContract]);
 
   useInterval(fetchBalances, account ? delay : null);
 }

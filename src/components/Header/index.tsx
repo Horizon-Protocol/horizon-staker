@@ -44,11 +44,7 @@ export default function Header() {
       <img src={logo} alt='Horizon Mintr' className={classes.logo} />
       {connected ? (
         <>
-          <WalletInfo
-            hzn={DemoAmount}
-            phb={DemoAmount}
-            className={classes.walletInfo}
-          />
+          <WalletInfo className={classes.walletInfo} />
           <WalletButton classes={{ root: classes.walletButton }} />
         </>
       ) : (
