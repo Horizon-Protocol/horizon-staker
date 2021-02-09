@@ -30,7 +30,9 @@ export default function useBalancePolling(delay: number = 10000) {
       } catch (e) {
         enqueueSnackbar("Failed to loading balances", { variant: "error" });
       }
-      loading.set(false);
+      window.requestAnimationFrame(() => {
+        loading.set(false);
+      });
     }
   }, [account, phbContract, hznContract]);
 

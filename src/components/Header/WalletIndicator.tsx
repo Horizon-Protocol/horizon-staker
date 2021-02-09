@@ -15,10 +15,18 @@ const StyledChip = withStyles(({ palette }) => ({
     border: "1px solid #11263B",
   },
 }))(Chip);
-const StyledAvatar = withStyles(({ palette }) => ({
-  img: {
+const StyledCircularProgress = withStyles(({ palette }) => ({
+  svg: {
     width: 20,
     height: 20,
+  },
+}))(CircularProgress);
+
+const StyledAvatar = withStyles(({ palette }) => ({
+  img: {
+    width: 18,
+    height: 18,
+    objectFit: "contain",
   },
 }))(Avatar);
 
@@ -35,12 +43,13 @@ export default function WalletIndicator(props: ChipProps) {
   return (
     // <Tooltip title='refresh' placement='top'>
     <StyledChip
+      variant='outlined'
       avatar={
         loading.get() ? (
-          <CircularProgress color='primary' size={20} />
+          <StyledCircularProgress color='primary' size={24} />
         ) : (
           <StyledAvatar
-            variant='square'
+            variant='circle'
             src={detailData.logo}
             alt={detailData.label}
           />
