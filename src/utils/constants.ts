@@ -8,6 +8,12 @@ export enum Token {
   HZN_BNB_LP = "HZN-BNB LP",
 }
 
+export const TokenShortName = {
+  [Token.PHB]: "PHB",
+  [Token.HZN]: "HZN",
+  [Token.HZN_BNB_LP]: "LP",
+};
+
 export enum SupportedWallet {
   Metamask = "Metamask",
   Binance = "Binance",

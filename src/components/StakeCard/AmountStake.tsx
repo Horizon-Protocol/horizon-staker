@@ -1,8 +1,10 @@
 import { useCallback, useState, useMemo } from "react";
+import { BigNumber } from "ethers";
 import { Box, Button, Collapse, Typography } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-import BigNumber from "bignumber.js";
 import { cardContent } from "@utils/theme/common";
+import useBalanceState from "@states/balance";
+import { getFullDisplayBalance } from "@utils/formatters";
 import AmountInput from "./AmountInput";
 
 const useStyles = makeStyles(({ palette }) => ({
@@ -59,7 +61,6 @@ const InputButton = withStyles(({ palette }) => ({
 
 interface Props {
   token: TokenEnum;
-  staked: BigNumber;
   logo?: string;
 }
 
@@ -79,13 +80,20 @@ const Actions = [
   },
 ];
 
-export default function AmountStake({ token, staked, logo }: Props) {
+export default function AmountStake({ token, logo }: Props) {
   const classes = useStyles();
   const [currentAction, setCurrentAction] = useState<Action>();
   const [input, setInput] = useState<string>();
 
+  const { available, staked } = useBalanceState();
+
+  const [availableAmount, stakedAmount] = useMemo(
+    () => [available[token].get(), staked[token].get()],
+    [token, available, staked]
+  );
+
   const amount = useMemo(
-    () => new BigNumber((input || "0").replace(/,/g, "")),
+    () => BigNumber.from((input || "0").replace(/[^0-9.]/g, "")),
     [input]
   );
 
@@ -104,7 +112,9 @@ export default function AmountStake({ token, staked, logo }: Props) {
             <AmountLabel variant='caption' color='primary'>
               {token} Staked
             </AmountLabel>
-            <Amount variant='body1'>{staked.toFormat(2)}</Amount>
+            <Amount variant='body1'>
+              {getFullDisplayBalance(stakedAmount)}
+            </Amount>
           </Box>
           <Box className={classes.buttons}>
             {Actions.map(({ key, label }) => (
@@ -129,7 +139,7 @@ export default function AmountStake({ token, staked, logo }: Props) {
             input={input}
             onInput={setInput}
             amount={amount}
-            max={staked}
+            max={availableAmount}
             btnLabel={currentAction ? Action[currentAction] : ""}
           />
         </Box>

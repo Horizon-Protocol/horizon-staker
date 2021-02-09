@@ -2,8 +2,9 @@ import { useCallback } from "react";
 import { Box, Button, InputBase, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import NumberFormat from "react-number-format";
-import BigNumber from "bignumber.js";
+import { BigNumber } from "ethers";
 import PrimaryButton from "@components/PrimaryButton";
+import { getFullDisplayBalance } from "@utils/formatters";
 
 const useStyles = makeStyles(({ palette }) => ({
   root: {},
@@ -61,7 +62,7 @@ export default function AmountInput({
   const classes = useStyles();
 
   const setMax = useCallback(() => {
-    onInput(max.toFormat(2));
+    onInput(getFullDisplayBalance(max));
   }, [max, onInput]);
 
   const handleStake = useCallback(() => {
@@ -98,7 +99,7 @@ export default function AmountInput({
         align='right'
         className={classes.maxLabel}
       >
-        {max.toFormat(2)} {token} Available
+        {getFullDisplayBalance(max)} {token} Available
       </Typography>
       <PrimaryButton
         size='large'

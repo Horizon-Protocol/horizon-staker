@@ -1,8 +1,10 @@
 import { Box, Button, Typography } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-import BigNumber from "bignumber.js";
 import { cardContent } from "@utils/theme/common";
 import PrimaryButton from "@components/PrimaryButton";
+import useBalanceState from "@states/balance";
+import { Token } from "@/utils/constants";
+import { getFullDisplayBalance } from "@/utils/formatters";
 
 const useStyles = makeStyles({
   root: {
@@ -36,19 +38,24 @@ const Amount = withStyles({
 })(Typography);
 
 interface Props {
-  amount: BigNumber;
+  token: TokenEnum;
   onHarvest?: () => void;
 }
 
-export default function Earned({ amount, onHarvest }: Props) {
+export default function Earned({ token, onHarvest }: Props) {
   const classes = useStyles();
+
+  const { earned } = useBalanceState();
+
+  const amount = earned[token].get();
+
   return (
     <Box className={classes.root}>
       <Box className={classes.amount}>
         <AmountLabel variant='caption' color='primary'>
           HZN EARNED
         </AmountLabel>
-        <Amount variant='body1'>{amount.toFormat(2)}</Amount>
+        <Amount variant='body1'>{getFullDisplayBalance(amount)}</Amount>
       </Box>
       <PrimaryButton size='large' disabled={amount.lte(0)} onClick={onHarvest}>
         Harvest

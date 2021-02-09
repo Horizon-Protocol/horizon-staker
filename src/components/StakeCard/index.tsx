@@ -7,7 +7,6 @@ import {
   CardActions,
   CardContent,
 } from "@material-ui/core";
-import BigNumber from "bignumber.js";
 import defaultTheme from "@utils/theme";
 import useWallet from "@/hooks/useWallet";
 import ExternalLink from "@components/ExternalLink";
@@ -24,8 +23,6 @@ const useStyles = makeStyles(() => ({
     lineHeight: "22px",
   },
 }));
-
-const defaultAmount = new BigNumber("123456789000.12345683833");
 
 const StyledCard = withStyles(({ palette }) => ({
   root: {
@@ -73,7 +70,6 @@ interface LinkProps {
 export interface RenderConnectedProps {
   token: TokenEnum;
   logo?: string;
-  staked: BigNumber;
 }
 
 export interface StakeCardProps extends CardProps {
@@ -119,13 +115,13 @@ export default function StakeCard({
         }}
       />
       <StyledContent>
-        <Stats />
-        <Earned amount={defaultAmount} />
+        <Stats token={token} />
+        <Earned token={token} />
         {connected ? (
           renderConnected ? (
-            renderConnected({ token, logo, staked: defaultAmount })
+            renderConnected({ token, logo })
           ) : (
-            <AmountStake logo={logo} token={token} staked={defaultAmount} />
+            <AmountStake logo={logo} token={token} />
           )
         ) : (
           <CardSection>

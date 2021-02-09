@@ -12,6 +12,15 @@ interface Balance {
   staked: {
     [k in TokenEnum]: BigNumber;
   };
+  earned: {
+    [k in TokenEnum]: BigNumber;
+  };
+  stats: {
+    [k in TokenEnum]: {
+      apy: number;
+      total: BigNumber;
+    };
+  };
 }
 
 const state = createState<Balance>({
@@ -25,6 +34,25 @@ const state = createState<Balance>({
     [Token.PHB]: constants.Zero,
     [Token.HZN]: constants.Zero,
     [Token.HZN_BNB_LP]: constants.Zero,
+  },
+  earned: {
+    [Token.PHB]: constants.Zero,
+    [Token.HZN]: constants.Zero,
+    [Token.HZN_BNB_LP]: constants.Zero,
+  },
+  stats: {
+    [Token.PHB]: {
+      apy: 0,
+      total: constants.Zero,
+    },
+    [Token.HZN]: {
+      apy: 0,
+      total: constants.Zero,
+    },
+    [Token.HZN_BNB_LP]: {
+      apy: 0,
+      total: constants.Zero,
+    },
   },
 });
 
