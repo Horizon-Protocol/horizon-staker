@@ -1,6 +1,7 @@
+import { useUpdateAtom } from "jotai/utils";
 import { Button, ButtonProps } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-import useWalletState from "@states/wallet";
+import { openAtom } from "@atoms/wallet";
 
 interface Props extends ButtonProps {
   rounded?: boolean;
@@ -28,14 +29,14 @@ const useStyles = makeStyles({
 export default function ConnectButton({ rounded, ...props }: Props) {
   const classes = useStyles();
 
-  const { open } = useWalletState();
+  const setOpen = useUpdateAtom(openAtom);
 
   return (
     <StyledButton
       variant='contained'
       color='primary'
       size='small'
-      onClick={() => open.set(true)}
+      onClick={() => setOpen(true)}
       {...props}
       className={rounded ? classes.rounded : ""}
     >

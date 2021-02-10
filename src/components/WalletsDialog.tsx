@@ -13,8 +13,9 @@ import {
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { Close } from "@material-ui/icons";
 import { SUPPORTED_WALLETS } from "@utils/constants";
-import useWalletState from "@states/wallet";
+import { openAtom, detailAtom } from "@atoms/wallet";
 import useWallet from "@hooks/useWallet";
+import { useAtom } from "jotai";
 
 const useStyles = makeStyles(({ palette, typography }) => ({
   header: {
@@ -72,17 +73,19 @@ export default function WalletsDialog(
 ) {
   const classes = useStyles();
   const { connect, connected, reset } = useWallet();
-  const { detail, open, merge } = useWalletState();
+  const [open, setOpen] = useAtom(openAtom);
+  const [detail, setDetail] = useAtom(detailAtom);
 
-  const handleClose = useCallback(() => open.set(false), []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleClose = useCallback(() => setOpen(false), []);
 
   const handleSelectWallet = async (wallet: WalletDetail) => {
-    if (wallet.key === detail.get()?.key) {
-      open.set(false);
+    if (wallet.key === detail?.key) {
+      setOpen(false);
     } else {
       // change wallet
       reset();
-      merge({ detail: wallet });
+      setDetail(wallet);
       setTimeout(() => {
         connect(wallet.connectorId);
       }, 50);
@@ -91,12 +94,13 @@ export default function WalletsDialog(
 
   useEffect(() => {
     if (connected) {
-      open.set(false);
+      setOpen(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connected]);
 
   return (
-    <StyledDialog open={open.get()} onClose={handleClose} {...props}>
+    <StyledDialog open={open} onClose={handleClose} {...props}>
       <DialogTitle disableTypography classes={{ root: classes.header }}>
         <span className={classes.title}>Connect wallet</span>
         <IconButton

@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Provider } from "jotai";
 import { ThemeProvider } from "@material-ui/styles";
 import { SnackbarProvider } from "notistack";
 import "fontsource-roboto";
@@ -12,19 +13,21 @@ import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <SnackbarProvider
-        anchorOrigin={{
-          horizontal: "right",
-          vertical: "top",
-        }}
-        preventDuplicate
-      >
-        <UseWalletProvider chainId={ChainId}>
-          <App />
-        </UseWalletProvider>
-      </SnackbarProvider>
-    </ThemeProvider>
+    <Provider>
+      <ThemeProvider theme={theme}>
+        <SnackbarProvider
+          anchorOrigin={{
+            horizontal: "right",
+            vertical: "top",
+          }}
+          preventDuplicate
+        >
+          <UseWalletProvider chainId={ChainId}>
+            <App />
+          </UseWalletProvider>
+        </SnackbarProvider>
+      </ThemeProvider>
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );

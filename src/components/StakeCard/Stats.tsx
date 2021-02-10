@@ -1,9 +1,10 @@
-import useBalanceState from "@states/balance";
+import { statAtomFamily } from "@atoms/stat";
 import { Box, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { cardContent } from "@utils/theme/common";
 import { TokenShortName } from "@utils/constants";
 import { getFullDisplayBalance } from "@utils/formatters";
+import { useAtomValue } from "jotai/utils";
 
 const useStyles = makeStyles({
   root: {
@@ -30,9 +31,7 @@ const useStyles = makeStyles({
 export default function Stats({ token }: { token: TokenEnum }) {
   const classes = useStyles();
 
-  const { stats } = useBalanceState();
-
-  const { apy, total } = stats[token].get();
+  const { apy, total } = useAtomValue(statAtomFamily({ token }));
 
   return (
     <Box className={classes.root}>

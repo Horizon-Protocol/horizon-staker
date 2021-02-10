@@ -1,8 +1,9 @@
 import { Avatar, Chip, ChipProps, CircularProgress } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import useWalletState from "@states/wallet";
-import useBalanceState from "@states/balance";
+import { openAtom, detailAtom } from "@atoms/wallet";
+import { loadingAvailableAtom } from "@atoms/loading";
 import { ChainName } from "@utils/constants";
+import { useAtomValue, useUpdateAtom } from "jotai/utils";
 
 const StyledChip = withStyles(({ palette }) => ({
   root: {
@@ -15,12 +16,6 @@ const StyledChip = withStyles(({ palette }) => ({
     border: "1px solid #11263B",
   },
 }))(Chip);
-const StyledCircularProgress = withStyles(({ palette }) => ({
-  svg: {
-    width: 20,
-    height: 20,
-  },
-}))(CircularProgress);
 
 const StyledAvatar = withStyles(({ palette }) => ({
   img: {
@@ -31,12 +26,11 @@ const StyledAvatar = withStyles(({ palette }) => ({
 }))(Avatar);
 
 export default function WalletIndicator(props: ChipProps) {
-  const { open, detail } = useWalletState();
-  const { loading } = useBalanceState();
+  const setOpen = useUpdateAtom(openAtom);
+  const wallet = useAtomValue(detailAtom);
+  const loading = useAtomValue(loadingAvailableAtom);
 
-  const detailData = detail.get();
-
-  if (!detailData) {
+  if (!wallet) {
     return null;
   }
 
@@ -45,18 +39,18 @@ export default function WalletIndicator(props: ChipProps) {
     <StyledChip
       variant='outlined'
       avatar={
-        loading.get() ? (
-          <StyledCircularProgress color='primary' size={24} />
+        loading ? (
+          <CircularProgress color='primary' size={20} />
         ) : (
           <StyledAvatar
-            variant='circle'
-            src={detailData.logo}
-            alt={detailData.label}
+            variant='circular'
+            src={wallet.logo}
+            alt={wallet.label}
           />
         )
       }
       label={ChainName}
-      onClick={() => open.set(true)}
+      onClick={() => setOpen(true)}
       {...props}
     />
     // </Tooltip>

@@ -1,9 +1,9 @@
 import { useMemo } from "react";
-import { constants } from "ethers";
+import { useAtomValue } from "jotai/utils";
 import { Box, BoxProps, Typography } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
-import useBalanceState from "@states/balance";
+import { availableAtomFamily } from "@atoms/balance";
 import useWallet from "@hooks/useWallet";
 import { Token } from "@utils/constants";
 import { getFullDisplayBalance } from "@utils/formatters";
@@ -45,20 +45,21 @@ export default function WalletInfo({ className, ...props }: BoxProps) {
   const { shortAccount, connected } = useWallet();
   const classes = useStyles({ connected });
 
-  const { available } = useBalanceState();
+  const availablePHB = useAtomValue(availableAtomFamily(Token.PHB));
+  const availableHZN = useAtomValue(availableAtomFamily(Token.HZN));
 
   const balances = useMemo(() => {
     return [
       {
         token: Token.HZN,
-        amount: available[Token.HZN].get(),
+        amount: availablePHB,
       },
       {
         token: Token.PHB,
-        amount: available[Token.PHB].get(),
+        amount: availableHZN,
       },
     ];
-  }, [available]);
+  }, [availablePHB, availableHZN]);
 
   return (
     <Box className={clsx(classes.root, className)} {...props}>

@@ -3,9 +3,10 @@ import { BigNumber } from "ethers";
 import { Box, Button, Collapse, Typography } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { cardContent } from "@utils/theme/common";
-import useBalanceState from "@states/balance";
+import { availableAtomFamily, stakedAtomFamily } from "@atoms/balance";
 import { getFullDisplayBalance } from "@utils/formatters";
 import AmountInput from "./AmountInput";
+import { useAtomValue } from "jotai/utils";
 
 const useStyles = makeStyles(({ palette }) => ({
   root: {
@@ -85,12 +86,8 @@ export default function AmountStake({ token, logo }: Props) {
   const [currentAction, setCurrentAction] = useState<Action>();
   const [input, setInput] = useState<string>();
 
-  const { available, staked } = useBalanceState();
-
-  const [availableAmount, stakedAmount] = useMemo(
-    () => [available[token].get(), staked[token].get()],
-    [token, available, staked]
-  );
+  const available = useAtomValue(availableAtomFamily(token));
+  const staked = useAtomValue(stakedAtomFamily(token));
 
   const amount = useMemo(
     () => BigNumber.from((input || "0").replace(/[^0-9.]/g, "")),
@@ -112,9 +109,7 @@ export default function AmountStake({ token, logo }: Props) {
             <AmountLabel variant='caption' color='primary'>
               {token} Staked
             </AmountLabel>
-            <Amount variant='body1'>
-              {getFullDisplayBalance(stakedAmount)}
-            </Amount>
+            <Amount variant='body1'>{getFullDisplayBalance(staked)}</Amount>
           </Box>
           <Box className={classes.buttons}>
             {Actions.map(({ key, label }) => (
@@ -139,7 +134,7 @@ export default function AmountStake({ token, logo }: Props) {
             input={input}
             onInput={setInput}
             amount={amount}
-            max={availableAmount}
+            max={available}
             btnLabel={currentAction ? Action[currentAction] : ""}
           />
         </Box>
