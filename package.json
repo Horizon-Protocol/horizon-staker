@@ -30,7 +30,8 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
-    "eject": "craco eject"
+    "eject": "craco eject",
+    "generate-types": "typechain --target=ethers-v5 --outDir=src/abis/types 'src/abis/*.json'"
   },
   "eslintConfig": {
     "extends": [
@@ -51,6 +52,8 @@
     ]
   },
   "devDependencies": {
-    "craco-alias": "^2.1.1"
+    "@typechain/ethers-v5": "^5.0.0",
+    "craco-alias": "^2.1.1",
+    "typechain": "^4.0.1"
   }
 }

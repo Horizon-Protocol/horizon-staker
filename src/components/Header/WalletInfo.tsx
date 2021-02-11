@@ -52,11 +52,11 @@ export default function WalletInfo({ className, ...props }: BoxProps) {
     return [
       {
         token: Token.HZN,
-        amount: availablePHB,
+        amount: availableHZN,
       },
       {
         token: Token.PHB,
-        amount: availableHZN,
+        amount: availablePHB,
       },
     ];
   }, [availablePHB, availableHZN]);

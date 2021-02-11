@@ -1,3 +1,4 @@
+import { atom } from "jotai";
 import { atomFamily } from "jotai/utils";
 import { BigNumber, constants } from "ethers";
 import { Token } from "@utils/constants";
@@ -41,4 +42,16 @@ export const earnedAtomFamily = atomFamily(
   (token: Token) => (get, set, amount: BigNumber) => {
     set(amountAtomFamily({ token, balance: Balance.earned }), amount);
   }
+);
+
+type AllowanceParam = { token: Token; amount?: BigNumber };
+const allowanceAtomFamily = atomFamily(
+  ({ amount = constants.Zero }: AllowanceParam) => amount,
+  null,
+  (a, b) => a.token === b.token
+);
+export const tokenAllowanceAtomFamily = atomFamily(
+  (token: Token) => (get) => get(allowanceAtomFamily({ token })),
+  (token: Token) => (get, set, amount: BigNumber) =>
+    set(allowanceAtomFamily({ token }), amount)
 );

@@ -1,5 +1,5 @@
 import { useCallback, useState, useMemo } from "react";
-import { BigNumber } from "ethers";
+import { BigNumber, utils } from "ethers";
 import { Box, Button, Collapse, Typography } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { cardContent } from "@utils/theme/common";
@@ -90,7 +90,7 @@ export default function AmountStake({ token, logo }: Props) {
   const staked = useAtomValue(stakedAtomFamily(token));
 
   const amount = useMemo(
-    () => BigNumber.from((input || "0").replace(/[^0-9.]/g, "")),
+    () => utils.parseUnits((input || "0").replace(/[^0-9.]/g, "")),
     [input]
   );
 

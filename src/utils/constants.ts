@@ -69,7 +69,8 @@ export const CONTRACT_ADDRESS: {
     [Token.HZN_BNB_LP]: "",
   },
 };
-export const STAKING_CONTRACT_ADDRESS = "";
+export const STAKING_CONTRACT_ADDRESS =
+  "0xE90E071d27B4F62460Fe6dF82bE8c05a9f601B6a";
 
 const EnvChainId = parseInt(process.env.CHAIN_ID);
 
