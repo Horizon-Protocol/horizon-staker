@@ -4,12 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import NumberFormat from "react-number-format";
 import { BigNumber } from "ethers";
 import PrimaryButton from "@components/PrimaryButton";
-import { STAKING_CONTRACT_ADDRESS } from "@utils/constants";
 import { getFullDisplayBalance } from "@utils/formatters";
-import { useTokenAllowance } from "@hooks/useAllowance";
-import useStaking from "@hooks/useStaking";
-import { Staking } from "@/abis/types";
-import { useSnackbar } from "notistack";
 
 const useStyles = makeStyles(({ palette }) => ({
   root: {},
@@ -53,6 +48,7 @@ interface Props {
   max: BigNumber;
   btnLabel: string;
   logo?: string;
+  onSubmit: () => void;
 }
 
 export default function AmountInput({
@@ -63,33 +59,13 @@ export default function AmountInput({
   max,
   btnLabel,
   logo,
+  onSubmit,
 }: Props) {
   const classes = useStyles();
-  const { enqueueSnackbar } = useSnackbar();
-
-  const stakingContract = useStaking();
-  const { checkApprove } = useTokenAllowance(token, STAKING_CONTRACT_ADDRESS);
 
   const setMax = useCallback(() => {
     onInput(getFullDisplayBalance(max));
   }, [max, onInput]);
-
-  const handleStake = useCallback(async () => {
-    try {
-      await checkApprove(amount);
-      if (token && stakingContract && amount.gt(0)) {
-        const res = await (stakingContract as Staking).stake(amount);
-        console.log("stake results:", res);
-        enqueueSnackbar(
-          `Successfully staked ${getFullDisplayBalance(amount)} ${token}`,
-          { variant: "success" }
-        );
-      }
-    } catch (e) {
-      console.log(e.error);
-      enqueueSnackbar(e.error ?? "Operation Failed", { variant: "error" });
-    }
-  }, [token, checkApprove, stakingContract, amount, enqueueSnackbar]);
 
   return (
     <Box className={classes.root}>
@@ -127,7 +103,7 @@ export default function AmountInput({
         size='large'
         fullWidth
         disabled={amount.lte(0) || amount.gt(max)}
-        onClick={handleStake}
+        onClick={onSubmit}
       >
         {btnLabel}
       </PrimaryButton>

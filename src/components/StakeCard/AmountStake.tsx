@@ -2,7 +2,12 @@ import { useCallback, useState, useMemo } from "react";
 import { BigNumber, utils } from "ethers";
 import { Box, Button, Collapse, Typography } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { useSnackbar } from "notistack";
+import { STAKING_CONTRACT_ADDRESS } from "@utils/constants";
 import { cardContent } from "@utils/theme/common";
+import { useTokenAllowance } from "@hooks/useAllowance";
+import useStaking from "@hooks/useStaking";
+import { Staking } from "@/abis/types";
 import { availableAtomFamily, stakedAtomFamily } from "@atoms/balance";
 import { getFullDisplayBalance } from "@utils/formatters";
 import AmountInput from "./AmountInput";
@@ -85,6 +90,10 @@ export default function AmountStake({ token, logo }: Props) {
   const classes = useStyles();
   const [currentAction, setCurrentAction] = useState<Action>();
   const [input, setInput] = useState<string>();
+  const { enqueueSnackbar } = useSnackbar();
+
+  const stakingContract = useStaking();
+  const { checkApprove } = useTokenAllowance(token, STAKING_CONTRACT_ADDRESS);
 
   const available = useAtomValue(availableAtomFamily(token));
   const staked = useAtomValue(stakedAtomFamily(token));
@@ -100,6 +109,48 @@ export default function AmountStake({ token, logo }: Props) {
       prevAction === action ? undefined : action
     );
   }, []);
+
+  const handleStake = useCallback(async () => {
+    await checkApprove(amount);
+    const tx = await (stakingContract as Staking).stake(amount);
+    console.log("tx:", tx);
+    enqueueSnackbar(
+      `Successfully staked ${getFullDisplayBalance(amount)} ${token}`,
+      { variant: "success" }
+    );
+  }, [token, checkApprove, stakingContract, amount, enqueueSnackbar]);
+
+  const handleUnstake = useCallback(async () => {
+    const tx = await (stakingContract as Staking).withdraw(amount);
+    console.log("tx:", tx);
+    enqueueSnackbar(
+      `Successfully unstaked ${getFullDisplayBalance(amount)} ${token}`,
+      { variant: "success" }
+    );
+  }, [token, stakingContract, amount, enqueueSnackbar]);
+
+  const handleSubmit = useCallback(async () => {
+    try {
+      if (currentAction && token && stakingContract && amount.gt(0)) {
+        if (currentAction === Action.Stake) {
+          handleStake();
+        } else if (currentAction === Action.Unstake) {
+          handleUnstake();
+        }
+      }
+    } catch (e) {
+      console.log(e.error);
+      enqueueSnackbar(e.error ?? "Operation Failed", { variant: "error" });
+    }
+  }, [
+    currentAction,
+    token,
+    stakingContract,
+    amount,
+    handleStake,
+    handleUnstake,
+    enqueueSnackbar,
+  ]);
 
   return (
     <>
@@ -136,6 +187,7 @@ export default function AmountStake({ token, logo }: Props) {
             amount={amount}
             max={available}
             btnLabel={currentAction ? Action[currentAction] : ""}
+            onSubmit={handleSubmit}
           />
         </Box>
       </Collapse>
