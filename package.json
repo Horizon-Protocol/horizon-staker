@@ -2,6 +2,7 @@
   "name": "horizon-staker",
   "version": "0.1.0",
   "dependencies": {
+    "@ahooksjs/use-request": "^2.8.3",
     "@binance-chain/bsc-use-wallet": "^0.8.1",
     "@craco/craco": "^6.1.0",
     "@material-ui/core": "^4.11.3",
@@ -13,7 +14,6 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
-    "@use-it/interval": "^1.0.0",
     "clsx": "^1.1.1",
     "ethers": "^5.0.29",
     "fontsource-roboto": "^4.0.0",

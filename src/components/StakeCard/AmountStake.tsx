@@ -104,7 +104,6 @@ export default function AmountStake({ token, logo }: Props) {
   );
 
   const handleAction: (action: Action) => void = useCallback((action) => {
-    console.log(action);
     setCurrentAction((prevAction) =>
       prevAction === action ? undefined : action
     );

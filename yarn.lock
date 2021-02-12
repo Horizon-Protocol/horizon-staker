@@ -2,6 +2,14 @@
 # yarn lockfile v1
 
 
+"@ahooksjs/use-request@^2.8.3":
+  version "2.8.3"
+  resolved "https://registry.yarnpkg.com/@ahooksjs/use-request/-/use-request-2.8.3.tgz#9b7eff972658497473f61ceb89a268d665e28aeb"
+  integrity sha512-Cd/i+cCdf8fl1kiOMU8BICttQGBnFZPkp5+R6EBoG6WgPkWGHMv6LhPPXwVEgYyHJ3pBYGYcHL1bhgY4rjiBuA==
+  dependencies:
+    lodash.debounce "^4.0.8"
+    lodash.throttle "^4.1.1"
+
 "@aragon/provided-connector@^6.0.7":
   version "6.0.8"
   resolved "https://registry.yarnpkg.com/@aragon/provided-connector/-/provided-connector-6.0.8.tgz#5d22ccb2a0ff599fbe6c23fdf96cb06d59ff2716"
@@ -2805,11 +2813,6 @@
   dependencies:
     "@typescript-eslint/types" "4.8.1"
     eslint-visitor-keys "^2.0.0"
-
-"@use-it/interval@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@use-it/interval/-/interval-1.0.0.tgz#c42c68f22ca29a0dc929041746373d94496d2b3a"
-  integrity sha512-WQFcnSt/xM/mS8ZtJ0ut5lhPrl+V0HDPPcI/J0eUClsfiD+/r8A7IeW/pVcfpSVGWRmN3+WnjNteWuKyWs2WZg==
 
 "@walletconnect/client@^1.3.4":
   version "1.3.4"
@@ -10018,6 +10021,11 @@ lodash._reinterpolate@^3.0.0:
   resolved "https://registry.yarnpkg.com/lodash._reinterpolate/-/lodash._reinterpolate-3.0.0.tgz#0ccf2d89166af03b3663c796538b75ac6e114d9d"
   integrity sha1-DM8tiRZq8Ds2Y8eWU4t1rG4RTZ0=
 
+lodash.debounce@^4.0.8:
+  version "4.0.8"
+  resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
+  integrity sha1-gteb/zCmfEAF/9XiUVMArZyk168=
+
 lodash.flatmap@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.flatmap/-/lodash.flatmap-4.5.0.tgz#ef8cbf408f6e48268663345305c6acc0b778702e"
@@ -10047,6 +10055,11 @@ lodash.templatesettings@^4.0.0:
   integrity sha512-stgLz+i3Aa9mZgnjr/O+v9ruKZsPsndy7qPZOchbqk2cnTU1ZaldKK+v7m54WoKIyxiuMZTKT2H81F8BeAc3ZQ==
   dependencies:
     lodash._reinterpolate "^3.0.0"
+
+lodash.throttle@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
+  integrity sha1-wj6RtxAkKscMN/HhzaknTMOb8vQ=
 
 lodash.uniq@^4.5.0:
   version "4.5.0"

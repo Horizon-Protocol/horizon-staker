@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react";
 import { useUpdateAtom } from "jotai/utils";
-import useInterval from "@use-it/interval";
+import useRequest from "@ahooksjs/use-request";
 import { BigNumber } from "ethers";
 import { useSnackbar } from "notistack";
 import { availableAtomFamily } from "@atoms/balance";
@@ -9,7 +9,7 @@ import { Token } from "@utils/constants";
 import { usePHB, useHZN } from "./useContract";
 import useWallet from "./useWallet";
 
-export default function useBalancePolling(delay: number = 10000) {
+export default function useBalancePolling(interval: number = 10000) {
   const { account } = useWallet();
 
   const { enqueueSnackbar } = useSnackbar();
@@ -26,17 +26,12 @@ export default function useBalancePolling(delay: number = 10000) {
   const fetchBalances = useCallback(async () => {
     if (phbContract && hznContract) {
       setLoading(true);
-      try {
-        const [phb, hzn] = await Promise.all([
-          phbContract.balanceOf(account),
-          hznContract.balanceOf(account),
-        ]);
-        setAvailablePHB(phb as BigNumber);
-        setAvailableHZN(hzn as BigNumber);
-      } catch (e) {
-        console.log(e);
-        enqueueSnackbar("Failed to loading balances", { variant: "error" });
-      }
+      const [phb, hzn] = await Promise.all([
+        phbContract.balanceOf(account),
+        hznContract.balanceOf(account),
+      ]);
+      setAvailablePHB(phb as BigNumber);
+      setAvailableHZN(hzn as BigNumber);
       window.requestAnimationFrame(() => {
         setLoading(false);
       });
@@ -48,14 +43,22 @@ export default function useBalancePolling(delay: number = 10000) {
     account,
     setAvailablePHB,
     setAvailableHZN,
-    enqueueSnackbar,
   ]);
 
-  useInterval(fetchBalances, account ? delay : null);
+  const { refresh } = useRequest(fetchBalances, {
+    ready: !!(account && phbContract && hznContract),
+    loadingDelay: 1000,
+    pollingInterval: interval || undefined,
+    pollingWhenHidden: false,
+    refreshOnWindowFocus: true,
+    throttleInterval: 1000,
+    onError(e) {
+      console.log(e);
+      enqueueSnackbar("Failed to loading balances", { variant: "error" });
+    },
+  });
 
-  useEffect(() => {
-    if (account) {
-      fetchBalances();
-    }
-  }, [account, fetchBalances]);
+  return {
+    refresh,
+  };
 }
