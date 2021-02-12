@@ -1,5 +1,5 @@
 import { useCallback, useState, useMemo } from "react";
-import { BigNumber, utils } from "ethers";
+import { BigNumber, constants, utils } from "ethers";
 import { Box, Button, Collapse, Typography } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { useSnackbar } from "notistack";
@@ -8,7 +8,11 @@ import { cardContent } from "@utils/theme/common";
 import { useTokenAllowance } from "@hooks/useAllowance";
 import useStaking from "@hooks/useStaking";
 import { Staking } from "@/abis/types";
-import { availableAtomFamily, stakedAtomFamily } from "@atoms/balance";
+import {
+  availableAtomFamily,
+  stakedAtomFamily,
+  withdrawableAtomFamily,
+} from "@atoms/balance";
 import { getFullDisplayBalance } from "@utils/formatters";
 import AmountInput from "./AmountInput";
 import { useAtomValue } from "jotai/utils";
@@ -97,6 +101,16 @@ export default function AmountStake({ token, logo }: Props) {
 
   const available = useAtomValue(availableAtomFamily(token));
   const staked = useAtomValue(stakedAtomFamily(token));
+  const withdrawable = useAtomValue(withdrawableAtomFamily(token));
+
+  const inputMax: BigNumber = useMemo(() => {
+    if (currentAction === Action.Stake) {
+      return available;
+    } else if (currentAction === Action.Unstake) {
+      return withdrawable;
+    }
+    return constants.Zero;
+  }, [currentAction, available, withdrawable]);
 
   const amount = useMemo(
     () => utils.parseUnits((input || "0").replace(/[^0-9.]/g, "")),
@@ -154,11 +168,11 @@ export default function AmountStake({ token, logo }: Props) {
   return (
     <>
       <Box className={classes.root}>
+        <AmountLabel variant='caption' color='primary'>
+          {token} Staked
+        </AmountLabel>
         <Box className={classes.amountBox}>
           <Box className={classes.staked}>
-            <AmountLabel variant='caption' color='primary'>
-              {token} Staked
-            </AmountLabel>
             <Amount variant='body1'>{getFullDisplayBalance(staked)}</Amount>
           </Box>
           <Box className={classes.buttons}>
@@ -184,7 +198,7 @@ export default function AmountStake({ token, logo }: Props) {
             input={input}
             onInput={setInput}
             amount={amount}
-            max={available}
+            max={inputMax}
             btnLabel={currentAction ? Action[currentAction] : ""}
             onSubmit={handleSubmit}
           />

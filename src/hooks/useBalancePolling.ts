@@ -1,52 +1,79 @@
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { useUpdateAtom } from "jotai/utils";
 import useRequest from "@ahooksjs/use-request";
-import { BigNumber } from "ethers";
 import { useSnackbar } from "notistack";
-import { availableAtomFamily } from "@atoms/balance";
+import {
+  availableAtomFamily,
+  stakedAtomFamily,
+  earnedAtomFamily,
+  withdrawableAtomFamily,
+} from "@atoms/balance";
 import { loadingAvailableAtom } from "@atoms/loading";
 import { Token } from "@utils/constants";
 import { usePHB, useHZN } from "./useContract";
+import useStaking from "./useStaking";
 import useWallet from "./useWallet";
 
-export default function useBalancePolling(interval: number = 10000) {
+export default function useBalancePolling(interval: number = 5000) {
   const { account } = useWallet();
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const phbContract = usePHB();
-  const hznContract = useHZN();
+  const phbToken = usePHB();
+  const hznToken = useHZN();
+  const phbStaking = useStaking();
 
-  // atoms
+  // available atoms
   const setLoading = useUpdateAtom(loadingAvailableAtom);
   const setAvailablePHB = useUpdateAtom(availableAtomFamily(Token.PHB));
   const setAvailableHZN = useUpdateAtom(availableAtomFamily(Token.HZN));
   // const setAvailableLP = useUpdateAtom(availableAtomFamily(Token.HZN_BNB_LP));
 
+  // staked
+  const setStakedPHB = useUpdateAtom(stakedAtomFamily(Token.PHB));
+  // earned
+  const setEarnedPHB = useUpdateAtom(earnedAtomFamily(Token.PHB));
+  // earned
+  const setWithdrawablePHB = useUpdateAtom(withdrawableAtomFamily(Token.PHB));
+
   const fetchBalances = useCallback(async () => {
-    if (phbContract && hznContract) {
+    if (account && phbToken && hznToken) {
       setLoading(true);
-      const [phb, hzn] = await Promise.all([
-        phbContract.balanceOf(account),
-        hznContract.balanceOf(account),
-      ]);
-      setAvailablePHB(phb as BigNumber);
-      setAvailableHZN(hzn as BigNumber);
+      const [phb, hzn, staked, earned, withdrawable, total] = await Promise.all(
+        [
+          phbToken.balanceOf(account),
+          hznToken.balanceOf(account),
+          phbStaking.balanceOf(account), // user staked
+          phbStaking.earned(account), // user staked
+          phbStaking.withdrawableAmount(account), // user withdrawable Amount
+          phbStaking.totalSupply(), // total staked
+        ]
+      );
+      setAvailablePHB(phb);
+      setAvailableHZN(hzn);
+      setStakedPHB(staked);
+      setEarnedPHB(earned);
+      setWithdrawablePHB(withdrawable);
+
       window.requestAnimationFrame(() => {
         setLoading(false);
       });
     }
   }, [
-    phbContract,
-    hznContract,
-    setLoading,
     account,
+    phbToken,
+    hznToken,
+    phbStaking,
+    setLoading,
     setAvailablePHB,
     setAvailableHZN,
+    setStakedPHB,
+    setEarnedPHB,
+    setWithdrawablePHB,
   ]);
 
   const { refresh } = useRequest(fetchBalances, {
-    ready: !!(account && phbContract && hznContract),
+    ready: !!(account && phbToken && hznToken),
     loadingDelay: 1000,
     pollingInterval: interval || undefined,
     pollingWhenHidden: false,

@@ -5,6 +5,8 @@ import PrimaryButton from "@components/PrimaryButton";
 import { earnedAtomFamily } from "@atoms/balance";
 import { getFullDisplayBalance } from "@utils/formatters";
 import { useAtomValue } from "jotai/utils";
+import { useCallback } from "react";
+import useStaking from "@/hooks/useStaking";
 
 const useStyles = makeStyles({
   root: {
@@ -39,13 +41,21 @@ const Amount = withStyles({
 
 interface Props {
   token: TokenEnum;
-  onHarvest?: () => void;
 }
 
-export default function Earned({ token, onHarvest }: Props) {
+export default function Earned({ token }: Props) {
   const classes = useStyles();
 
   const earned = useAtomValue(earnedAtomFamily(token));
+
+  const stakingContract = useStaking();
+
+  const handleHarvest = useCallback(async () => {
+    if (stakingContract) {
+      const tx = await stakingContract.getReward();
+      console.log(tx);
+    }
+  }, [stakingContract]);
 
   return (
     <Box className={classes.root}>
@@ -55,7 +65,11 @@ export default function Earned({ token, onHarvest }: Props) {
         </AmountLabel>
         <Amount variant='body1'>{getFullDisplayBalance(earned)}</Amount>
       </Box>
-      <PrimaryButton size='large' disabled={earned.lte(0)} onClick={onHarvest}>
+      <PrimaryButton
+        size='large'
+        disabled={earned.lte(0)}
+        onClick={handleHarvest}
+      >
         Harvest
       </PrimaryButton>
     </Box>

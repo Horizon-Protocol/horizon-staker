@@ -1,4 +1,3 @@
-import { atom } from "jotai";
 import { atomFamily } from "jotai/utils";
 import { BigNumber, constants } from "ethers";
 import { Token } from "@utils/constants";
@@ -7,6 +6,7 @@ export enum Balance {
   available = "available",
   staked = "staked",
   earned = "earned",
+  withdrawable = "withdrawable",
 }
 
 interface Param {
@@ -41,6 +41,13 @@ export const earnedAtomFamily = atomFamily(
     get(amountAtomFamily({ token, balance: Balance.earned })),
   (token: Token) => (get, set, amount: BigNumber) => {
     set(amountAtomFamily({ token, balance: Balance.earned }), amount);
+  }
+);
+export const withdrawableAtomFamily = atomFamily(
+  (token: Token) => (get) =>
+    get(amountAtomFamily({ token, balance: Balance.withdrawable })),
+  (token: Token) => (get, set, amount: BigNumber) => {
+    set(amountAtomFamily({ token, balance: Balance.withdrawable }), amount);
   }
 );
 

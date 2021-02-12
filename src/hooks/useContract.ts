@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { Contract, ContractInterface, Wallet } from "ethers";
+import { Contract, ContractInterface } from "ethers";
 import erc20Abi from "@abis/erc20.json";
+import { Erc20 } from "@abis/types";
 import useWallet from "@hooks/useWallet";
 import { Addresses, Token } from "@utils/constants";
 
@@ -15,7 +16,6 @@ const useContract = (
   useEffect(() => {
     if (provider) {
       if (writable) {
-        // const signer = Wallet.createRandom().connect(provider);
         setContract(new Contract(address, abi, provider.getSigner()));
       } else {
         setContract(new Contract(address, abi, provider));
@@ -27,7 +27,7 @@ const useContract = (
 };
 
 export const useERC20 = (address: string, writable: boolean = false) => {
-  return useContract(address, erc20Abi, writable);
+  return useContract(address, erc20Abi, writable) as Erc20;
 };
 
 export const usePHB = (writable: boolean = false) => {

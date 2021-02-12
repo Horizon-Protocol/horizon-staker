@@ -92,7 +92,7 @@ export default function AmountInput({
       </Box>
       <Typography
         variant='overline'
-        color='primary'
+        color={amount.gt(max) ? "error" : "primary"}
         display='block'
         align='right'
         className={classes.maxLabel}
