@@ -39,16 +39,14 @@ export default function useBalancePolling(interval: number = 5000) {
   const fetchBalances = useCallback(async () => {
     if (account && phbToken && hznToken) {
       setLoading(true);
-      const [phb, hzn, staked, earned, withdrawable, total] = await Promise.all(
-        [
-          phbToken.balanceOf(account),
-          hznToken.balanceOf(account),
-          phbStaking.balanceOf(account), // user staked
-          phbStaking.earned(account), // user staked
-          phbStaking.withdrawableAmount(account), // user withdrawable Amount
-          phbStaking.totalSupply(), // total staked
-        ]
-      );
+      const [phb, hzn, staked, earned, withdrawable] = await Promise.all([
+        phbToken.balanceOf(account),
+        hznToken.balanceOf(account),
+        phbStaking.balanceOf(account), // user staked
+        phbStaking.earned(account), // user staked
+        phbStaking.withdrawableAmount(account), // user withdrawable Amount
+        // phbStaking.totalSupply(), // total staked
+      ]);
       setAvailablePHB(phb);
       setAvailableHZN(hzn);
       setStakedPHB(staked);
