@@ -22,3 +22,10 @@ export const statAtomFamily = atomFamily(
   null,
   (a, b) => a.token === b.token
 );
+
+export const tokenStatAtomFamily = atomFamily(
+  (token: Token) => (get) => get(statAtomFamily({ token })),
+  (token: Token) => (get, set, data: Data) => {
+    set(statAtomFamily({ token }), data);
+  }
+);

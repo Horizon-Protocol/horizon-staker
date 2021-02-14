@@ -1,4 +1,4 @@
-import { statAtomFamily } from "@atoms/stat";
+import { tokenStatAtomFamily } from "@atoms/stat";
 import { Box, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { cardContent } from "@utils/theme/common";
@@ -31,7 +31,7 @@ const useStyles = makeStyles({
 export default function Stats({ token }: { token: TokenEnum }) {
   const classes = useStyles();
 
-  const { apy, total } = useAtomValue(statAtomFamily({ token }));
+  const { apy, total } = useAtomValue(tokenStatAtomFamily(token));
 
   return (
     <Box className={classes.root}>

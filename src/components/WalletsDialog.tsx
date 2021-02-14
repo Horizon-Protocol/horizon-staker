@@ -26,7 +26,10 @@ const useStyles = makeStyles(({ palette, typography }) => ({
   },
   title: {
     ...typography.h6,
+    fontSize: 24,
+    letterSpacing: "3px",
     textTransform: "uppercase",
+    lineHeight: "28px",
   },
   closeIcon: {
     padding: 4,

@@ -36,7 +36,7 @@ const useStyles = makeStyles({
 
 const StyledUnit = withStyles(() => ({
   root: {
-    paddingLeft: 16,
+    paddingLeft: 12,
     color: "#88ABC3",
   },
 }))(Typography);

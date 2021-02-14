@@ -8,13 +8,14 @@ import {
   earnedAtomFamily,
   withdrawableAtomFamily,
 } from "@atoms/balance";
+import { tokenStatAtomFamily } from "@atoms/stat";
 import { loadingAvailableAtom } from "@atoms/loading";
 import { Token } from "@utils/constants";
 import { usePHB, useHZN } from "./useContract";
 import useStaking from "./useStaking";
 import useWallet from "./useWallet";
 
-export default function useBalancePolling(interval: number = 5000) {
+export default function useBalancePolling(interval: number = 10000) {
   const { account } = useWallet();
 
   const { enqueueSnackbar } = useSnackbar();
@@ -33,25 +34,39 @@ export default function useBalancePolling(interval: number = 5000) {
   const setStakedPHB = useUpdateAtom(stakedAtomFamily(Token.PHB));
   // earned
   const setEarnedPHB = useUpdateAtom(earnedAtomFamily(Token.PHB));
-  // earned
+  // withdraw
   const setWithdrawablePHB = useUpdateAtom(withdrawableAtomFamily(Token.PHB));
+
+  // withdraw
+  const setPHBStat = useUpdateAtom(tokenStatAtomFamily(Token.PHB));
 
   const fetchBalances = useCallback(async () => {
     if (account && phbToken && hznToken) {
       setLoading(true);
-      const [phb, hzn, staked, earned, withdrawable] = await Promise.all([
+      const [
+        phb,
+        hzn,
+        staked,
+        earned,
+        withdrawable,
+        phbTotal,
+      ] = await Promise.all([
         phbToken.balanceOf(account),
         hznToken.balanceOf(account),
         phbStaking.balanceOf(account), // user staked
         phbStaking.earned(account), // user staked
         phbStaking.withdrawableAmount(account), // user withdrawable Amount
-        // phbStaking.totalSupply(), // total staked
+        phbStaking.totalSupply(), // total staked
       ]);
       setAvailablePHB(phb);
       setAvailableHZN(hzn);
       setStakedPHB(staked);
       setEarnedPHB(earned);
       setWithdrawablePHB(withdrawable);
+      setPHBStat({
+        total: phbTotal,
+        apy: 0,
+      });
 
       window.requestAnimationFrame(() => {
         setLoading(false);
@@ -61,13 +76,14 @@ export default function useBalancePolling(interval: number = 5000) {
     account,
     phbToken,
     hznToken,
-    phbStaking,
     setLoading,
+    phbStaking,
     setAvailablePHB,
     setAvailableHZN,
     setStakedPHB,
     setEarnedPHB,
     setWithdrawablePHB,
+    setPHBStat,
   ]);
 
   const { refresh } = useRequest(fetchBalances, {
