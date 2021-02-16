@@ -11,7 +11,7 @@ import {
   ListItemText,
 } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-import { Close } from "@material-ui/icons";
+import { Close, LinkOff } from "@material-ui/icons";
 import { SUPPORTED_WALLETS } from "@utils/constants";
 import { openAtom, detailAtom } from "@atoms/wallet";
 import useWallet from "@hooks/useWallet";
@@ -57,6 +57,9 @@ const StyledListItem = withStyles(({ palette }) => ({
       backgroundColor: "rgba(28, 57, 95, 1)",
     },
   },
+  selected: {
+    border: `1px solid ${palette.secondary.main}`,
+  },
 }))(ListItem);
 
 const StyledListItemText = withStyles(({ palette }) => ({
@@ -79,11 +82,10 @@ export default function WalletsDialog(
   const [open, setOpen] = useAtom(openAtom);
   const [detail, setDetail] = useAtom(detailAtom);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleClose = useCallback(() => setOpen(false), []);
+  const handleClose = useCallback(() => setOpen(false), [setOpen]);
 
   const handleSelectWallet = async (wallet: WalletDetail) => {
-    if (wallet.key === detail?.key) {
+    if (wallet.key === detail?.key && connected) {
       setOpen(false);
     } else {
       // change wallet
@@ -95,12 +97,18 @@ export default function WalletsDialog(
     }
   };
 
+  const handleDisconnect = async () => {
+    // change wallet
+    reset();
+    setDetail(null);
+    setOpen(false);
+  };
+
   useEffect(() => {
     if (connected) {
       setOpen(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [connected]);
+  }, [connected, setOpen]);
 
   return (
     <StyledDialog open={open} onClose={handleClose} {...props}>
@@ -120,6 +128,7 @@ export default function WalletsDialog(
             <StyledListItem
               key={wallet.key}
               button
+              selected={connected && detail?.key === wallet.key}
               onClick={() => handleSelectWallet(wallet)}
             >
               <ListItemIcon>
@@ -132,6 +141,18 @@ export default function WalletsDialog(
               <StyledListItemText primary={wallet.label} />
             </StyledListItem>
           ))}
+          {connected && (
+            <StyledListItem
+              key='disconnect'
+              button
+              onClick={() => handleDisconnect()}
+            >
+              <ListItemIcon>
+                <LinkOff color='error' className={classes.logo} />
+              </ListItemIcon>
+              <StyledListItemText primary='Disconnect Wallet' />
+            </StyledListItem>
+          )}
         </List>
       </DialogContent>
     </StyledDialog>

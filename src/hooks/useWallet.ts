@@ -34,7 +34,7 @@ export default function useWallet() {
   );
 
   useEffect(() => {
-    // error
+    // connect errors
     if (wallet.error) {
       let errorMsg = "Failed to connect wallet";
       switch (wallet.error.name) {
@@ -51,6 +51,9 @@ export default function useWallet() {
           errorMsg = "Connector Config Error";
           break;
         default:
+          if (wallet.error?.message) {
+            errorMsg = wallet.error.message;
+          }
           break;
       }
       enqueueSnackbar(errorMsg, { variant: "error" });
@@ -60,11 +63,7 @@ export default function useWallet() {
   // useEffect(() => {
   //   if (provider) {
   //     provider.on("block", (blockNumber) => {
-  //       provider
-  //         .getBalance("0xf718d89efa5362a36b898aa0cdf6a1d925a4b243")
-  //         .then((res) => {
-  //           console.log("PHB:", res.toString());
-  //         });
+  //       console.log("blockNumber", blockNumber);
   //     });
   //     return () => {
   //       provider.removeAllListeners();
