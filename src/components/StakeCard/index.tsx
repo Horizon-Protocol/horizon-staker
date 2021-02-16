@@ -9,7 +9,6 @@ import {
 } from "@material-ui/core";
 import defaultTheme from "@utils/theme";
 import useWallet from "@hooks/useWallet";
-import ApproveContract from "@components/ApproveContract";
 import ExternalLink from "@components/ExternalLink";
 import ConnectButton from "../ConnectButton";
 import CardSection from "./CardSection";
@@ -45,6 +44,7 @@ const StyledHeader = withStyles({
   },
   title: {
     marginBottom: 8,
+    fontFamily: "Roboto Condensed",
     letterSpacing: "3px",
     textTransform: "uppercase",
   },

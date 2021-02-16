@@ -1755,6 +1755,16 @@
     "@ethersproject/properties" "^5.0.7"
     "@ethersproject/strings" "^5.0.8"
 
+"@fontsource/roboto-condensed@^4.2.1":
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/@fontsource/roboto-condensed/-/roboto-condensed-4.2.1.tgz#ca8b8372363b9bb54cd4a31ab56e27097309680f"
+  integrity sha512-lprB5ZvrwNaAAtgYKwwMF+ylQ1HhLg95cpW5REZdmjeT4xJU9Nk0xhHQzW5t0INHJuGK3+vq+0VacG0Z/72yJw==
+
+"@fontsource/roboto@^4.2.1":
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/@fontsource/roboto/-/roboto-4.2.1.tgz#fc75a2c6f5267230f37c40c00bec5bf05d61c5c0"
+  integrity sha512-C236dlY57hG+Gg4C9SS2i5qNBILg31uzSdVhO6wUk27rgOz+rtztcUA17VI+HWdAd4LQaTp/vF6NDi303KRtqg==
+
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"
@@ -7669,11 +7679,6 @@ follow-redirects@^1.0.0:
   version "1.13.0"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.13.0.tgz#b42e8d93a2a7eea5ed88633676d6597bc8e384db"
   integrity sha512-aq6gF1BEKje4a9i9+5jimNFIpq4Q1WiwBToeRK5NvZBd/TRsmW8BsJfOEGkr76TbOyPVD3OVDN910EcUNtRYEA==
-
-fontsource-roboto@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/fontsource-roboto/-/fontsource-roboto-4.0.0.tgz#35eacd4fb8d90199053c0eec9b34a57fb79cd820"
-  integrity sha512-zD6L8nvdWRcwSgp4ojxFchG+MPj8kXXQKDEAH9bfhbxy+lkpvpC1WgAK0lCa4dwobv+hvAe0uyHaawcgH7WH/g==
 
 for-each@~0.3.3:
   version "0.3.3"
