@@ -30,9 +30,11 @@ export const useTokenAllowance = (token: TokenEnum, spenderAddress: string) => {
 
   const fetchAllowance = useCallback(async () => {
     if (account && tokenContract) {
+      setLoading(true);
       const allowance = await tokenContract.allowance(account, spenderAddress);
       console.log("allowance", token, allowance.toString());
       setAllowance(allowance);
+      setLoading(false);
     }
   }, [account, tokenContract, setAllowance, spenderAddress, token]);
 

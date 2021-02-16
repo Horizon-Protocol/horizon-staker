@@ -32,12 +32,12 @@
     "start": "craco start",
     "build": "craco build",
     "eject": "craco eject",
+    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
     "generate-types": "typechain --target=ethers-v5 --outDir=src/abis/types 'src/abis/*.json'"
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
-      "react-app/jest"
+      "react-app"
     ]
   },
   "browserslist": {
