@@ -15,6 +15,7 @@ const StyledButton = withStyles(({ palette }) => ({
     height: 32,
     borderRadius: "16px",
     backgroundColor: palette.secondary.main,
+    boxShadow: "none",
   },
 }))(Button);
 

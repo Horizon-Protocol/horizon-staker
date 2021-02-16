@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAtom } from "jotai";
 import { BigNumber } from "ethers";
 import { Erc20 } from "@abis/types";
@@ -9,6 +9,7 @@ import useWallet from "./useWallet";
 
 export const useTokenAllowance = (token: TokenEnum, spenderAddress: string) => {
   const { account } = useWallet();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const [allowance, setAllowance] = useAtom(tokenAllowanceAtomFamily(token));
 
@@ -57,6 +58,8 @@ export const useTokenAllowance = (token: TokenEnum, spenderAddress: string) => {
   }, [fetchAllowance]);
 
   return {
+    loading,
+    needApprove: allowance.lte(0),
     allowance,
     checkApprove,
   };

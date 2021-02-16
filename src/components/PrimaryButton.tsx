@@ -16,6 +16,7 @@ const PrimaryButton = withStyles(({ palette }) => ({
     "&:disabled": {
       color: "rgba(251, 251, 251, 0.2)",
       background: "rgba(52,129,183,0.1)",
+      boxShadow: "none",
     },
   },
 }))(Button);

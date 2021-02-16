@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import defaultTheme from "@utils/theme";
 import useWallet from "@hooks/useWallet";
+import ApproveContract from "@components/ApproveContract";
 import ExternalLink from "@components/ExternalLink";
 import ConnectButton from "../ConnectButton";
 import CardSection from "./CardSection";
@@ -44,6 +45,8 @@ const StyledHeader = withStyles({
   },
   title: {
     marginBottom: 8,
+    letterSpacing: "3px",
+    textTransform: "uppercase",
   },
 })(CardHeader);
 
@@ -67,10 +70,6 @@ interface LinkProps {
   logo: string;
   text: string;
 }
-export interface RenderConnectedProps {
-  token: TokenEnum;
-  logo?: string;
-}
 
 export interface StakeCardProps extends CardProps {
   token: TokenEnum;
@@ -79,7 +78,6 @@ export interface StakeCardProps extends CardProps {
   color?: string;
   logo?: string;
   links?: LinkProps[];
-  renderConnected?: (props: RenderConnectedProps) => React.ReactNode;
 }
 
 export default function StakeCard({
@@ -89,7 +87,6 @@ export default function StakeCard({
   desc,
   logo,
   links,
-  renderConnected,
   ...props
 }: StakeCardProps) {
   const classes = useStyles();
@@ -118,11 +115,7 @@ export default function StakeCard({
         <Stats token={token} />
         <Earned token={token} />
         {connected ? (
-          renderConnected ? (
-            renderConnected({ token, logo })
-          ) : (
-            <AmountStake logo={logo} token={token} />
-          )
+          <AmountStake logo={logo} token={token} />
         ) : (
           <CardSection>
             <ConnectButton fullWidth rounded size='large' />

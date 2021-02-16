@@ -1,12 +1,12 @@
+import { useAtomValue } from "jotai/utils";
+import { useCallback } from "react";
 import { Box, Typography } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { cardContent } from "@utils/theme/common";
 import PrimaryButton from "@components/PrimaryButton";
 import { earnedAtomFamily } from "@atoms/balance";
 import { getFullDisplayBalance } from "@utils/formatters";
-import { useAtomValue } from "jotai/utils";
-import { useCallback } from "react";
-import useStaking from "@/hooks/useStaking";
+import useStaking from "@hooks/useStaking";
 
 const useStyles = makeStyles({
   root: {

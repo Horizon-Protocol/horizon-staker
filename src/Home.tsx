@@ -1,10 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "@material-ui/core";
-import StakeCard, {
-  StakeCardProps,
-  // RenderConnectedProps,
-} from "@components/StakeCard";
-// import ApproveContract from "@components/ApproveContract";
+import StakeCard, { StakeCardProps } from "@components/StakeCard";
 import { Token } from "@utils/constants";
 import useBalancePolling from "@hooks/useBalancePolling";
 import phbBg from "@assets/bgs/phb.png";
@@ -76,9 +72,6 @@ const cards: StakeCardProps[] = [
         text: "Buy HZN",
       },
     ],
-    // renderConnected({ token }: RenderConnectedProps) {
-    //   return <ApproveContract token={token} />;
-    // },
   },
   {
     token: Token.HZN_BNB_LP,

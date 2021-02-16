@@ -1,13 +1,20 @@
 import { useCallback, useState, useMemo } from "react";
 import { BigNumber, constants, utils } from "ethers";
-import { Box, Button, Collapse, Typography } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Collapse,
+  Typography,
+} from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { useSnackbar } from "notistack";
 import { STAKING_CONTRACT_ADDRESS } from "@utils/constants";
 import { cardContent } from "@utils/theme/common";
 import { useTokenAllowance } from "@hooks/useAllowance";
 import useStaking from "@hooks/useStaking";
-import { Staking } from "@/abis/types";
+import PrimaryButton from "@components/PrimaryButton";
+import { Staking } from "@abis/types";
 import {
   availableAtomFamily,
   stakedAtomFamily,
@@ -66,6 +73,7 @@ const InputButton = withStyles(({ palette }) => ({
     minWidth: 50,
     fontWeight: 700,
     color: palette.text.primary,
+    boxShadow: "none",
   },
 }))(Button);
 
@@ -97,7 +105,10 @@ export default function AmountStake({ token, logo }: Props) {
   const { enqueueSnackbar } = useSnackbar();
 
   const stakingContract = useStaking();
-  const { checkApprove } = useTokenAllowance(token, STAKING_CONTRACT_ADDRESS);
+  const { loading, needApprove, checkApprove } = useTokenAllowance(
+    token,
+    STAKING_CONTRACT_ADDRESS
+  );
 
   const available = useAtomValue(availableAtomFamily(token));
   const staked = useAtomValue(stakedAtomFamily(token));
@@ -168,27 +179,39 @@ export default function AmountStake({ token, logo }: Props) {
   return (
     <>
       <Box className={classes.root}>
-        <AmountLabel variant='caption' color='primary'>
-          {token} Staked
-        </AmountLabel>
-        <Box className={classes.amountBox}>
-          <Box className={classes.staked}>
-            <Amount variant='body1'>{getFullDisplayBalance(staked)}</Amount>
-          </Box>
-          <Box className={classes.buttons}>
-            {Actions.map(({ key, label }) => (
-              <InputButton
-                key={key}
-                variant='contained'
-                color={currentAction === key ? "primary" : "secondary"}
-                size='small'
-                onClick={() => handleAction(key)}
-              >
-                {label}
-              </InputButton>
-            ))}
-          </Box>
-        </Box>
+        {needApprove ? (
+          <PrimaryButton size='large' fullWidth>
+            {loading ? (
+              <CircularProgress size={24} thickness={2} />
+            ) : (
+              "Approve Contract"
+            )}
+          </PrimaryButton>
+        ) : (
+          <>
+            <AmountLabel variant='caption' color='primary'>
+              {token} Staked
+            </AmountLabel>
+            <Box className={classes.amountBox}>
+              <Box className={classes.staked}>
+                <Amount variant='body1'>{getFullDisplayBalance(staked)}</Amount>
+              </Box>
+              <Box className={classes.buttons}>
+                {Actions.map(({ key, label }) => (
+                  <InputButton
+                    key={key}
+                    variant='contained'
+                    color={currentAction === key ? "primary" : "secondary"}
+                    size='small'
+                    onClick={() => handleAction(key)}
+                  >
+                    {label}
+                  </InputButton>
+                ))}
+              </Box>
+            </Box>
+          </>
+        )}
       </Box>
       <Collapse in={!!currentAction}>
         <Box className={classes.inputBox}>
