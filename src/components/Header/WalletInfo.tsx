@@ -1,8 +1,9 @@
 import { useMemo } from "react";
-import { useAtomValue } from "jotai/utils";
-import { Box, BoxProps, Typography } from "@material-ui/core";
+import { useAtomValue, useUpdateAtom } from "jotai/utils";
+import { Button, Box, BoxProps, Typography } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
+import { openAtom } from "@atoms/wallet";
 import { availableAtomFamily } from "@atoms/balance";
 import useWallet from "@hooks/useWallet";
 import { Token } from "@utils/constants";
@@ -10,12 +11,14 @@ import { getFullDisplayBalance } from "@utils/formatters";
 
 const useStyles = makeStyles({
   root: {
-    padding: "8px 12px",
     borderRadius: 16,
     background: "rgba(16,38,55,0.3)",
     border: "1px solid #11263B",
     whiteSpace: "nowrap",
     textAlign: "center",
+  },
+  button: {
+    padding: "6px 12px",
   },
   dot: {
     display: "inline-block",
@@ -28,8 +31,7 @@ const useStyles = makeStyles({
   },
   balance: {
     borderTop: "1px solid #11263B",
-    paddingTop: 4,
-    marginTop: 4,
+    padding: "6px 12px",
     textAlign: "right",
   },
 });
@@ -44,6 +46,7 @@ const StyledUnit = withStyles(() => ({
 export default function WalletInfo({ className, ...props }: BoxProps) {
   const { shortAccount, connected } = useWallet();
   const classes = useStyles({ connected });
+  const setOpen = useUpdateAtom(openAtom);
 
   const availablePHB = useAtomValue(availableAtomFamily(Token.PHB));
   const availableHZN = useAtomValue(availableAtomFamily(Token.HZN));
@@ -63,10 +66,12 @@ export default function WalletInfo({ className, ...props }: BoxProps) {
 
   return (
     <Box className={clsx(classes.root, className)} {...props}>
-      <Typography variant='body2'>
-        <i className={classes.dot} />
-        {shortAccount}
-      </Typography>
+      <Button variant='text' size='small' className={classes.button}>
+        <Typography variant='body2' onClick={() => setOpen(true)}>
+          <i className={classes.dot} />
+          {shortAccount}
+        </Typography>
+      </Button>
       <Box className={classes.balance}>
         {balances.map(({ token, amount }) => (
           <Box key={token}>

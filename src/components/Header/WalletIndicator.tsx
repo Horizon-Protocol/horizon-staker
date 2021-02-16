@@ -1,9 +1,9 @@
+import { useAtomValue, useUpdateAtom } from "jotai/utils";
 import { Avatar, Chip, ChipProps, CircularProgress } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { openAtom, detailAtom } from "@atoms/wallet";
 import { loadingAvailableAtom } from "@atoms/loading";
 import { ChainName } from "@utils/constants";
-import { useAtomValue, useUpdateAtom } from "jotai/utils";
 
 const StyledChip = withStyles(({ palette }) => ({
   root: {
