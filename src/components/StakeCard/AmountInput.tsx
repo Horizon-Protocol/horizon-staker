@@ -48,6 +48,7 @@ interface Props {
   max: BigNumber;
   btnLabel: string;
   logo?: string;
+  loading: boolean;
   onSubmit: () => void;
 }
 
@@ -59,6 +60,7 @@ export default function AmountInput({
   max,
   btnLabel,
   logo,
+  loading = false,
   onSubmit,
 }: Props) {
   const classes = useStyles();
@@ -104,6 +106,7 @@ export default function AmountInput({
         fullWidth
         disabled={amount.lte(0) || amount.gt(max)}
         onClick={onSubmit}
+        loading={loading}
       >
         {btnLabel}
       </PrimaryButton>

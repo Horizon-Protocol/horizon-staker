@@ -96,7 +96,7 @@ const cards: StakeCardProps[] = [
 export default function Home() {
   const classes = useStyles();
 
-  useBalancePolling();
+  useBalancePolling(10000);
 
   return (
     <div className={classes.container}>

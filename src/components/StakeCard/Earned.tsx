@@ -53,7 +53,8 @@ export default function Earned({ token }: Props) {
   const handleHarvest = useCallback(async () => {
     if (stakingContract) {
       const tx = await stakingContract.getReward();
-      console.log(tx);
+      const res = await tx.wait(3);
+      console.log("harvest:", res);
     }
   }, [stakingContract]);
 

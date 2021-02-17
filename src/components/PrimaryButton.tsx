@@ -1,7 +1,7 @@
-import { Button } from "@material-ui/core";
+import { Button, ButtonProps, CircularProgress } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 
-const PrimaryButton = withStyles(({ palette }) => ({
+const StyledButton = withStyles(({ palette }) => ({
   root: {
     flex: "0 0 120px",
     fontWeight: 700,
@@ -21,4 +21,19 @@ const PrimaryButton = withStyles(({ palette }) => ({
   },
 }))(Button);
 
-export default PrimaryButton;
+interface Props extends ButtonProps {
+  loading?: boolean;
+}
+
+export default function PrimaryButton({
+  loading = false,
+  disabled,
+  children,
+  ...props
+}: Props) {
+  return (
+    <StyledButton disabled={loading || disabled} {...props}>
+      {loading ? <CircularProgress size={24} thickness={2} /> : children}
+    </StyledButton>
+  );
+}

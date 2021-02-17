@@ -15,7 +15,7 @@ import { usePHB, useHZN } from "./useContract";
 import useStaking from "./useStaking";
 import useWallet from "./useWallet";
 
-export default function useBalancePolling(interval: number = 10000) {
+export default function useBalancePolling(interval: number = 0) {
   const { account } = useWallet();
 
   const { enqueueSnackbar } = useSnackbar();

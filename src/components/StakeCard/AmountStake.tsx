@@ -1,12 +1,6 @@
 import { useCallback, useState, useMemo } from "react";
 import { BigNumber, constants, utils } from "ethers";
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Collapse,
-  Typography,
-} from "@material-ui/core";
+import { Box, Button, Collapse, Typography } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { useSnackbar } from "notistack";
 import { STAKING_CONTRACT_ADDRESS } from "@utils/constants";
@@ -14,7 +8,6 @@ import { cardContent } from "@utils/theme/common";
 import { useTokenAllowance } from "@hooks/useAllowance";
 import useStaking from "@hooks/useStaking";
 import PrimaryButton from "@components/PrimaryButton";
-import { Staking } from "@abis/types";
 import {
   availableAtomFamily,
   stakedAtomFamily,
@@ -23,6 +16,7 @@ import {
 import { getFullDisplayBalance } from "@utils/formatters";
 import AmountInput from "./AmountInput";
 import { useAtomValue } from "jotai/utils";
+import { Staking } from "@/abis/types";
 
 const useStyles = makeStyles(({ palette }) => ({
   root: {
@@ -100,6 +94,7 @@ const Actions = [
 
 export default function AmountStake({ token, logo }: Props) {
   const classes = useStyles();
+  const [submitting, setSubmitting] = useState<boolean>(false);
   const [currentAction, setCurrentAction] = useState<Action>();
   const [input, setInput] = useState<string>();
   const { enqueueSnackbar } = useSnackbar();
@@ -135,24 +130,54 @@ export default function AmountStake({ token, logo }: Props) {
     setInput("0");
   }, []);
 
+  const resetInput = useCallback(() => {
+    setSubmitting(false);
+    setInput("0");
+  }, []);
+
   const handleStake = useCallback(async () => {
+    setSubmitting(true);
     await checkApprove(amount);
-    const tx = await (stakingContract as Staking).stake(amount);
-    console.log("tx:", tx);
+    const tx = await stakingContract.stake(amount);
+    enqueueSnackbar(
+      <>
+        Transaction has been sent to blockchain
+        <br />
+        waiting for confirmation...
+      </>,
+      { variant: "info" }
+    );
+    const res = await tx.wait(3);
+    console.log("stake:", res);
     enqueueSnackbar(
       `Successfully staked ${getFullDisplayBalance(amount)} ${token}`,
       { variant: "success" }
     );
-  }, [token, checkApprove, stakingContract, amount, enqueueSnackbar]);
+    resetInput();
+  }, [
+    checkApprove,
+    amount,
+    stakingContract,
+    enqueueSnackbar,
+    resetInput,
+    token,
+  ]);
 
   const handleUnstake = useCallback(async () => {
-    const tx = await (stakingContract as Staking).withdraw(amount);
-    console.log("tx:", tx);
+    setSubmitting(true);
+    const tx = await stakingContract.withdraw(amount);
+    enqueueSnackbar(
+      `Transaction has been sent to blockchain, waiting for confirmation...`,
+      { variant: "info" }
+    );
+    const res = await tx.wait(3);
+    console.log("res:", res);
     enqueueSnackbar(
       `Successfully unstaked ${getFullDisplayBalance(amount)} ${token}`,
       { variant: "success" }
     );
-  }, [token, stakingContract, amount, enqueueSnackbar]);
+    resetInput();
+  }, [stakingContract, amount, enqueueSnackbar, resetInput, token]);
 
   const handleSubmit = useCallback(async () => {
     try {
@@ -181,12 +206,8 @@ export default function AmountStake({ token, logo }: Props) {
     <>
       <Box className={classes.root}>
         {needApprove ? (
-          <PrimaryButton size='large' fullWidth>
-            {loading ? (
-              <CircularProgress size={24} thickness={2} />
-            ) : (
-              "Approve Contract"
-            )}
+          <PrimaryButton size='large' fullWidth loading={loading}>
+            Approve Contract
           </PrimaryButton>
         ) : (
           <>
@@ -225,6 +246,7 @@ export default function AmountStake({ token, logo }: Props) {
             max={inputMax}
             btnLabel={currentAction ? Action[currentAction] : ""}
             onSubmit={handleSubmit}
+            loading={submitting}
           />
         </Box>
       </Collapse>

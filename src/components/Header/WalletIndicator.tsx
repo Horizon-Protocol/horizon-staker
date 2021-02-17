@@ -1,8 +1,9 @@
-import { useAtomValue, useUpdateAtom } from "jotai/utils";
+import { useAtomValue } from "jotai/utils";
 import { Avatar, Chip, ChipProps, CircularProgress } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import { openAtom, detailAtom } from "@atoms/wallet";
+import { detailAtom } from "@atoms/wallet";
 import { loadingAvailableAtom } from "@atoms/loading";
+import useBalancePolling from "@hooks/useBalancePolling";
 import { ChainName } from "@utils/constants";
 
 const StyledChip = withStyles(({ palette }) => ({
@@ -26,9 +27,9 @@ const StyledAvatar = withStyles(({ palette }) => ({
 }))(Avatar);
 
 export default function WalletIndicator(props: ChipProps) {
-  const setOpen = useUpdateAtom(openAtom);
   const wallet = useAtomValue(detailAtom);
   const loading = useAtomValue(loadingAvailableAtom);
+  const { refresh } = useBalancePolling();
 
   if (!wallet) {
     return null;
@@ -50,7 +51,7 @@ export default function WalletIndicator(props: ChipProps) {
         )
       }
       label={ChainName}
-      onClick={() => setOpen(true)}
+      onClick={refresh}
       {...props}
     />
     // </Tooltip>
