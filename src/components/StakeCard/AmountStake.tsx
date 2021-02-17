@@ -16,7 +16,6 @@ import {
 import { getFullDisplayBalance } from "@utils/formatters";
 import AmountInput from "./AmountInput";
 import { useAtomValue } from "jotai/utils";
-import { Staking } from "@/abis/types";
 
 const useStyles = makeStyles(({ palette }) => ({
   root: {
