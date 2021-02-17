@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAtom } from "jotai";
 import { BigNumber } from "ethers";
+import { useSnackbar } from "notistack";
 import { Erc20 } from "@abis/types";
 import { tokenAllowanceAtomFamily } from "@atoms/balance";
 import { Token } from "@utils/constants";
@@ -10,6 +11,7 @@ import useWallet from "./useWallet";
 export const useTokenAllowance = (token: TokenEnum, spenderAddress: string) => {
   const { account } = useWallet();
   const [loading, setLoading] = useState<boolean>(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   const [allowance, setAllowance] = useAtom(tokenAllowanceAtomFamily(token));
 
@@ -38,21 +40,34 @@ export const useTokenAllowance = (token: TokenEnum, spenderAddress: string) => {
     }
   }, [account, tokenContract, setAllowance, spenderAddress, token]);
 
-  const checkApprove = useCallback(
-    async (amount: BigNumber) => {
-      if (amount.lte(allowance)) {
-        console.log("ignore approve", allowance.toString());
-        return;
-      }
-
-      if (account && tokenContract) {
+  const handleApprove = useCallback(async () => {
+    if (account && tokenContract) {
+      setLoading(true);
+      try {
         const total = await tokenContract.totalSupply();
         console.log(total.toString());
         const tx = await tokenContract.approve(spenderAddress, total);
-        console.log("approve", tx);
+        const res = await tx.wait(3);
+        console.log("approve", res);
+      } catch (e) {
+        enqueueSnackbar(e?.message || "Operation failed"!, {
+          variant: "error",
+        });
       }
+      setLoading(false);
+    }
+  }, [account, tokenContract, spenderAddress, enqueueSnackbar]);
+
+  const checkApprove = useCallback(
+    async (amount: BigNumber) => {
+      if (amount.lte(allowance)) {
+        console.log("already approved", allowance.toString());
+        return;
+      }
+
+      handleApprove();
     },
-    [allowance, account, tokenContract, spenderAddress]
+    [allowance, handleApprove]
   );
 
   useEffect(() => {
@@ -63,6 +78,7 @@ export const useTokenAllowance = (token: TokenEnum, spenderAddress: string) => {
     loading,
     needApprove: allowance.lte(0),
     allowance,
+    handleApprove,
     checkApprove,
   };
 };

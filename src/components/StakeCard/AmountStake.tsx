@@ -100,10 +100,12 @@ export default function AmountStake({ token, logo }: Props) {
   const { enqueueSnackbar } = useSnackbar();
 
   const stakingContract = useStaking();
-  const { loading, needApprove, checkApprove } = useTokenAllowance(
-    token,
-    STAKING_CONTRACT_ADDRESS
-  );
+  const {
+    loading,
+    needApprove,
+    handleApprove,
+    checkApprove,
+  } = useTokenAllowance(token, STAKING_CONTRACT_ADDRESS);
 
   const available = useAtomValue(availableAtomFamily(token));
   const staked = useAtomValue(stakedAtomFamily(token));
@@ -206,7 +208,12 @@ export default function AmountStake({ token, logo }: Props) {
     <>
       <Box className={classes.root}>
         {needApprove ? (
-          <PrimaryButton size='large' fullWidth loading={loading}>
+          <PrimaryButton
+            size='large'
+            fullWidth
+            loading={loading}
+            onClick={handleApprove}
+          >
             Approve Contract
           </PrimaryButton>
         ) : (
