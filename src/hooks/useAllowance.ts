@@ -41,6 +41,10 @@ export const useTokenAllowance = (token: TokenEnum, spenderAddress: string) => {
   }, [account, tokenContract, setAllowance, spenderAddress, token]);
 
   const handleApprove = useCallback(async () => {
+    if (token === Token.HZN_BNB_LP) {
+      enqueueSnackbar("Coming soon!", { variant: "warning" });
+      return;
+    }
     if (account && tokenContract) {
       setLoading(true);
       try {
@@ -61,7 +65,14 @@ export const useTokenAllowance = (token: TokenEnum, spenderAddress: string) => {
       }
       setLoading(false);
     }
-  }, [account, tokenContract, spenderAddress, setAllowance, enqueueSnackbar]);
+  }, [
+    token,
+    account,
+    tokenContract,
+    spenderAddress,
+    setAllowance,
+    enqueueSnackbar,
+  ]);
 
   const checkApprove = useCallback(
     async (amount: BigNumber) => {
