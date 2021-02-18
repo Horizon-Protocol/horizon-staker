@@ -20,6 +20,7 @@ import { useAtomValue } from "jotai/utils";
 const useStyles = makeStyles(({ palette }) => ({
   root: {
     ...cardContent,
+    minHeight: 54,
   },
   amountBox: {
     display: "flex",

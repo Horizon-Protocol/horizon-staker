@@ -33,7 +33,8 @@
     "build": "craco build",
     "eject": "craco eject",
     "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
-    "generate-types": "typechain --target=ethers-v5 --outDir=src/abis/types 'src/abis/*.json'"
+    "generate-types": "typechain --target=ethers-v5 --outDir=src/abis/types 'src/abis/*.json'",
+    "postinstall": "yarn generate-types"
   },
   "eslintConfig": {
     "extends": [
