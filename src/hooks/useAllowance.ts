@@ -47,8 +47,13 @@ export const useTokenAllowance = (token: TokenEnum, spenderAddress: string) => {
         const total = await tokenContract.totalSupply();
         console.log(total.toString());
         const tx = await tokenContract.approve(spenderAddress, total);
-        const res = await tx.wait(3);
+        enqueueSnackbar(
+          "Approval request has been sent to blockchain, waiting for confirmation... ",
+          { variant: "info" }
+        );
+        const res = await tx.wait(1);
         console.log("approve", res);
+        setAllowance(total);
       } catch (e) {
         enqueueSnackbar(e?.message || "Operation failed"!, {
           variant: "error",
@@ -56,7 +61,7 @@ export const useTokenAllowance = (token: TokenEnum, spenderAddress: string) => {
       }
       setLoading(false);
     }
-  }, [account, tokenContract, spenderAddress, enqueueSnackbar]);
+  }, [account, tokenContract, spenderAddress, setAllowance, enqueueSnackbar]);
 
   const checkApprove = useCallback(
     async (amount: BigNumber) => {
