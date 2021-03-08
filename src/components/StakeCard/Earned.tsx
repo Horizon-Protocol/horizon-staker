@@ -48,12 +48,12 @@ export default function Earned({ token }: Props) {
 
   const earned = useAtomValue(earnedAtomFamily(token));
 
-  const stakingContract = useStaking();
+  const stakingContract = useStaking(token);
 
   const handleHarvest = useCallback(async () => {
     if (stakingContract) {
       const tx = await stakingContract.getReward();
-      const res = await tx.wait(3);
+      const res = await tx.wait(1);
       console.log("harvest:", res);
     }
   }, [stakingContract]);

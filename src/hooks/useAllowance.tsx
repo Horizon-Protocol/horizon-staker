@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAtom } from "jotai";
 import { BigNumber } from "ethers";
 import { useSnackbar } from "notistack";
-import { Erc20 } from "@abis/types";
+import { Erc20, HZN } from "@abis/types";
 import { tokenAllowanceAtomFamily } from "@atoms/balance";
 import { Token } from "@utils/constants";
 import { usePHB, useHZN } from "./useContract";
@@ -18,10 +18,10 @@ export const useTokenAllowance = (token: TokenEnum, spenderAddress: string) => {
   const phbContract = usePHB(true);
   const hznContract = useHZN(true);
 
-  const tokenContract: Erc20 | null = useMemo(() => {
+  const tokenContract: Erc20 | HZN | null = useMemo(() => {
     switch (token) {
       case Token.HZN:
-        return hznContract as Erc20;
+        return hznContract as HZN;
       case Token.PHB:
         return phbContract as Erc20;
       default:
@@ -52,7 +52,11 @@ export const useTokenAllowance = (token: TokenEnum, spenderAddress: string) => {
         console.log(total.toString());
         const tx = await tokenContract.approve(spenderAddress, total);
         enqueueSnackbar(
-          "Approval request has been sent to blockchain, waiting for confirmation... ",
+          <>
+            Approval request has been sent to blockchain,
+            <br />
+            waiting for confirmation...
+          </>,
           { variant: "info" }
         );
         const res = await tx.wait(1);

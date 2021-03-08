@@ -22,7 +22,8 @@ export default function useBalancePolling(interval: number = 0) {
 
   const phbToken = usePHB();
   const hznToken = useHZN();
-  const phbStaking = useStaking();
+  const phbStaking = useStaking(Token.PHB);
+  // const hznStaking = useStaking(Token.HZN);
 
   // available atoms
   const setLoading = useUpdateAtom(loadingAvailableAtom);
@@ -52,7 +53,7 @@ export default function useBalancePolling(interval: number = 0) {
         phbTotal,
       ] = await Promise.all([
         phbToken.balanceOf(account),
-        hznToken.balanceOf(account),
+        hznToken.transferableSynthetix(account),
         phbStaking.balanceOf(account), // user staked
         phbStaking.earned(account), // user staked
         phbStaking.withdrawableAmount(account), // user withdrawable Amount

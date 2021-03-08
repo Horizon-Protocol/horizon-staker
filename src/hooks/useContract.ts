@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { Contract, ContractInterface } from "ethers";
 import erc20Abi from "@abis/erc20.json";
-import { Erc20 } from "@abis/types";
+import hznAbi from "@abis/HZN.json";
+import { Erc20, HZN } from "@abis/types";
 import useWallet from "@hooks/useWallet";
-import { Addresses, Token } from "@utils/constants";
+import { TokenAddresses, Token } from "@utils/constants";
 
 const useContract = (
   address: string,
@@ -14,7 +15,7 @@ const useContract = (
   const [contract, setContract] = useState<Contract>();
 
   useEffect(() => {
-    if (provider) {
+    if (address && provider) {
       if (writable) {
         setContract(new Contract(address, abi, provider.getSigner()));
       } else {
@@ -31,11 +32,11 @@ export const useERC20 = (address: string, writable: boolean = false) => {
 };
 
 export const usePHB = (writable: boolean = false) => {
-  return useERC20(Addresses[Token.PHB], writable);
+  return useERC20(TokenAddresses[Token.PHB], writable);
 };
 
 export const useHZN = (writable: boolean = false) => {
-  return useERC20(Addresses[Token.HZN], writable);
+  return useContract(TokenAddresses[Token.HZN], hznAbi, writable) as HZN;
 };
 
 export default useContract;

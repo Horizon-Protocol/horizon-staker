@@ -3,7 +3,7 @@ import { BigNumber, constants, utils } from "ethers";
 import { Box, Button, Collapse, Typography } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { useSnackbar } from "notistack";
-import { STAKING_CONTRACT_ADDRESS } from "@utils/constants";
+import { StakingAddresses } from "@utils/constants";
 import { cardContent } from "@utils/theme/common";
 import { useTokenAllowance } from "@hooks/useAllowance";
 import useStaking from "@hooks/useStaking";
@@ -99,13 +99,13 @@ export default function AmountStake({ token, logo }: Props) {
   const [input, setInput] = useState<string>();
   const { enqueueSnackbar } = useSnackbar();
 
-  const stakingContract = useStaking();
+  const stakingContract = useStaking(token);
   const {
     loading,
     needApprove,
     handleApprove,
     checkApprove,
-  } = useTokenAllowance(token, STAKING_CONTRACT_ADDRESS);
+  } = useTokenAllowance(token, StakingAddresses[token]);
 
   const available = useAtomValue(availableAtomFamily(token));
   const staked = useAtomValue(stakedAtomFamily(token));
@@ -143,13 +143,13 @@ export default function AmountStake({ token, logo }: Props) {
     const tx = await stakingContract.stake(amount);
     enqueueSnackbar(
       <>
-        Transaction has been sent to blockchain
+        Transaction has been sent to blockchain,
         <br />
         waiting for confirmation...
       </>,
       { variant: "info" }
     );
-    const res = await tx.wait(3);
+    const res = await tx.wait(1);
     console.log("stake:", res);
     enqueueSnackbar(
       `Successfully staked ${getFullDisplayBalance(amount)} ${token}`,
@@ -169,10 +169,14 @@ export default function AmountStake({ token, logo }: Props) {
     setSubmitting(true);
     const tx = await stakingContract.withdraw(amount);
     enqueueSnackbar(
-      `Transaction has been sent to blockchain, waiting for confirmation...`,
+      <>
+        Transaction has been sent to blockchain,
+        <br />
+        waiting for confirmation...
+      </>,
       { variant: "info" }
     );
-    const res = await tx.wait(3);
+    const res = await tx.wait(1);
     console.log("res:", res);
     enqueueSnackbar(
       `Successfully unstaked ${getFullDisplayBalance(amount)} ${token}`,

@@ -53,7 +53,7 @@ export const CHAIN_NAME_MAP: {
   97: "BSC Testnet",
 };
 
-export const CONTRACT_ADDRESS: {
+export const TOKEN_CONTRACT_ADDRESS: {
   [chain: number]: {
     [t in Token]: string;
   };
@@ -65,15 +65,41 @@ export const CONTRACT_ADDRESS: {
   },
   97: {
     [Token.PHB]: "0xf09f5e21f86692c614d2d7b47e3b9729dc1c436f",
-    [Token.HZN]: "0xe2fff5156e4148441607e12d082314f38d2612ff",
+    [Token.HZN]: "0x74ba52975dd4f0a9cde1b8d4d54b808ef9d0a3f8",
     [Token.HZN_BNB_LP]: "",
   },
 };
-export const STAKING_CONTRACT_ADDRESS =
-  "0xE90E071d27B4F62460Fe6dF82bE8c05a9f601B6a";
+
+// horizon summary contract
+export const SUMMARY_CONTRACT_ADDRESS: {
+  [chain: number]: string;
+} = {
+  56: "",
+  97: "0x19165a78Abd8ec4a2eAC02d98d527b698Bb9c526",
+};
+
+// staking contract
+export const STAKING_CONTRACT_ADDRESS: {
+  [chain: number]: {
+    [t in Token]: string;
+  };
+} = {
+  56: {
+    [Token.PHB]: "",
+    [Token.HZN]: "",
+    [Token.HZN_BNB_LP]: "",
+  },
+  97: {
+    [Token.PHB]: "0x04f8bd779921F3df6EF0E98e4D2fb00D77ae051B",
+    [Token.HZN]: "0x601CC64c274E907D038a655B27B32174B28623Fc",
+    [Token.HZN_BNB_LP]: "",
+  },
+};
 
 const EnvChainId = parseInt(process.env.CHAIN_ID);
 
 export const ChainId = [56, 97].indexOf(EnvChainId) > -1 ? EnvChainId : 97;
 export const ChainName = CHAIN_NAME_MAP[ChainId];
-export const Addresses = CONTRACT_ADDRESS[ChainId];
+export const TokenAddresses = TOKEN_CONTRACT_ADDRESS[ChainId];
+export const SummaryAddress = SUMMARY_CONTRACT_ADDRESS[ChainId];
+export const StakingAddresses = STAKING_CONTRACT_ADDRESS[ChainId];
