@@ -5,6 +5,7 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { useSnackbar } from "notistack";
 import { StakingAddresses } from "@utils/constants";
 import { cardContent } from "@utils/theme/common";
+import useBalancePolling from "@hooks/useBalancePolling";
 import { useTokenAllowance } from "@hooks/useAllowance";
 import useStaking from "@hooks/useStaking";
 import PrimaryButton from "@components/PrimaryButton";
@@ -99,6 +100,8 @@ export default function AmountStake({ token, logo }: Props) {
   const [input, setInput] = useState<string>();
   const { enqueueSnackbar } = useSnackbar();
 
+  const { refresh } = useBalancePolling();
+
   const stakingContract = useStaking(token);
   const {
     loading,
@@ -155,14 +158,16 @@ export default function AmountStake({ token, logo }: Props) {
       `Successfully staked ${getFullDisplayBalance(amount)} ${token}`,
       { variant: "success" }
     );
+    refresh();
     resetInput();
   }, [
     checkApprove,
     amount,
     stakingContract,
     enqueueSnackbar,
-    resetInput,
     token,
+    refresh,
+    resetInput,
   ]);
 
   const handleUnstake = useCallback(async () => {
@@ -182,8 +187,9 @@ export default function AmountStake({ token, logo }: Props) {
       `Successfully unstaked ${getFullDisplayBalance(amount)} ${token}`,
       { variant: "success" }
     );
+    refresh();
     resetInput();
-  }, [stakingContract, amount, enqueueSnackbar, resetInput, token]);
+  }, [stakingContract, amount, enqueueSnackbar, token, refresh, resetInput]);
 
   const handleSubmit = useCallback(async () => {
     try {
