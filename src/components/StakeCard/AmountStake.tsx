@@ -153,7 +153,7 @@ export default function AmountStake({ token, logo }: Props) {
       { variant: "info" }
     );
     const res = await tx.wait(1);
-    console.log("stake:", res);
+    console.log("Stake:", res);
     enqueueSnackbar(
       `Successfully staked ${getFullDisplayBalance(amount)} ${token}`,
       { variant: "success" }
@@ -182,7 +182,7 @@ export default function AmountStake({ token, logo }: Props) {
       { variant: "info" }
     );
     const res = await tx.wait(1);
-    console.log("res:", res);
+    console.log("Unstake:", res);
     enqueueSnackbar(
       `Successfully unstaked ${getFullDisplayBalance(amount)} ${token}`,
       { variant: "success" }

@@ -1,8 +1,10 @@
 import { useAtomValue } from "jotai/utils";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { Box, Typography } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { useSnackbar } from "notistack";
 import { cardContent } from "@utils/theme/common";
+import useBalancePolling from "@hooks/useBalancePolling";
 import PrimaryButton from "@components/PrimaryButton";
 import { earnedAtomFamily } from "@atoms/balance";
 import { getFullDisplayBalance } from "@utils/formatters";
@@ -46,17 +48,42 @@ interface Props {
 export default function Earned({ token }: Props) {
   const classes = useStyles();
 
+  const { enqueueSnackbar } = useSnackbar();
+
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const { refresh } = useBalancePolling();
   const earned = useAtomValue(earnedAtomFamily(token));
 
   const stakingContract = useStaking(token);
 
   const handleHarvest = useCallback(async () => {
     if (stakingContract) {
-      const tx = await stakingContract.getReward();
-      const res = await tx.wait(1);
-      console.log("harvest:", res);
+      try {
+        setLoading(true);
+        const tx = await stakingContract.getReward();
+        enqueueSnackbar(
+          <>
+            Transaction has been sent to blockchain,
+            <br />
+            waiting for confirmation...
+          </>,
+          { variant: "info" }
+        );
+        const res = await tx.wait(1);
+        console.log("Harvest:", res);
+        enqueueSnackbar(
+          `Successfully staked ${getFullDisplayBalance(earned)} ${token}`,
+          { variant: "success" }
+        );
+        refresh();
+      } catch (e) {
+        console.log(e.error);
+        enqueueSnackbar(e.error ?? "Operation Failed", { variant: "error" });
+      }
+      setLoading(false);
     }
-  }, [stakingContract]);
+  }, [earned, enqueueSnackbar, refresh, stakingContract, token]);
 
   return (
     <Box className={classes.root}>
@@ -67,6 +94,7 @@ export default function Earned({ token }: Props) {
         <Amount variant='body1'>{getFullDisplayBalance(earned)}</Amount>
       </Box>
       <PrimaryButton
+        loading={loading}
         size='large'
         disabled={earned.lte(0)}
         onClick={handleHarvest}
