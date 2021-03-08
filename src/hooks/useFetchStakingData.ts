@@ -1,6 +1,5 @@
 import { useCallback } from "react";
 import { useUpdateAtom } from "jotai/utils";
-import { useSnackbar } from "notistack";
 import {
   stakedAtomFamily,
   earnedAtomFamily,
