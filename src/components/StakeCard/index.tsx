@@ -104,6 +104,7 @@ export default function StakeCard({
         title={`Stake ${token}`}
         subheader={
           <Typography className={classes.desc} color='textSecondary'>
+            {}
             {desc}
           </Typography>
         }

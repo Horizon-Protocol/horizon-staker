@@ -6,8 +6,6 @@ numbro.setDefaults({
   trimMantissa: true,
 });
 
-export const DemoAmount = BigNumber.from("1952428793453544044");
-
 const Ten = BigNumber.from(10);
 
 export const getBalanceNumber = (balance: BigNumber, decimals = 18) =>

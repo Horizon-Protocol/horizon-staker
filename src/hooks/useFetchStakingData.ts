@@ -28,11 +28,18 @@ export default function useFetchStakingData(token: TokenEnum) {
 
   const fetchData = useCallback(async () => {
     if (account && stakingContract) {
-      const [staked, earned, withdrawable, totalStaked] = await Promise.all([
+      const [
+        staked,
+        earned,
+        withdrawable,
+        totalStaked,
+        finish,
+      ] = await Promise.all([
         stakingContract.balanceOf(account), // user staked
         stakingContract.earned(account), // user staked
         stakingContract.withdrawableAmount(account), // user withdrawable Amount
         stakingContract.totalSupply(), // total staked
+        stakingContract.periodFinish(), // finish time
       ]);
       setStaked(staked);
       setEarned(earned);
@@ -40,6 +47,7 @@ export default function useFetchStakingData(token: TokenEnum) {
       setStat({
         total: totalStaked,
         apy: 0,
+        finish: finish,
       });
     }
   }, [

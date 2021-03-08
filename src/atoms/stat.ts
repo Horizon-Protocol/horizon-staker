@@ -5,6 +5,7 @@ import { Token } from "@utils/constants";
 interface Data {
   apy: number;
   total: BigNumber;
+  finish: BigNumber;
 }
 
 interface Param {
@@ -14,7 +15,8 @@ interface Param {
 
 const defaultData: Data = {
   apy: 0,
-  total: constants.One,
+  total: constants.Zero,
+  finish: constants.Zero,
 };
 
 export const statAtomFamily = atomFamily(
