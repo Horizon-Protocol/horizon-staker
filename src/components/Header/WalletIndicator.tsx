@@ -2,7 +2,7 @@ import { useAtomValue } from "jotai/utils";
 import { Avatar, Chip, ChipProps, CircularProgress } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { detailAtom } from "@atoms/wallet";
-import { loadingAvailableAtom } from "@atoms/loading";
+import { loadingAllAtom } from "@atoms/loading";
 import useBalancePolling from "@hooks/useBalancePolling";
 import { ChainName } from "@utils/constants";
 
@@ -28,7 +28,7 @@ const StyledAvatar = withStyles(({ palette }) => ({
 
 export default function WalletIndicator(props: ChipProps) {
   const wallet = useAtomValue(detailAtom);
-  const loading = useAtomValue(loadingAvailableAtom);
+  const loading = useAtomValue(loadingAllAtom);
   const { refresh } = useBalancePolling();
 
   if (!wallet) {

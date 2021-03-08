@@ -2,6 +2,7 @@ import { atom } from "jotai";
 import { atomFamily } from "jotai/utils";
 
 enum Loading {
+  All,
   Available,
   Staked,
   Earned,
@@ -13,6 +14,11 @@ const loadingFamily = atomFamily(
   ({ name, loading = false }: Param) => loading,
   null,
   (a, b) => a.name === b.name
+);
+
+export const loadingAllAtom = atom(
+  (get) => get(loadingFamily({ name: Loading.All })),
+  (get, set, val: boolean) => set(loadingFamily({ name: Loading.All }), val)
 );
 
 export const loadingAvailableAtom = atom(
