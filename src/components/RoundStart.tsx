@@ -1,15 +1,10 @@
 import { useMemo } from "react";
 import { Box, Backdrop, Typography } from "@material-ui/core";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import { useTimer } from "react-compound-timer";
 import differenceInMilliseconds from "date-fns/differenceInMilliseconds";
 import format from "date-fns/format";
-
-const useStyles = makeStyles(({ palette }) => ({
-  root: {
-    position: "relative",
-  },
-}));
+import { Token } from "@/utils/constants";
 
 const StyledBackdrop = withStyles({
   root: {
@@ -24,15 +19,33 @@ interface Props {
   token: TokenEnum;
 }
 
-const startAt = new Date("2021-03-22T21:22:19Z");
+const Times: {
+  [token in TokenEnum]: {
+    start?: Date;
+    end?: Date;
+  };
+} = {
+  [Token.PHB]: {
+    // start: new Date("2021-03-22T21:22:19Z"),
+    // end: new Date("2021-03-29T21:22:19Z"),
+  },
+  [Token.HZN]: {
+    // start: new Date("2021-03-22T21:22:19Z"),
+    // end: new Date("2021-03-29T21:22:19Z"),
+  },
+  [Token.HZN_BNB_LP]: {},
+};
 
 const padZero = (num: number) => num.toString().padStart(2, "0");
 
 export default function RoundStart({ token }: Props) {
-  const milliSeconds = useMemo(
-    () => (startAt ? differenceInMilliseconds(startAt, new Date()) : 0),
-    [token]
-  );
+  const { start, milliSeconds } = useMemo(() => {
+    const start = Times[token].start;
+    return {
+      start,
+      milliSeconds: start ? differenceInMilliseconds(start, new Date()) : 0,
+    };
+  }, [token]);
 
   const {
     value: { d, h, m, s },
@@ -41,7 +54,7 @@ export default function RoundStart({ token }: Props) {
     direction: "backward",
   });
 
-  if (milliSeconds <= 0) {
+  if (!start || milliSeconds <= 0) {
     return null;
   }
 
@@ -53,7 +66,7 @@ export default function RoundStart({ token }: Props) {
           {padZero(h)} : {padZero(m)} : {padZero(s)}
         </Typography>
         <Typography variant='caption' display='block'>
-          {format(startAt, "yyyy-MM-dd HH:mm:ss OOOO")}
+          {format(start, "yyyy-MM-dd HH:mm:ss OOOO")}
         </Typography>
       </Box>
     </StyledBackdrop>
