@@ -33,10 +33,14 @@ const useStyles = makeStyles(({ palette }) => ({
   max: {
     fontWeight: 700,
   },
+  maxLabelBox: {
+    display: "flex",
+    justifyContent: "space-between",
+    marginBottom: 20,
+  },
   maxLabel: {
     fontSize: 10,
     fontWeight: 700,
-    marginBottom: 20,
   },
 }));
 
@@ -46,6 +50,7 @@ interface Props {
   onInput: (v: string) => void;
   amount: BigNumber; // ehter BN format of input
   max: BigNumber;
+  lockDownSeconds: BigNumber;
   btnLabel: string;
   logo?: string;
   loading: boolean;
@@ -58,6 +63,7 @@ export default function AmountInput({
   onInput,
   amount,
   max,
+  lockDownSeconds,
   btnLabel,
   logo,
   loading = false,
@@ -92,15 +98,22 @@ export default function AmountInput({
           Max
         </Button>
       </Box>
-      <Typography
-        variant='overline'
-        color={amount.gt(max) ? "error" : "primary"}
-        display='block'
-        align='right'
-        className={classes.maxLabel}
-      >
-        {getFullDisplayBalance(max)} {token} Available
-      </Typography>
+      <Box className={classes.maxLabelBox}>
+        <Typography
+          variant='overline'
+          color='textSecondary'
+          className={classes.maxLabel}
+        >
+          Lockdown: {lockDownSeconds.toNumber()} s
+        </Typography>
+        <Typography
+          variant='overline'
+          color={amount.gt(max) ? "error" : "primary"}
+          className={classes.maxLabel}
+        >
+          {getFullDisplayBalance(max)} {token} Available
+        </Typography>
+      </Box>
       <PrimaryButton
         size='large'
         fullWidth

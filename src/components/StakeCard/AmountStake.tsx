@@ -14,6 +14,7 @@ import {
   stakedAtomFamily,
   withdrawableAtomFamily,
 } from "@atoms/balance";
+import { tokenStatAtomFamily } from "@atoms/stat";
 import { getFullDisplayBalance } from "@utils/formatters";
 import AmountInput from "./AmountInput";
 import { useAtomValue } from "jotai/utils";
@@ -113,6 +114,8 @@ export default function AmountStake({ token, logo }: Props) {
   const available = useAtomValue(availableAtomFamily(token));
   const staked = useAtomValue(stakedAtomFamily(token));
   const withdrawable = useAtomValue(withdrawableAtomFamily(token));
+
+  const { lockDownSeconds } = useAtomValue(tokenStatAtomFamily(token));
 
   const inputMax: BigNumber = useMemo(() => {
     if (currentAction === Action.Stake) {
@@ -261,6 +264,7 @@ export default function AmountStake({ token, logo }: Props) {
             onInput={setInput}
             amount={amount}
             max={inputMax}
+            lockDownSeconds={lockDownSeconds}
             btnLabel={currentAction ? Action[currentAction] : ""}
             onSubmit={handleSubmit}
             loading={submitting}

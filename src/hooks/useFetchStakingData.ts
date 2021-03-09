@@ -33,12 +33,14 @@ export default function useFetchStakingData(token: TokenEnum) {
         withdrawable,
         totalStaked,
         finish,
+        lockDownSeconds,
       ] = await Promise.all([
         stakingContract.balanceOf(account), // user staked
         stakingContract.earned(account), // user staked
         stakingContract.withdrawableAmount(account), // user withdrawable Amount
         stakingContract.totalSupply(), // total staked
         stakingContract.periodFinish(), // finish time
+        stakingContract.lockDownDuration(), // lockDownDuration in seconds
       ]);
       setStaked(staked);
       setEarned(earned);
@@ -46,8 +48,10 @@ export default function useFetchStakingData(token: TokenEnum) {
       setStat({
         total: totalStaked,
         apy: 0,
-        finish: finish,
+        finish,
+        lockDownSeconds,
       });
+      console.log("lockDownDuration", lockDownSeconds.toNumber());
     }
   }, [
     account,
