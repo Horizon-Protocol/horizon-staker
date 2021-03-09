@@ -3,11 +3,12 @@ import { useCallback, useState } from "react";
 import { Box, Typography } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { useSnackbar } from "notistack";
+import { useCountUp } from "use-count-up";
 import { cardContent } from "@utils/theme/common";
 import useBalancePolling from "@hooks/useBalancePolling";
 import PrimaryButton from "@components/PrimaryButton";
 import { earnedAtomFamily } from "@atoms/balance";
-import { getFullDisplayBalance } from "@utils/formatters";
+import { getBalanceNumber, getFullDisplayBalance } from "@utils/formatters";
 import useStaking from "@hooks/useStaking";
 
 const useStyles = makeStyles({
@@ -57,6 +58,12 @@ export default function Earned({ token }: Props) {
 
   const stakingContract = useStaking(token);
 
+  const { value: earnedCount } = useCountUp({
+    isCounting: true,
+    end: getBalanceNumber(earned),
+    duration: 2,
+  });
+
   const handleHarvest = useCallback(async () => {
     if (stakingContract) {
       try {
@@ -91,7 +98,7 @@ export default function Earned({ token }: Props) {
         <AmountLabel variant='caption' color='primary'>
           HZN EARNED
         </AmountLabel>
-        <Amount variant='body1'>{getFullDisplayBalance(earned)}</Amount>
+        <Amount variant='body1'>{earnedCount}</Amount>
       </Box>
       <PrimaryButton
         loading={loading}

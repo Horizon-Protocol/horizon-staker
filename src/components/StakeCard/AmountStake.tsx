@@ -9,11 +9,13 @@ import useBalancePolling from "@hooks/useBalancePolling";
 import { useTokenAllowance } from "@hooks/useAllowance";
 import useStaking from "@hooks/useStaking";
 import PrimaryButton from "@components/PrimaryButton";
+import RoundStart from "@components/RoundStart";
 import {
   availableAtomFamily,
   stakedAtomFamily,
   withdrawableAtomFamily,
 } from "@atoms/balance";
+import { tokenStatAtomFamily } from "@atoms/stat";
 import { getFullDisplayBalance } from "@utils/formatters";
 import AmountInput from "./AmountInput";
 import { useAtomValue } from "jotai/utils";
@@ -38,6 +40,7 @@ const useStyles = makeStyles(({ palette }) => ({
     color: palette.text.primary,
   },
   inputBox: {
+    position: "relative",
     padding: cardContent.padding,
   },
 }));
@@ -113,6 +116,8 @@ export default function AmountStake({ token, logo }: Props) {
   const available = useAtomValue(availableAtomFamily(token));
   const staked = useAtomValue(stakedAtomFamily(token));
   const withdrawable = useAtomValue(withdrawableAtomFamily(token));
+
+  const { lockDownSeconds } = useAtomValue(tokenStatAtomFamily(token));
 
   const inputMax: BigNumber = useMemo(() => {
     if (currentAction === Action.Stake) {
@@ -261,10 +266,14 @@ export default function AmountStake({ token, logo }: Props) {
             onInput={setInput}
             amount={amount}
             max={inputMax}
+            lockDownSeconds={
+              currentAction === Action.Unstake ? lockDownSeconds : null
+            }
             btnLabel={currentAction ? Action[currentAction] : ""}
             onSubmit={handleSubmit}
             loading={submitting}
           />
+          {currentAction === Action.Stake && <RoundStart token={token} />}
         </Box>
       </Collapse>
     </>

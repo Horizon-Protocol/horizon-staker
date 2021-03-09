@@ -18,3 +18,7 @@ export const getFullDisplayBalance = (balance: BigNumber, decimals = 18) => {
 export const formatAddress = (address: string, size: number = 8) => {
   return `${address.slice(0, size)}...${address.slice(-size)}`;
 };
+
+// export const calculateAPY = (periodReward: BigNumber, hznPrice:BigNumber, hznTotalSupply:BigNumber, tokenPrice:BigNumber) => {
+//   return (periodReward.mul(hznPrice.div(hznTotalSupply)).mul(tokenPrice))/7*365*100%
+// }

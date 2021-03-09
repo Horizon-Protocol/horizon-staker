@@ -31,8 +31,8 @@ const StyledCard = withStyles(({ palette }) => ({
     borderRadius: 20,
     backgroundColor: "transparent",
     backgroundRepeat: "no-repeat",
-    backgroundSize: "auto 220px",
-    backgroundPosition: "top -66px right -84px",
+    backgroundSize: "auto 180px",
+    backgroundPosition: "top -12px right -12px",
     border: `1px solid ${palette.divider}`,
   },
 }))(Card);

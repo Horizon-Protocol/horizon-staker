@@ -1,10 +1,10 @@
-import { tokenStatAtomFamily } from "@atoms/stat";
 import { Box, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { useAtomValue } from "jotai/utils";
 import { cardContent } from "@utils/theme/common";
 import { TokenShortName } from "@utils/constants";
 import { getFullDisplayBalance } from "@utils/formatters";
-import { useAtomValue } from "jotai/utils";
+import { tokenStatAtomFamily } from "@atoms/stat";
 
 const useStyles = makeStyles({
   root: {
