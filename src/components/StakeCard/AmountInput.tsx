@@ -50,7 +50,7 @@ interface Props {
   onInput: (v: string) => void;
   amount: BigNumber; // ehter BN format of input
   max: BigNumber;
-  lockDownSeconds: BigNumber;
+  lockDownSeconds: BigNumber | null;
   btnLabel: string;
   logo?: string;
   loading: boolean;
@@ -104,14 +104,14 @@ export default function AmountInput({
           color='textSecondary'
           className={classes.maxLabel}
         >
-          Lockdown: {lockDownSeconds.toNumber()} s
+          {lockDownSeconds && `Lockdown: ${lockDownSeconds.toNumber()} s`}
         </Typography>
         <Typography
           variant='overline'
           color={amount.gt(max) ? "error" : "primary"}
           className={classes.maxLabel}
         >
-          {getFullDisplayBalance(max)} {token} Available
+          {getFullDisplayBalance(max)} Available
         </Typography>
       </Box>
       <PrimaryButton

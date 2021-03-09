@@ -50,6 +50,7 @@ const cards: StakeCardProps[] = [
   {
     token: Token.HZN,
     bg: hznBg,
+    color: "#2AD4B7",
     desc: (
       <>
         Stake BEP-20 HZN to earn HZN. <br />

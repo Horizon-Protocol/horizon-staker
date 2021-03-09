@@ -63,7 +63,6 @@ export default function Earned({ token }: Props) {
     end: getBalanceNumber(earned),
     duration: 2,
   });
-  console.log(getBalanceNumber(earned));
 
   const handleHarvest = useCallback(async () => {
     if (stakingContract) {

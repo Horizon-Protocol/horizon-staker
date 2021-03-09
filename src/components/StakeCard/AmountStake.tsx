@@ -9,6 +9,7 @@ import useBalancePolling from "@hooks/useBalancePolling";
 import { useTokenAllowance } from "@hooks/useAllowance";
 import useStaking from "@hooks/useStaking";
 import PrimaryButton from "@components/PrimaryButton";
+import RoundStart from "@components/RoundStart";
 import {
   availableAtomFamily,
   stakedAtomFamily,
@@ -39,6 +40,7 @@ const useStyles = makeStyles(({ palette }) => ({
     color: palette.text.primary,
   },
   inputBox: {
+    position: "relative",
     padding: cardContent.padding,
   },
 }));
@@ -264,11 +266,14 @@ export default function AmountStake({ token, logo }: Props) {
             onInput={setInput}
             amount={amount}
             max={inputMax}
-            lockDownSeconds={lockDownSeconds}
+            lockDownSeconds={
+              currentAction === Action.Unstake ? lockDownSeconds : null
+            }
             btnLabel={currentAction ? Action[currentAction] : ""}
             onSubmit={handleSubmit}
             loading={submitting}
           />
+          {currentAction === Action.Stake && <RoundStart token={token} />}
         </Box>
       </Collapse>
     </>
