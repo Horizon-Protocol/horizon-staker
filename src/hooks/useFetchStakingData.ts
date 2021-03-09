@@ -51,7 +51,6 @@ export default function useFetchStakingData(token: TokenEnum) {
         finish,
         lockDownSeconds,
       });
-      console.log("lockDownDuration", lockDownSeconds.toNumber());
     }
   }, [
     account,
