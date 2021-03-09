@@ -30,8 +30,8 @@ const Times: {
     // end: new Date("2021-03-29T21:22:19Z"),
   },
   [Token.HZN]: {
-    // start: new Date("2021-03-22T21:22:19Z"),
-    // end: new Date("2021-03-29T21:22:19Z"),
+    start: new Date("2021-03-22T21:22:19Z"),
+    end: new Date("2021-03-29T21:22:19Z"),
   },
   [Token.HZN_BNB_LP]: {},
 };
