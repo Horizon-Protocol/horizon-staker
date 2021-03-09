@@ -1,8 +1,9 @@
 import { useMemo } from "react";
-import { Backdrop } from "@material-ui/core";
+import { Box, Backdrop, Typography } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { useTimer } from "react-compound-timer";
 import differenceInMilliseconds from "date-fns/differenceInMilliseconds";
+import format from "date-fns/format";
 
 const useStyles = makeStyles(({ palette }) => ({
   root: {
@@ -37,6 +38,7 @@ export default function RoundStart({ token }: Props) {
     value: { d, h, m, s },
   } = useTimer({
     initialTime: milliSeconds,
+    direction: "backward",
   });
 
   if (milliSeconds <= 0) {
@@ -45,8 +47,15 @@ export default function RoundStart({ token }: Props) {
 
   return (
     <StyledBackdrop open>
-      {d ? `${d} Day${d > 1 ? "s" : ""} ` : ""}
-      {padZero(h)} : {padZero(m)} : {padZero(s)}
+      <Box>
+        <Typography variant='h5' display='block'>
+          {d ? `${d} Day${d > 1 ? "s" : ""} ` : ""}
+          {padZero(h)} : {padZero(m)} : {padZero(s)}
+        </Typography>
+        <Typography variant='caption' display='block'>
+          {format(startAt, "yyyy-MM-dd HH:mm:ss OOOO")}
+        </Typography>
+      </Box>
     </StyledBackdrop>
   );
 }
