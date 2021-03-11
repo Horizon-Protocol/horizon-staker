@@ -91,7 +91,7 @@ export default function Earned({ token }: Props) {
         enqueueSnackbar(
           `Successfully harvested ${getFullDisplayBalance(earned, {
             mantissa: 2,
-          })} ${token}`,
+          })} HZN`,
           { variant: "success" }
         );
         refresh();
@@ -101,7 +101,7 @@ export default function Earned({ token }: Props) {
       }
       setLoading(false);
     }
-  }, [earned, enqueueSnackbar, refresh, stakingContract, token]);
+  }, [earned, enqueueSnackbar, refresh, stakingContract]);
 
   return (
     <Box className={classes.root}>
