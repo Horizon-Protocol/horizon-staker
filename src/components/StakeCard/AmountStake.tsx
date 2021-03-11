@@ -266,9 +266,7 @@ export default function AmountStake({ token, logo }: Props) {
             onInput={setInput}
             amount={amount}
             max={inputMax}
-            lockDownSeconds={
-              currentAction === Action.Unstake ? lockDownSeconds : null
-            }
+            lockDownSeconds={lockDownSeconds}
             btnLabel={currentAction ? Action[currentAction] : ""}
             onSubmit={handleSubmit}
             loading={submitting}

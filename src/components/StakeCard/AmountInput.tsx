@@ -1,8 +1,9 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { Box, Button, InputBase, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import NumberFormat from "react-number-format";
 import { BigNumber } from "ethers";
+import prettyMilliseconds from "pretty-ms";
 import PrimaryButton from "@components/PrimaryButton";
 import { getFullDisplayBalance } from "@utils/formatters";
 
@@ -75,6 +76,16 @@ export default function AmountInput({
     onInput(getFullDisplayBalance(max));
   }, [max, onInput]);
 
+  const lockDownTime = useMemo(
+    () =>
+      lockDownSeconds
+        ? prettyMilliseconds(lockDownSeconds.toNumber() * 1000, {
+            verbose: true,
+          })
+        : null,
+    [lockDownSeconds]
+  );
+
   return (
     <Box className={classes.root}>
       <Box className={classes.inputBox}>
@@ -99,12 +110,8 @@ export default function AmountInput({
         </Button>
       </Box>
       <Box className={classes.maxLabelBox}>
-        <Typography
-          variant='overline'
-          color='textSecondary'
-          className={classes.maxLabel}
-        >
-          {lockDownSeconds && `Lockdown: ${lockDownSeconds.toNumber()} s`}
+        <Typography variant='overline' color='textSecondary'>
+          {lockDownTime && `Lock: ${lockDownTime}`}
         </Typography>
         <Typography
           variant='overline'
