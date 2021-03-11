@@ -11,8 +11,22 @@ const Ten = BigNumber.from(10);
 export const getBalanceNumber = (balance: BigNumber, decimals = 18) =>
   balance.div(Ten.pow(decimals)).toNumber();
 
-export const getFullDisplayBalance = (balance: BigNumber, decimals = 18) => {
-  return numbro(getBalanceNumber(balance, decimals)).format();
+export const getFullDisplayBalance = (
+  balance: BigNumber,
+  format: numbro.Format = {},
+  decimals = 18
+) => {
+  return numbro(getBalanceNumber(balance, decimals)).format({
+    trimMantissa: true,
+    ...format,
+  });
+};
+
+export const formatNumber = (value: number, format: numbro.Format = {}) => {
+  return numbro(value).format({
+    trimMantissa: true,
+    ...format,
+  });
 };
 
 export const formatAddress = (address: string, size: number = 8) => {

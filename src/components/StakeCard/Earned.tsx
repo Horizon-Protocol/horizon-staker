@@ -8,7 +8,11 @@ import { cardContent } from "@utils/theme/common";
 import useBalancePolling from "@hooks/useBalancePolling";
 import PrimaryButton from "@components/PrimaryButton";
 import { earnedAtomFamily } from "@atoms/balance";
-import { getBalanceNumber, getFullDisplayBalance } from "@utils/formatters";
+import {
+  formatNumber,
+  getBalanceNumber,
+  getFullDisplayBalance,
+} from "@utils/formatters";
 import useStaking from "@hooks/useStaking";
 
 const useStyles = makeStyles({
@@ -60,8 +64,13 @@ export default function Earned({ token }: Props) {
 
   const { value: earnedCount } = useCountUp({
     isCounting: true,
+    start: 0,
     end: getBalanceNumber(earned),
     duration: 2,
+    formatter: (v) =>
+      formatNumber(v, {
+        mantissa: 2,
+      }),
   });
 
   const handleHarvest = useCallback(async () => {
@@ -80,7 +89,9 @@ export default function Earned({ token }: Props) {
         const res = await tx.wait(1);
         console.log("Harvest:", res);
         enqueueSnackbar(
-          `Successfully staked ${getFullDisplayBalance(earned)} ${token}`,
+          `Successfully harvested ${getFullDisplayBalance(earned, {
+            mantissa: 2,
+          })} ${token}`,
           { variant: "success" }
         );
         refresh();
