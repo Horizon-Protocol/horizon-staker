@@ -1,30 +1,24 @@
-import { BigNumber } from "ethers";
+import { BigNumber, utils } from "ethers";
 import numbro from "numbro";
 
 numbro.setDefaults({
   thousandSeparated: true,
-  trimMantissa: true,
+  mantissa: 2,
+  // trimMantissa: true,
+  roundingFunction: Math.floor,
 });
-
-const Ten = BigNumber.from(10);
-
-export const getBalanceNumber = (balance: BigNumber, decimals = 18) =>
-  balance.div(Ten.pow(decimals)).toNumber();
 
 export const getFullDisplayBalance = (
   balance: BigNumber,
-  format: numbro.Format = {},
-  decimals = 18
+  format: numbro.Format = {}
 ) => {
-  return numbro(getBalanceNumber(balance, decimals)).format({
-    trimMantissa: true,
+  return numbro(utils.formatEther(balance)).format({
     ...format,
   });
 };
 
 export const formatNumber = (value: number, format: numbro.Format = {}) => {
   return numbro(value).format({
-    trimMantissa: true,
     ...format,
   });
 };
