@@ -61,7 +61,7 @@ export default function Earned({ token }: Props) {
   const { value: earnedCount } = useCountUp({
     isCounting: true,
     start: 0,
-    end: parseFloat(getFullDisplayBalance(earned)),
+    end: parseFloat(getFullDisplayBalance(earned).replace(/,/g, "")),
     duration: 2,
     formatter: (v) => formatNumber(v),
   });
