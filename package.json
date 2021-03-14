@@ -19,6 +19,7 @@
     "clsx": "^1.1.1",
     "date-fns": "^2.19.0",
     "ethers": "^5.0.29",
+    "graphql-hooks": "^5.1.1",
     "jotai": "^0.14.0",
     "notistack": "^1.0.3",
     "numbro": "^2.3.2",

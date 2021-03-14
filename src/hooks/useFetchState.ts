@@ -8,6 +8,7 @@ import { Token } from "@utils/constants";
 import { usePHB, useHZN } from "./useContract";
 import useWallet from "./useWallet";
 import useFetchStakingData from "./useFetchStakingData";
+import usePancakeQuery from "./usePancakeQuery";
 
 export default function useFetchState() {
   const { account } = useWallet();
@@ -19,8 +20,12 @@ export default function useFetchState() {
   const hznToken = useHZN();
   // const lpToken = useLP();
 
+  // price
+  const { run: fetchHZNPrice } = usePancakeQuery();
+
   // all loading
   const setLoading = useUpdateAtom(loadingAllAtom);
+
   // available atoms
   const setAvailablePHB = useUpdateAtom(availableAtomFamily(Token.PHB));
   const setAvailableHZN = useUpdateAtom(availableAtomFamily(Token.HZN));
@@ -41,6 +46,7 @@ export default function useFetchState() {
           : constants.Zero,
         fetchPHBStakingData(),
         fetchHZNStakingData(),
+        fetchHZNPrice(),
       ]);
 
       setAvailablePHB(phb);
@@ -57,6 +63,7 @@ export default function useFetchState() {
     setLoading,
     fetchPHBStakingData,
     fetchHZNStakingData,
+    fetchHZNPrice,
     setAvailablePHB,
     setAvailableHZN,
     enqueueSnackbar,

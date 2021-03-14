@@ -11,6 +11,7 @@
       "@utils": ["./utils"],
       "@utils/*": ["./utils/*"],
       "@abis/*": ["./abis/*"],
+      "@apis/*": ["./apis/*"],
       "@hooks/*": ["./hooks/*"]
     }
   }

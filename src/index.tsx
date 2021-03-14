@@ -1,11 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Provider } from "jotai";
+import { Provider as JotaiProvider } from "jotai";
 import { ThemeProvider } from "@material-ui/styles";
 import { SnackbarProvider } from "notistack";
 import "@fontsource/roboto";
 import "@fontsource/roboto-condensed";
 import { UseWalletProvider } from "@binance-chain/bsc-use-wallet";
+import { ClientContext, client } from "@/apis/pancakeswap";
 import theme from "@utils/theme";
 import { ChainId } from "@utils/constants";
 import "./index.css";
@@ -14,21 +15,24 @@ import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider>
-      <ThemeProvider theme={theme}>
-        <SnackbarProvider
-          anchorOrigin={{
-            horizontal: "right",
-            vertical: "top",
-          }}
-          preventDuplicate
-        >
-          <UseWalletProvider chainId={ChainId}>
-            <App />
-          </UseWalletProvider>
-        </SnackbarProvider>
-      </ThemeProvider>
-    </Provider>
+    <JotaiProvider>
+      <ClientContext.Provider value={client}>
+        {/* children */}
+        <ThemeProvider theme={theme}>
+          <SnackbarProvider
+            anchorOrigin={{
+              horizontal: "right",
+              vertical: "top",
+            }}
+            preventDuplicate
+          >
+            <UseWalletProvider chainId={ChainId}>
+              <App />
+            </UseWalletProvider>
+          </SnackbarProvider>
+        </ThemeProvider>
+      </ClientContext.Provider>
+    </JotaiProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
