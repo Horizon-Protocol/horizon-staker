@@ -44,7 +44,7 @@ export default function Stats({ token }: { token: TokenEnum }) {
           APY
         </Typography>
         <Typography variant='body1' classes={{ root: classes.apy }}>
-          {apy * 100} %
+          {apy ? `${apy * 100} %` : "- -"}
         </Typography>
       </div>
       <div className={classes.item}>

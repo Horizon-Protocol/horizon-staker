@@ -5442,6 +5442,11 @@ cosmiconfig@^7.0.0:
     path-type "^4.0.0"
     yaml "^1.10.0"
 
+countup.js@^1.9.3:
+  version "1.9.3"
+  resolved "https://registry.yarnpkg.com/countup.js/-/countup.js-1.9.3.tgz#ce3e50cd7160441e478f07da31895edcc0f1c9dd"
+  integrity sha1-zj5QzXFgRB5HjwfaMYle3MDxyd0=
+
 craco-alias@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/craco-alias/-/craco-alias-2.1.1.tgz#c9c2e9d333c674419591f3002a26cb073ee2094b"
@@ -12491,6 +12496,15 @@ react-compound-timer@^1.2.0:
   resolved "https://registry.yarnpkg.com/react-compound-timer/-/react-compound-timer-1.2.0.tgz#52df2980dce0b63ddaf5718235a51188cb223d1d"
   integrity sha512-BEFT0Z/+vusfAy4Ci1+G5lr8mI+dk3ddRJuu1DIYA5xGS+5P+M0o4krHmFMKgHuaIY9H3xx0KCvf3ilb1+HFWA==
 
+react-countup@^4.3.3:
+  version "4.3.3"
+  resolved "https://registry.yarnpkg.com/react-countup/-/react-countup-4.3.3.tgz#143a8d854d47290b73d6915eac20a12d839153c2"
+  integrity sha512-pWnxpwdPNRyJFha/YKKbyc4RLAw8PzmULdgCziGIgw6vxhT1VdccrvQgj38HBSoM2qF/MoLmn4M2klvDWVIdaw==
+  dependencies:
+    countup.js "^1.9.3"
+    prop-types "^15.7.2"
+    warning "^4.0.3"
+
 react-dev-utils@^11.0.1:
   version "11.0.1"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-11.0.1.tgz#30106c2055acfd6b047d2dc478a85c356e66fe45"
@@ -14876,18 +14890,6 @@ use-context-selector@1.3.7:
   resolved "https://registry.yarnpkg.com/use-context-selector/-/use-context-selector-1.3.7.tgz#4e59270baa73417dcb0c5c6c124359fd0e8b3aaf"
   integrity sha512-O94hcN9UDAPTC4Fsm3p6Og5PVlhTEeKqxJX3HuBbVSuevOSPLDZxowFUmx49/fnu9jpgY83Nd3TALJVDRtYzdQ==
 
-use-count-up@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/use-count-up/-/use-count-up-2.3.0.tgz#8e9a1972f62b580b8e78cb8645b7a45d81aeb695"
-  integrity sha512-lbOJKlaptDeUNp7dNWNDxBs389xkQmg2Z71aEV8aZhnP3UQjKod6q8DPhIfvqUo2g4cOdIa3nKIqrm2rJeBQPQ==
-  dependencies:
-    use-elapsed-time "^2.1.4"
-
-use-elapsed-time@^2.1.4:
-  version "2.1.6"
-  resolved "https://registry.yarnpkg.com/use-elapsed-time/-/use-elapsed-time-2.1.6.tgz#8ad0c0054a1ba7bf881540855b5eb2d60ff501be"
-  integrity sha512-6h6bY63oto1REUqcID3Goedgl5tVqWXsLzUSJ6EB9VprqZqnO5VDo1kkQqY/6V5Jc4Wu4XUgW3B8aDUHG2KRcA==
-
 use@^3.1.0:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/use/-/use-3.1.1.tgz#d50c8cac79a19fbc20f2911f56eb973f4e10070f"
@@ -15078,6 +15080,13 @@ walletlink@^2.0.2:
     clsx "^1.1.0"
     preact "^10.5.9"
     rxjs "^6.6.3"
+
+warning@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/warning/-/warning-4.0.3.tgz#16e9e077eb8a86d6af7d64aa1e05fd85b4678ca3"
+  integrity sha512-rpJyN222KWIvHJ/F53XSZv0Zl/accqHR8et1kpaMTD/fLCRxtV8iX8czMzY7sVZupTI3zcUTg8eycS2kNF9l6w==
+  dependencies:
+    loose-envify "^1.0.0"
 
 watchpack-chokidar2@^2.0.1:
   version "2.0.1"

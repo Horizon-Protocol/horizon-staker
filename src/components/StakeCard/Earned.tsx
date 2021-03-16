@@ -1,14 +1,14 @@
+import { useCallback, useState, useMemo } from "react";
 import { useAtomValue } from "jotai/utils";
-import { useCallback, useState } from "react";
 import { Box, Typography } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { useSnackbar } from "notistack";
-import { useCountUp } from "use-count-up";
+import CountUp from "react-countup";
 import { cardContent } from "@utils/theme/common";
 import useBalancePolling from "@hooks/useBalancePolling";
 import PrimaryButton from "@components/PrimaryButton";
 import { earnedAtomFamily } from "@atoms/balance";
-import { formatNumber, getFullDisplayBalance } from "@utils/formatters";
+import { getFullDisplayBalance } from "@utils/formatters";
 import useStaking from "@hooks/useStaking";
 
 const useStyles = makeStyles({
@@ -58,13 +58,10 @@ export default function Earned({ token }: Props) {
 
   const stakingContract = useStaking(token);
 
-  const { value: earnedCount } = useCountUp({
-    isCounting: true,
-    start: 0,
-    end: parseFloat(getFullDisplayBalance(earned).replace(/,/g, "")),
-    duration: 2,
-    formatter: (v) => formatNumber(v),
-  });
+  const end = useMemo(
+    () => parseFloat(getFullDisplayBalance(earned).replace(/,/g, "")),
+    [earned]
+  );
 
   const handleHarvest = useCallback(async () => {
     if (stakingContract) {
@@ -100,7 +97,19 @@ export default function Earned({ token }: Props) {
         <AmountLabel variant='caption' color='primary'>
           HZN EARNED
         </AmountLabel>
-        <Amount variant='body1'>{earnedCount}</Amount>
+
+        <CountUp
+          start={0}
+          end={end}
+          delay={0.1}
+          duration={2}
+          decimals={2}
+          preserveValue
+        >
+          {({ countUpRef }) => (
+            <Amount ref={countUpRef} variant='body1'></Amount>
+          )}
+        </CountUp>
       </Box>
       <PrimaryButton
         loading={loading}
