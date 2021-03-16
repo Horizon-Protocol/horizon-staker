@@ -155,6 +155,7 @@ function NumberFormatCustom(props: NumberFormatCustomProps) {
           },
         });
       }}
+      allowNegative={false}
       thousandSeparator
       isNumericString
     />
