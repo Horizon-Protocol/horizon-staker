@@ -92,6 +92,7 @@ export default function WalletsDialog(
       reset();
       setDetail(wallet);
       setTimeout(() => {
+        console.log("connect");
         connect(wallet.connectorId);
       }, 50);
     }

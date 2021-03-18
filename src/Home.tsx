@@ -1,8 +1,10 @@
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "@material-ui/core";
+import useRequest from "@ahooksjs/use-request";
 import StakeCard, { StakeCardProps } from "@components/StakeCard";
 import { Token } from "@utils/constants";
-import useBalancePolling from "@hooks/useBalancePolling";
+import useWallet from "@hooks/useWallet";
+import useFetchState from "@hooks/useFetchState";
 import phbBg from "@assets/bgs/phb.png";
 import hznBg from "@assets/bgs/hzn.png";
 import bnbBg from "@assets/bgs/bnb.png";
@@ -97,7 +99,18 @@ const cards: StakeCardProps[] = [
 export default function Home() {
   const classes = useStyles();
 
-  useBalancePolling(10000);
+  const { connected } = useWallet();
+
+  const fetchState = useFetchState();
+
+  useRequest(fetchState, {
+    ready: connected,
+    loadingDelay: 1000,
+    pollingInterval: 10000,
+    pollingWhenHidden: false,
+    refreshOnWindowFocus: true,
+    throttleInterval: 1000,
+  });
 
   return (
     <div className={classes.container}>

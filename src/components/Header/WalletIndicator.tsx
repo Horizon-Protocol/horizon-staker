@@ -3,7 +3,7 @@ import { Avatar, Chip, ChipProps, CircularProgress } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { detailAtom } from "@atoms/wallet";
 import { loadingAllAtom } from "@atoms/loading";
-import useBalancePolling from "@hooks/useBalancePolling";
+import useFetchState from "@hooks/useFetchState";
 import { ChainName } from "@utils/constants";
 
 const StyledChip = withStyles(({ palette }) => ({
@@ -29,7 +29,7 @@ const StyledAvatar = withStyles(({ palette }) => ({
 export default function WalletIndicator(props: ChipProps) {
   const wallet = useAtomValue(detailAtom);
   const loading = useAtomValue(loadingAllAtom);
-  const { refresh } = useBalancePolling();
+  const refresh = useFetchState();
 
   if (!wallet) {
     return null;

@@ -1,6 +1,5 @@
 import { useCallback } from "react";
 import { useUpdateAtom } from "jotai/utils";
-import useRequest from "@ahooksjs/use-request";
 import { useSnackbar } from "notistack";
 import { loadingAllAtom } from "@atoms/loading";
 import { availableAtomFamily } from "@atoms/balance";
@@ -9,7 +8,7 @@ import { usePHB, useHZN } from "./useContract";
 import useWallet from "./useWallet";
 import useFetchStakingData from "./useFetchStakingData";
 
-export default function useBalancePolling(interval: number = 0) {
+export default function useFetchState() {
   const { account } = useWallet();
 
   const { enqueueSnackbar } = useSnackbar();
@@ -33,19 +32,24 @@ export default function useBalancePolling(interval: number = 0) {
 
   const fetchBalances = useCallback(async () => {
     if (account && phbToken && hznToken) {
-      setLoading(true);
-      const [phb, hzn] = await Promise.all([
-        phbToken.balanceOf(account),
-        hznToken.transferableSynthetix(account),
-        fetchPHBStakingData(),
-        fetchHZNStakingData(),
-      ]);
-      setAvailablePHB(phb);
-      setAvailableHZN(hzn);
+      try {
+        setLoading(true);
+        const [phb, hzn] = await Promise.all([
+          phbToken.balanceOf(account),
+          hznToken.transferableSynthetix(account),
+          fetchPHBStakingData(),
+          fetchHZNStakingData(),
+        ]);
+        setAvailablePHB(phb);
+        setAvailableHZN(hzn);
 
-      window.requestAnimationFrame(() => {
-        setLoading(false);
-      });
+        window.requestAnimationFrame(() => {
+          setLoading(false);
+        });
+      } catch (e) {
+        console.log(e);
+        enqueueSnackbar("Failed to loading balances", { variant: "error" });
+      }
     }
   }, [
     account,
@@ -56,22 +60,8 @@ export default function useBalancePolling(interval: number = 0) {
     fetchHZNStakingData,
     setAvailablePHB,
     setAvailableHZN,
+    enqueueSnackbar,
   ]);
 
-  const { refresh } = useRequest(fetchBalances, {
-    ready: !!(account && phbToken && hznToken),
-    loadingDelay: 1000,
-    pollingInterval: interval || undefined,
-    pollingWhenHidden: false,
-    refreshOnWindowFocus: true,
-    throttleInterval: 1000,
-    onError(e) {
-      console.log(e);
-      enqueueSnackbar("Failed to loading balances", { variant: "error" });
-    },
-  });
-
-  return {
-    refresh,
-  };
+  return fetchBalances;
 }

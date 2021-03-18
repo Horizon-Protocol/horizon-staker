@@ -27,7 +27,7 @@ const useStyles = makeStyles({
     width: 12,
     borderRadius: "50%",
     backgroundColor: ({ connected }: { connected: boolean }) =>
-      connected ? "#3481B7" : "gray",
+      connected ? "#2AD4B7" : "gray",
   },
   balance: {
     borderTop: "1px solid #11263B",

@@ -5,7 +5,7 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { useSnackbar } from "notistack";
 import CountUp from "react-countup";
 import { cardContent } from "@utils/theme/common";
-import useBalancePolling from "@hooks/useBalancePolling";
+import useFetchState from "@hooks/useFetchState";
 import PrimaryButton from "@components/PrimaryButton";
 import { earnedAtomFamily } from "@atoms/balance";
 import { getFullDisplayBalance } from "@utils/formatters";
@@ -53,7 +53,7 @@ export default function Earned({ token }: Props) {
 
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { refresh } = useBalancePolling();
+  const refresh = useFetchState();
   const earned = useAtomValue(earnedAtomFamily(token));
 
   const stakingContract = useStaking(token);
@@ -84,7 +84,7 @@ export default function Earned({ token }: Props) {
         );
         refresh();
       } catch (e) {
-        console.log(e.error);
+        console.log(e);
         enqueueSnackbar(e.error ?? "Operation Failed", { variant: "error" });
       }
       setLoading(false);

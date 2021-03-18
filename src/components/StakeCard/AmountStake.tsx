@@ -5,7 +5,7 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { useSnackbar } from "notistack";
 import { StakingAddresses } from "@utils/constants";
 import { cardContent } from "@utils/theme/common";
-import useBalancePolling from "@hooks/useBalancePolling";
+import useFetchState from "@hooks/useFetchState";
 import { useTokenAllowance } from "@hooks/useAllowance";
 import useStaking from "@hooks/useStaking";
 import PrimaryButton from "@components/PrimaryButton";
@@ -103,7 +103,7 @@ export default function AmountStake({ token, logo }: Props) {
   const [input, setInput] = useState<string>();
   const { enqueueSnackbar } = useSnackbar();
 
-  const { refresh } = useBalancePolling();
+  const refresh = useFetchState();
 
   const stakingContract = useStaking(token);
   const {
