@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import { useUpdateAtom } from "jotai/utils";
+import { BigNumber, constants } from "ethers";
 import {
   stakedAtomFamily,
   earnedAtomFamily,
@@ -26,15 +27,9 @@ export default function useFetchStakingData(token: TokenEnum) {
   const setStat = useUpdateAtom(tokenStatAtomFamily(token));
 
   const fetchData = useCallback(async () => {
+    let res: BigNumber[] = [];
     if (account && stakingContract) {
-      const [
-        staked,
-        earned,
-        withdrawable,
-        totalStaked,
-        finish,
-        lockDownSeconds,
-      ] = await Promise.all([
+      res = await Promise.all([
         stakingContract.balanceOf(account), // user staked
         stakingContract.earned(account), // user staked
         stakingContract.withdrawableAmount(account), // user withdrawable Amount
@@ -42,16 +37,25 @@ export default function useFetchStakingData(token: TokenEnum) {
         stakingContract.periodFinish(), // finish time
         stakingContract.lockDownDuration(), // lockDownDuration in seconds
       ]);
-      setStaked(staked);
-      setEarned(earned);
-      setWithdrawable(withdrawable);
-      setStat({
-        total: totalStaked,
-        apy: 0,
-        finish,
-        lockDownSeconds,
-      });
     }
+    const [
+      staked = constants.Zero,
+      earned = constants.Zero,
+      withdrawable = constants.Zero,
+      totalStaked = constants.Zero,
+      finish = constants.Zero,
+      lockDownSeconds = constants.Zero,
+    ] = res;
+    setStaked(staked);
+    setEarned(earned);
+    setWithdrawable(withdrawable);
+    setStat({
+      total: totalStaked,
+      apy: 0,
+      finish,
+      lockDownSeconds,
+    });
+    return constants.Zero;
   }, [
     account,
     setEarned,

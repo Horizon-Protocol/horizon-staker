@@ -10,12 +10,12 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@material-ui/core";
+import { useAtom } from "jotai";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { Close, LinkOff } from "@material-ui/icons";
 import { SUPPORTED_WALLETS } from "@utils/constants";
 import { openAtom, detailAtom } from "@atoms/wallet";
 import useWallet from "@hooks/useWallet";
-import { useAtom } from "jotai";
 
 const useStyles = makeStyles(({ palette, typography }) => ({
   header: {
@@ -79,6 +79,7 @@ export default function WalletsDialog(
 ) {
   const classes = useStyles();
   const { connect, connected, reset } = useWallet();
+
   const [open, setOpen] = useAtom(openAtom);
   const [detail, setDetail] = useAtom(detailAtom);
 
@@ -92,7 +93,6 @@ export default function WalletsDialog(
       reset();
       setDetail(wallet);
       setTimeout(() => {
-        console.log("connect");
         connect(wallet.connectorId);
       }, 50);
     }

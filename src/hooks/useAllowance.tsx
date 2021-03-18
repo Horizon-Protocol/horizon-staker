@@ -49,7 +49,6 @@ export const useTokenAllowance = (token: TokenEnum, spenderAddress: string) => {
       setLoading(true);
       try {
         const total = await tokenContract.totalSupply();
-        console.log(total.toString());
         const tx = await tokenContract.approve(spenderAddress, total);
         enqueueSnackbar(
           <>

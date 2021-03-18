@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+import { BigNumber, constants } from "ethers";
 import { useUpdateAtom } from "jotai/utils";
 import { useSnackbar } from "notistack";
 import { loadingAllAtom } from "@atoms/loading";
@@ -31,26 +32,24 @@ export default function useFetchState() {
   // const fetchLPStakingData = useFetchStakingData(Token.HZN_BNB_LP)
 
   const fetchBalances = useCallback(async () => {
-    if (account && phbToken && hznToken) {
-      try {
-        setLoading(true);
-        const [phb, hzn] = await Promise.all([
-          phbToken.balanceOf(account),
-          hznToken.transferableSynthetix(account),
-          fetchPHBStakingData(),
-          fetchHZNStakingData(),
-        ]);
-        setAvailablePHB(phb);
-        setAvailableHZN(hzn);
+    try {
+      setLoading(true);
+      const [phb, hzn] = await Promise.all([
+        account && phbToken ? phbToken.balanceOf(account) : constants.Zero,
+        account && hznToken
+          ? hznToken.transferableSynthetix(account)
+          : constants.Zero,
+        fetchPHBStakingData(),
+        fetchHZNStakingData(),
+      ]);
 
-        window.requestAnimationFrame(() => {
-          setLoading(false);
-        });
-      } catch (e) {
-        console.log(e);
-        enqueueSnackbar("Failed to loading balances", { variant: "error" });
-      }
+      setAvailablePHB(phb);
+      setAvailableHZN(hzn);
+    } catch (e) {
+      console.log(e);
+      enqueueSnackbar("Failed to loading balances", { variant: "error" });
     }
+    setLoading(false);
   }, [
     account,
     phbToken,

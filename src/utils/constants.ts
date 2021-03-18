@@ -96,7 +96,7 @@ export const STAKING_CONTRACT_ADDRESS: {
   },
 };
 
-const EnvChainId = parseInt(process.env.CHAIN_ID);
+const EnvChainId = parseInt(process.env.REACT_APP_CHAIN_ID);
 
 export const ChainId = [56, 97].indexOf(EnvChainId) > -1 ? EnvChainId : 97;
 export const ChainName = CHAIN_NAME_MAP[ChainId];

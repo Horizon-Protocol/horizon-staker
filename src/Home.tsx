@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "@material-ui/core";
 import useRequest from "@ahooksjs/use-request";
@@ -103,14 +104,23 @@ export default function Home() {
 
   const fetchState = useFetchState();
 
-  useRequest(fetchState, {
-    ready: connected,
-    loadingDelay: 1000,
+  const { run, cancel } = useRequest(fetchState, {
+    manual: true,
+    loadingDelay: 500,
     pollingInterval: 10000,
     pollingWhenHidden: false,
     refreshOnWindowFocus: true,
     throttleInterval: 1000,
   });
+
+  useEffect(() => {
+    if (connected) {
+      run();
+    } else {
+      cancel();
+      fetchState();
+    }
+  }, [cancel, connected, fetchState, run]);
 
   return (
     <div className={classes.container}>
