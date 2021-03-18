@@ -34,6 +34,7 @@ export default function usePancakeQuery() {
 
   useEffect(() => {
     console.log("pancake", { data, error });
+    // setPrice(data)
   }, [data, error]);
 
   return {

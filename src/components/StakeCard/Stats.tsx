@@ -3,8 +3,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useAtomValue } from "jotai/utils";
 import { cardContent } from "@utils/theme/common";
 import { TokenShortName } from "@utils/constants";
-import { getFullDisplayBalance } from "@utils/formatters";
+import { getFullDisplayBalance, calculateAPY } from "@utils/formatters";
 import { tokenStatAtomFamily } from "@atoms/stat";
+import { useMemo } from "react";
+import { tokenPriceAtomFamily } from "@/atoms/price";
 
 const useStyles = makeStyles({
   root: {
@@ -31,7 +33,13 @@ const useStyles = makeStyles({
 export default function Stats({ token }: { token: TokenEnum }) {
   const classes = useStyles();
 
-  const { apy, total } = useAtomValue(tokenStatAtomFamily(token));
+  const price = useAtomValue(tokenPriceAtomFamily(token));
+  const { total } = useAtomValue(tokenStatAtomFamily(token));
+
+  const apy = useMemo(() => {
+    return 0;
+    // return calculateAPY();
+  }, [price, total]);
 
   return (
     <Box className={classes.root}>

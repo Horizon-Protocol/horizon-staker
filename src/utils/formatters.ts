@@ -27,6 +27,19 @@ export const formatAddress = (address: string, size: number = 8) => {
   return `${address.slice(0, size)}...${address.slice(-size)}`;
 };
 
-// export const calculateAPY = (periodReward: BigNumber, hznPrice:BigNumber, hznTotalSupply:BigNumber, tokenPrice:BigNumber) => {
-//   return (periodReward.mul(hznPrice.div(hznTotalSupply)).mul(tokenPrice))/7*365*100%
-// }
+/*
+  (reward for this period * reward Price/ total supply *staking token price )/7*365*100%
+*/
+export const calculateAPY = (
+  period: BigNumber,
+  periodReward: BigNumber,
+  hznPrice: BigNumber,
+  hznTotalSupply: BigNumber,
+  tokenPrice: BigNumber
+) => {
+  const reward = periodReward.mul(hznPrice);
+  const;
+  return (
+    (periodReward.mul(hznPrice.div(hznTotalSupply)).mul(tokenPrice) / 7) * 365
+  );
+};

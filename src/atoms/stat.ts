@@ -3,7 +3,6 @@ import { BigNumber, constants } from "ethers";
 import { Token } from "@utils/constants";
 
 interface Data {
-  apy: number;
   total: BigNumber;
   finish: BigNumber;
   lockDownSeconds: BigNumber;
@@ -15,7 +14,6 @@ interface Param {
 }
 
 const defaultData: Data = {
-  apy: 0,
   total: constants.Zero,
   finish: constants.Zero,
   lockDownSeconds: constants.Zero,

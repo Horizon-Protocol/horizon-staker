@@ -51,7 +51,6 @@ export default function useFetchStakingData(token: TokenEnum) {
     setWithdrawable(withdrawable);
     setStat({
       total: totalStaked,
-      apy: 0,
       finish,
       lockDownSeconds,
     });
