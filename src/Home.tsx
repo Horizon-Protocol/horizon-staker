@@ -56,12 +56,8 @@ const cards: StakeCardProps[] = [
     color: "#2AD4B7",
     desc: (
       <>
+        <br />
         Stake BEP-20 HZN to earn HZN. <br />
-        To convert your ERC-20 HZN to BEP-20 HZN, click{" "}
-        <Link href='https://horizonprotocol.com' target='_blank'>
-          here
-        </Link>
-        .
       </>
     ),
     links: [

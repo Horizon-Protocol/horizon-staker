@@ -21,6 +21,7 @@ const useStyles = makeStyles(() => ({
     color: "#C1D3E0",
     fontSize: "14px",
     lineHeight: "22px",
+    minHeight: 22 * 3,
   },
 }));
 
@@ -104,7 +105,6 @@ export default function StakeCard({
         title={`Stake ${token}`}
         subheader={
           <Typography className={classes.desc} color='textSecondary'>
-            {}
             {desc}
           </Typography>
         }
