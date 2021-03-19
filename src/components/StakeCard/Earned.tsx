@@ -102,7 +102,7 @@ export default function Earned({ token }: Props) {
           start={0}
           end={end}
           delay={0.1}
-          duration={2}
+          duration={end === 0 ? 0 : 2}
           decimals={2}
           preserveValue
         >
