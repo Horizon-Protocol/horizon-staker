@@ -141,12 +141,10 @@ export default function AmountStake({ token, logo }: Props) {
   }, []);
 
   const resetInput = useCallback(() => {
-    setSubmitting(false);
     setInput("0");
   }, []);
 
   const handleStake = useCallback(async () => {
-    setSubmitting(true);
     await checkApprove(amount);
     const tx = await stakingContract.stake(amount);
     enqueueSnackbar(
@@ -176,7 +174,6 @@ export default function AmountStake({ token, logo }: Props) {
   ]);
 
   const handleUnstake = useCallback(async () => {
-    setSubmitting(true);
     const tx = await stakingContract.withdraw(amount);
     enqueueSnackbar(
       <>
@@ -199,16 +196,18 @@ export default function AmountStake({ token, logo }: Props) {
   const handleSubmit = useCallback(async () => {
     try {
       if (currentAction && token && stakingContract && amount.gt(0)) {
+        setSubmitting(true);
         if (currentAction === Action.Stake) {
-          handleStake();
+          await handleStake();
         } else if (currentAction === Action.Unstake) {
-          handleUnstake();
+          await handleUnstake();
         }
       }
     } catch (e) {
       console.log(e.error);
       enqueueSnackbar(e.error ?? "Operation Failed", { variant: "error" });
     }
+    setSubmitting(false);
   }, [
     currentAction,
     token,
