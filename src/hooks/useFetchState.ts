@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { BigNumber, constants } from "ethers";
+import { constants } from "ethers";
 import { useUpdateAtom } from "jotai/utils";
 import { useSnackbar } from "notistack";
 import { loadingAllAtom } from "@atoms/loading";
