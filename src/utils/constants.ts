@@ -59,8 +59,8 @@ export const TOKEN_CONTRACT_ADDRESS: {
   };
 } = {
   56: {
-    [Token.PHB]: "",
-    [Token.HZN]: "",
+    [Token.PHB]: "0xdff88a0a43271344b760b58a35076bf05524195c",
+    [Token.HZN]: "0xc0eff7749b125444953ef89682201fb8c6a917cd",
     [Token.HZN_BNB_LP]: "",
   },
   97: {

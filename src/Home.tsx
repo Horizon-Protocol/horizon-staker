@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "@material-ui/core";
 import useRequest from "@ahooksjs/use-request";
 import StakeCard, { StakeCardProps } from "@components/StakeCard";
-import { Token } from "@utils/constants";
+import { Token, TokenAddresses } from "@utils/constants";
 import useWallet from "@hooks/useWallet";
 import useFetchState from "@hooks/useFetchState";
 import phbBg from "@assets/bgs/phb.png";
@@ -85,9 +85,9 @@ const cards: StakeCardProps[] = [
     ),
     links: [
       {
-        href: "https://exchange.pancakeswap.finance/",
+        href: `https://exchange.pancakeswap.finance/#/add/BNB/${TokenAddresses.HZN}`,
         logo: cakeLogo,
-        text: "Buy GET HZN-BNB LP TOKENS",
+        text: "GET HZN-BNB LP TOKENS",
       },
     ],
   },
