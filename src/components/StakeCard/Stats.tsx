@@ -2,7 +2,7 @@ import { Box, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useAtomValue } from "jotai/utils";
 import { cardContent } from "@utils/theme/common";
-import { TokenShortName } from "@utils/constants";
+import { Token, TokenShortName } from "@utils/constants";
 import { getFullDisplayBalance, calculateAPY } from "@utils/formatters";
 import { tokenStatAtomFamily } from "@atoms/stat";
 import { useMemo } from "react";
@@ -33,13 +33,14 @@ const useStyles = makeStyles({
 export default function Stats({ token }: { token: TokenEnum }) {
   const classes = useStyles();
 
-  const price = useAtomValue(tokenPriceAtomFamily(token));
-  const { total } = useAtomValue(tokenStatAtomFamily(token));
+  const hznPrice = useAtomValue(tokenPriceAtomFamily(Token.HZN));
+  const stakeTokenPrice = useAtomValue(tokenPriceAtomFamily(token));
+  const { total, rewardSeconds } = useAtomValue(tokenStatAtomFamily(token));
 
   const apy = useMemo(() => {
     return 0;
     // return calculateAPY();
-  }, [price, total]);
+  }, [stakeTokenPrice, rewardTokenPrice, total]);
 
   return (
     <Box className={classes.root}>

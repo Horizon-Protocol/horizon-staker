@@ -28,18 +28,24 @@ export const formatAddress = (address: string, size: number = 8) => {
 };
 
 /*
-  (reward for this period * reward Price/ total supply *staking token price )/7*365*100%
+  ((reward for this period * reward Price/ total staked *staking token price )/period)*365*100%
 */
 export const calculateAPY = (
-  period: BigNumber,
-  periodReward: BigNumber,
-  hznPrice: BigNumber,
-  hznTotalSupply: BigNumber,
-  tokenPrice: BigNumber
+  stakingTokenPrice: BigNumber,
+  totalStaked: BigNumber,
+  rewardTokenPrice: BigNumber,
+  totalPeriodReward: BigNumber,
+  rewardSeconds: BigNumber
 ) => {
-  const reward = periodReward.mul(hznPrice);
-  const;
-  return (
-    (periodReward.mul(hznPrice.div(hznTotalSupply)).mul(tokenPrice) / 7) * 365
-  );
+  const periodInDays = rewardSeconds.div(BigNumber.from(3600 * 24));
+  const totalRewardValue = rewardTokenPrice.mul(totalPeriodReward);
+  const totalStakingValue = stakingTokenPrice.mul(totalStaked);
+  const apy = totalRewardValue
+    .div(totalStakingValue)
+    .div(periodInDays)
+    .mul(365)
+    .mul(100);
+  console.log(apy.toString());
+
+  return;
 };

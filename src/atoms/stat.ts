@@ -3,9 +3,10 @@ import { BigNumber, constants } from "ethers";
 import { Token } from "@utils/constants";
 
 interface Data {
-  total: BigNumber;
+  total: BigNumber; // total staked
   finish: BigNumber;
-  lockDownSeconds: BigNumber;
+  rewardSeconds: BigNumber; // reward period in seconds
+  lockDownSeconds: BigNumber; // lockdown period in seconds
 }
 
 interface Param {
@@ -16,6 +17,7 @@ interface Param {
 const defaultData: Data = {
   total: constants.Zero,
   finish: constants.Zero,
+  rewardSeconds: constants.Zero,
   lockDownSeconds: constants.Zero,
 };
 
