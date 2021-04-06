@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "@material-ui/core";
 import useRequest from "@ahooksjs/use-request";
 import StakeCard, { StakeCardProps } from "@components/StakeCard";
-import { Token, TokenAddresses } from "@utils/constants";
+import { Token, TOKEN_CONTRACT_ADDRESS } from "@utils/constants";
 import useWallet from "@hooks/useWallet";
 import useFetchState from "@hooks/useFetchState";
 import phbBg from "@assets/bgs/phb.png";
@@ -61,13 +61,10 @@ const cards: StakeCardProps[] = [
       </>
     ),
     links: [
-      // {
-      //   href: "https://binance.com",
-      //   logo: bnbLogo,
-      //   text: "Buy HZN",
-      // },
       {
-        href: "https://exchange.pancakeswap.finance/",
+        href: `https://exchange.pancakeswap.finance/#/swap?inputCurrency=${
+          TOKEN_CONTRACT_ADDRESS[56][Token.HZN]
+        }`,
         logo: cakeLogo,
         text: "Buy HZN",
       },
@@ -85,7 +82,9 @@ const cards: StakeCardProps[] = [
     ),
     links: [
       {
-        href: `https://exchange.pancakeswap.finance/#/add/BNB/${TokenAddresses.HZN}`,
+        href: `https://exchange.pancakeswap.finance/#/add/BNB/${
+          TOKEN_CONTRACT_ADDRESS[56][Token.HZN]
+        }`,
         logo: cakeLogo,
         text: "GET HZN-BNB LP TOKENS",
       },
