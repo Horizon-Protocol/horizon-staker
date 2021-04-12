@@ -5,7 +5,7 @@ import { Token } from "@utils/constants";
 interface Data {
   total: BigNumber; // total staked
   finish: BigNumber;
-  rewardPerBlock: BigNumber; // tokens per BSC block
+  rewardsPerBlock: BigNumber; // tokens per BSC block
   lockDownSeconds: BigNumber; // lockdown period in seconds
 }
 
@@ -17,7 +17,7 @@ interface Param {
 const defaultData: Data = {
   total: constants.Zero,
   finish: constants.Zero,
-  rewardPerBlock: constants.Zero,
+  rewardsPerBlock: constants.Zero,
   lockDownSeconds: constants.Zero,
 };
 

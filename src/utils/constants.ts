@@ -105,14 +105,9 @@ export const TokenAddresses = TOKEN_CONTRACT_ADDRESS[ChainId];
 export const SummaryAddress = SUMMARY_CONTRACT_ADDRESS[ChainId];
 export const StakingAddresses = STAKING_CONTRACT_ADDRESS[ChainId];
 
-export const REWARD_PER_BLOCK: { [t in Token]: BigNumber } = {
-  [Token.PHB]: BigNumber.from(50),
-  [Token.HZN]: BigNumber.from(50),
-  [Token.HZN_BNB_LP]: BigNumber.from(50),
-};
-
 // BSC 3 seconds per block
 export const BSC_BLOCK_TIME = 3;
+
 // BSC Blocks per year
 export const BLOCKS_PER_YEAR = BigNumber.from(
   (60 / BSC_BLOCK_TIME) * 60 * 24 * 365

@@ -36,12 +36,14 @@ export default function Stats({ token }: { token: TokenEnum }) {
 
   const hznPrice = useAtomValue(tokenPriceAtomFamily(Token.HZN));
   const stakeTokenPrice = useAtomValue(tokenPriceAtomFamily(token));
-  const { total, rewardPerBlock } = useAtomValue(tokenStatAtomFamily(token));
+  const { total, rewardsPerBlock } = useAtomValue(tokenStatAtomFamily(token));
 
-  const apy = useMemo(
-    () => getApy(stakeTokenPrice, hznPrice, total, rewardPerBlock),
-    [stakeTokenPrice, hznPrice, total, rewardPerBlock]
-  );
+  const apy = useMemo(() => {
+    if (token === Token.HZN) {
+      return getApy(1, 1, total, rewardsPerBlock);
+    }
+    return getApy(stakeTokenPrice, hznPrice, total, rewardsPerBlock);
+  }, [token, stakeTokenPrice, hznPrice, total, rewardsPerBlock]);
 
   return (
     <Box className={classes.root}>
@@ -54,7 +56,7 @@ export default function Stats({ token }: { token: TokenEnum }) {
           APY
         </Typography>
         <Typography variant='body1' classes={{ root: classes.apy }}>
-          {apy ? `${apy * 100} %` : "- -"}
+          {apy ? `${apy} %` : "- -"}
         </Typography>
       </div>
       <div className={classes.item}>
