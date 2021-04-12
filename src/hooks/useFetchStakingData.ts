@@ -9,6 +9,7 @@ import {
 import { tokenStatAtomFamily } from "@atoms/stat";
 import useWallet from "./useWallet";
 import useStaking from "./useStaking";
+import { BSC_BLOCK_TIME } from "@/utils/constants";
 
 export default function useFetchStakingData(token: TokenEnum) {
   const { account } = useWallet();
@@ -35,7 +36,8 @@ export default function useFetchStakingData(token: TokenEnum) {
         stakingContract.withdrawableAmount(account), // user withdrawable Amount
         stakingContract.totalSupply(), // total staked
         stakingContract.periodFinish(), // finish time
-        stakingContract.rewardsDuration(), // lockDownDuration in seconds
+        stakingContract.rewardRate(), // total reward for current duration
+        stakingContract.rewardsDuration(), // rewardDuration in seconds
         stakingContract.lockDownDuration(), // lockDownDuration in seconds
       ]);
     }
@@ -45,7 +47,7 @@ export default function useFetchStakingData(token: TokenEnum) {
       withdrawable = constants.Zero,
       totalStaked = constants.Zero,
       finish = constants.Zero,
-      rewardSeconds = constants.Zero,
+      rewardPerSecond = constants.Zero,
       lockDownSeconds = constants.Zero,
     ] = res;
     setStaked(staked);
@@ -54,7 +56,7 @@ export default function useFetchStakingData(token: TokenEnum) {
     setStat({
       total: totalStaked,
       finish,
-      rewardSeconds,
+      rewardPerBlock: rewardPerSecond.div(BSC_BLOCK_TIME),
       lockDownSeconds,
     });
     return constants.Zero;

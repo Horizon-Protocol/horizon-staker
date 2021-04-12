@@ -3,7 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useAtomValue } from "jotai/utils";
 import { cardContent } from "@utils/theme/common";
 import { Token, TokenShortName } from "@utils/constants";
-import { getFullDisplayBalance, calculateAPY } from "@utils/formatters";
+import { getFullDisplayBalance } from "@utils/formatters";
+import { getApy } from "@utils/apy";
 import { tokenStatAtomFamily } from "@atoms/stat";
 import { useMemo } from "react";
 import { tokenPriceAtomFamily } from "@/atoms/price";
@@ -35,12 +36,12 @@ export default function Stats({ token }: { token: TokenEnum }) {
 
   const hznPrice = useAtomValue(tokenPriceAtomFamily(Token.HZN));
   const stakeTokenPrice = useAtomValue(tokenPriceAtomFamily(token));
-  const { total, rewardSeconds } = useAtomValue(tokenStatAtomFamily(token));
+  const { total, rewardPerBlock } = useAtomValue(tokenStatAtomFamily(token));
 
-  const apy = useMemo(() => {
-    return 0;
-    // return calculateAPY();
-  }, [stakeTokenPrice, rewardTokenPrice, total]);
+  const apy = useMemo(
+    () => getApy(stakeTokenPrice, hznPrice, total, rewardPerBlock),
+    [stakeTokenPrice, hznPrice, total, rewardPerBlock]
+  );
 
   return (
     <Box className={classes.root}>

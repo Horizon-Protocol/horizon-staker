@@ -8,7 +8,7 @@ import { Token } from "@utils/constants";
 import { usePHB, useHZN } from "./useContract";
 import useWallet from "./useWallet";
 import useFetchStakingData from "./useFetchStakingData";
-import usePancakeQuery from "./usePancakeQuery";
+import useFetchPrice from "./useFetchPrice";
 
 export default function useFetchState() {
   const { account } = useWallet();
@@ -21,7 +21,7 @@ export default function useFetchState() {
   // const lpToken = useLP();
 
   // price
-  const { run: fetchHZNPrice } = usePancakeQuery();
+  const fetchPrice = useFetchPrice();
 
   // all loading
   const setLoading = useUpdateAtom(loadingAllAtom);
@@ -46,7 +46,7 @@ export default function useFetchState() {
           : constants.Zero,
         fetchPHBStakingData(),
         fetchHZNStakingData(),
-        fetchHZNPrice(),
+        fetchPrice(),
       ]);
 
       setAvailablePHB(phb);
@@ -63,7 +63,7 @@ export default function useFetchState() {
     setLoading,
     fetchPHBStakingData,
     fetchHZNStakingData,
-    fetchHZNPrice,
+    fetchPrice,
     setAvailablePHB,
     setAvailableHZN,
     enqueueSnackbar,

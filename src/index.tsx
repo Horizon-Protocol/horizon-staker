@@ -6,7 +6,6 @@ import { SnackbarProvider } from "notistack";
 import "@fontsource/roboto";
 import "@fontsource/roboto-condensed";
 import { UseWalletProvider } from "@binance-chain/bsc-use-wallet";
-import { ClientContext, client } from "@/apis/pancakeswap";
 import theme from "@utils/theme";
 import { ChainId } from "@utils/constants";
 import "./index.css";
@@ -16,22 +15,20 @@ import reportWebVitals from "./reportWebVitals";
 ReactDOM.render(
   <React.StrictMode>
     <JotaiProvider>
-      <ClientContext.Provider value={client}>
-        {/* children */}
-        <ThemeProvider theme={theme}>
-          <SnackbarProvider
-            anchorOrigin={{
-              horizontal: "right",
-              vertical: "top",
-            }}
-            preventDuplicate
-          >
-            <UseWalletProvider chainId={ChainId}>
-              <App />
-            </UseWalletProvider>
-          </SnackbarProvider>
-        </ThemeProvider>
-      </ClientContext.Provider>
+      {/* children */}
+      <ThemeProvider theme={theme}>
+        <SnackbarProvider
+          anchorOrigin={{
+            horizontal: "right",
+            vertical: "top",
+          }}
+          preventDuplicate
+        >
+          <UseWalletProvider chainId={ChainId}>
+            <App />
+          </UseWalletProvider>
+        </SnackbarProvider>
+      </ThemeProvider>
     </JotaiProvider>
   </React.StrictMode>,
   document.getElementById("root")
