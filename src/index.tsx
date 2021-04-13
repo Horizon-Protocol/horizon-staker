@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Provider } from "jotai";
+import { Provider as JotaiProvider } from "jotai";
 import { ThemeProvider } from "@material-ui/styles";
 import { SnackbarProvider } from "notistack";
 import "@fontsource/roboto";
@@ -14,7 +14,8 @@ import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider>
+    <JotaiProvider>
+      {/* children */}
       <ThemeProvider theme={theme}>
         <SnackbarProvider
           anchorOrigin={{
@@ -28,7 +29,7 @@ ReactDOM.render(
           </UseWalletProvider>
         </SnackbarProvider>
       </ThemeProvider>
-    </Provider>
+    </JotaiProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

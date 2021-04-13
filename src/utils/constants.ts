@@ -1,6 +1,7 @@
 import { Connectors } from "@binance-chain/bsc-use-wallet";
 import BinanceLogo from "@assets/wallets/binance.svg";
 import MetamaskLogo from "@assets/wallets/metamask.svg";
+import { BigNumber } from "ethers";
 
 export enum Token {
   PHB = "PHB",
@@ -103,3 +104,11 @@ export const ChainName = CHAIN_NAME_MAP[ChainId];
 export const TokenAddresses = TOKEN_CONTRACT_ADDRESS[ChainId];
 export const SummaryAddress = SUMMARY_CONTRACT_ADDRESS[ChainId];
 export const StakingAddresses = STAKING_CONTRACT_ADDRESS[ChainId];
+
+// BSC 3 seconds per block
+export const BSC_BLOCK_TIME = 3;
+
+// BSC Blocks per year
+export const BLOCKS_PER_YEAR = BigNumber.from(
+  (60 / BSC_BLOCK_TIME) * 60 * 24 * 365
+); // 10512000
