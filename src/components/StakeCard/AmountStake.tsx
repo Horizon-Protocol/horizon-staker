@@ -117,7 +117,9 @@ export default function AmountStake({ token, logo }: Props) {
   const staked = useAtomValue(stakedAtomFamily(token));
   const withdrawable = useAtomValue(withdrawableAtomFamily(token));
 
-  const { lockDownSeconds } = useAtomValue(tokenStatAtomFamily(token));
+  const { lockDownSeconds, isRoundActive } = useAtomValue(
+    tokenStatAtomFamily(token)
+  );
 
   const inputMax: BigNumber = useMemo(() => {
     if (currentAction === Action.Stake) {
@@ -218,6 +220,18 @@ export default function AmountStake({ token, logo }: Props) {
     enqueueSnackbar,
   ]);
 
+  const { btnLabel, btnDisabled } = useMemo(() => {
+    const stakedNotStarted = currentAction === Action.Stake && !isRoundActive;
+    return {
+      btnLabel: stakedNotStarted
+        ? "Not Started"
+        : currentAction
+        ? Action?.[currentAction]
+        : "",
+      btnDisabled: stakedNotStarted,
+    };
+  }, [currentAction, isRoundActive]);
+
   return (
     <>
       <Box className={classes.root}>
@@ -266,9 +280,10 @@ export default function AmountStake({ token, logo }: Props) {
             amount={amount}
             max={inputMax}
             lockDownSeconds={lockDownSeconds}
-            btnLabel={currentAction ? Action[currentAction] : ""}
+            btnLabel={btnLabel}
             onSubmit={handleSubmit}
             loading={submitting}
+            disabled={btnDisabled}
           />
           {currentAction === Action.Stake && <RoundStart token={token} />}
         </Box>

@@ -4,9 +4,10 @@ import { Token } from "@utils/constants";
 
 interface Data {
   total: BigNumber; // total staked
-  finish: BigNumber;
   rewardsPerBlock: BigNumber; // tokens per BSC block
+  // rewardsDurationSeconds: BigNumber; // rewardsDuration in seconds
   lockDownSeconds: BigNumber; // lockdown period in seconds
+  isRoundActive: boolean; // if the round is open
 }
 
 interface Param {
@@ -16,9 +17,10 @@ interface Param {
 
 const defaultData: Data = {
   total: constants.Zero,
-  finish: constants.Zero,
   rewardsPerBlock: constants.Zero,
+  // rewardsDurationSeconds: constants.Zero,
   lockDownSeconds: constants.Zero,
+  isRoundActive: false,
 };
 
 export const statAtomFamily = atomFamily(

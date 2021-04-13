@@ -36,14 +36,19 @@ export default function Stats({ token }: { token: TokenEnum }) {
 
   const hznPrice = useAtomValue(tokenPriceAtomFamily(Token.HZN));
   const stakeTokenPrice = useAtomValue(tokenPriceAtomFamily(token));
-  const { total, rewardsPerBlock } = useAtomValue(tokenStatAtomFamily(token));
+  const { total, rewardsPerBlock, isRoundActive } = useAtomValue(
+    tokenStatAtomFamily(token)
+  );
 
   const apy = useMemo(() => {
+    if (!isRoundActive) {
+      return 0;
+    }
     if (token === Token.HZN) {
       return getApy(1, 1, total, rewardsPerBlock);
     }
     return getApy(stakeTokenPrice, hznPrice, total, rewardsPerBlock);
-  }, [token, stakeTokenPrice, hznPrice, total, rewardsPerBlock]);
+  }, [isRoundActive, token, stakeTokenPrice, hznPrice, total, rewardsPerBlock]);
 
   return (
     <Box className={classes.root}>

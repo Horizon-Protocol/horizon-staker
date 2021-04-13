@@ -55,6 +55,7 @@ interface Props {
   btnLabel: string;
   logo?: string;
   loading: boolean;
+  disabled: boolean;
   onSubmit: () => void;
 }
 
@@ -68,6 +69,7 @@ export default function AmountInput({
   btnLabel,
   logo,
   loading = false,
+  disabled = false,
   onSubmit,
 }: Props) {
   const classes = useStyles();
@@ -124,7 +126,7 @@ export default function AmountInput({
       <PrimaryButton
         size='large'
         fullWidth
-        disabled={amount.lte(0) || amount.gt(max)}
+        disabled={disabled || amount.lte(0) || amount.gt(max)}
         onClick={onSubmit}
         loading={loading}
       >

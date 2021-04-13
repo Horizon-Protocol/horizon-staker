@@ -37,7 +37,7 @@ export default function useFetchStakingData(token: TokenEnum) {
         stakingContract.totalSupply(), // total staked
         stakingContract.periodFinish(), // finish time
         stakingContract.rewardRate(), // rewards per second
-        stakingContract.rewardsDuration(), // rewardDuration in seconds
+        // stakingContract.rewardsDuration(), // rewardDuration in seconds
         stakingContract.lockDownDuration(), // lockDownDuration in seconds
       ]);
     }
@@ -46,17 +46,21 @@ export default function useFetchStakingData(token: TokenEnum) {
       earned = constants.Zero,
       withdrawable = constants.Zero,
       totalStaked = constants.Zero,
-      finish = constants.Zero,
+      periodFinish = constants.Zero,
       rewardsPerSecond = constants.Zero,
+      // rewardsDurationSeconds = constants.Zero,
       lockDownSeconds = constants.Zero,
     ] = res;
     setStaked(staked);
     setEarned(earned);
     setWithdrawable(withdrawable);
+    const finishTimestamp = periodFinish.toNumber();
+    const now = Date.now() / 1000;
     setStat({
+      isRoundActive: finishTimestamp > 0 && now < finishTimestamp,
       total: totalStaked,
-      finish,
       rewardsPerBlock: rewardsPerSecond.mul(BSC_BLOCK_TIME),
+      // rewardsDurationSeconds,
       lockDownSeconds,
     });
     return constants.Zero;
