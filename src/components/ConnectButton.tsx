@@ -26,6 +26,8 @@ const useStyles = makeStyles({
   },
 });
 
+const isAvailable = false;
+
 export default function ConnectButton({ rounded, ...props }: Props) {
   const classes = useStyles();
 
@@ -37,10 +39,11 @@ export default function ConnectButton({ rounded, ...props }: Props) {
       color='primary'
       size='small'
       onClick={() => setOpen(true)}
+      disabled={!isAvailable}
       {...props}
       className={rounded ? classes.rounded : ""}
     >
-      Connect Wallet
+      {isAvailable ? "Connect Wallet" : "Available Soon"}
     </StyledButton>
   );
 }
