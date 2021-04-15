@@ -26,7 +26,7 @@ const useStyles = makeStyles({
   },
 });
 
-const isAvailable = false;
+const isAvailable = true;
 
 export default function ConnectButton({ rounded, ...props }: Props) {
   const classes = useStyles();

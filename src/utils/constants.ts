@@ -62,7 +62,7 @@ export const TOKEN_CONTRACT_ADDRESS: {
   56: {
     [Token.PHB]: "0xdff88a0a43271344b760b58a35076bf05524195c",
     [Token.HZN]: "0xc0eff7749b125444953ef89682201fb8c6a917cd",
-    [Token.HZN_BNB_LP]: "",
+    [Token.HZN_BNB_LP]: "0xee4ca18e91012bf87fefde3dd6723a8834347a4d",
   },
   97: {
     [Token.PHB]: "0xf09f5e21f86692c614d2d7b47e3b9729dc1c436f",
@@ -86,13 +86,13 @@ export const STAKING_CONTRACT_ADDRESS: {
   };
 } = {
   56: {
-    [Token.PHB]: "",
-    [Token.HZN]: "",
-    [Token.HZN_BNB_LP]: "",
+    [Token.PHB]: "0xD4552F3e19B91BeD5EF2c76a67ABdbFfeD5caEEC",
+    [Token.HZN]: "0x67D5a94F444DF4bBA254645065a4137fc665Bf98",
+    [Token.HZN_BNB_LP]: "0xB9C6C9F41d3Da1C81c869e527F7b8f44D6e949b6",
   },
   97: {
     [Token.PHB]: "0x04f8bd779921F3df6EF0E98e4D2fb00D77ae051B",
-    [Token.HZN]: "0x601CC64c274E907D038a655B27B32174B28623Fc",
+    [Token.HZN]: "0x19b0E3B2413104b48Dc543A036CF808D5Fcb9d6F",
     [Token.HZN_BNB_LP]: "",
   },
 };

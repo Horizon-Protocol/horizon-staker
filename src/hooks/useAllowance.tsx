@@ -5,7 +5,7 @@ import { useSnackbar } from "notistack";
 import { Erc20, HZN } from "@abis/types";
 import { tokenAllowanceAtomFamily } from "@atoms/balance";
 import { Token } from "@utils/constants";
-import { usePHB, useHZN } from "./useContract";
+import { usePHB, useHZN, useLP } from "./useContract";
 import useWallet from "./useWallet";
 
 export const useTokenAllowance = (token: TokenEnum, spenderAddress: string) => {
@@ -17,18 +17,21 @@ export const useTokenAllowance = (token: TokenEnum, spenderAddress: string) => {
 
   const phbContract = usePHB(true);
   const hznContract = useHZN(true);
+  const lpContract = useLP(true);
 
   const tokenContract: Erc20 | HZN | null = useMemo(() => {
     switch (token) {
       case Token.HZN:
-        return hznContract as HZN;
+        return hznContract;
+      case Token.HZN_BNB_LP:
+        return lpContract;
       case Token.PHB:
-        return phbContract as Erc20;
+        return phbContract;
       default:
         break;
     }
     return null;
-  }, [token, phbContract, hznContract]);
+  }, [token, hznContract, lpContract, phbContract]);
 
   const fetchAllowance = useCallback(async () => {
     if (account && tokenContract) {
@@ -41,10 +44,6 @@ export const useTokenAllowance = (token: TokenEnum, spenderAddress: string) => {
   }, [account, tokenContract, setAllowance, spenderAddress, token]);
 
   const handleApprove = useCallback(async () => {
-    if (token === Token.HZN_BNB_LP) {
-      enqueueSnackbar("Coming soon!", { variant: "warning" });
-      return;
-    }
     if (account && tokenContract) {
       setLoading(true);
       try {
@@ -68,14 +67,7 @@ export const useTokenAllowance = (token: TokenEnum, spenderAddress: string) => {
       }
       setLoading(false);
     }
-  }, [
-    token,
-    account,
-    tokenContract,
-    spenderAddress,
-    setAllowance,
-    enqueueSnackbar,
-  ]);
+  }, [account, tokenContract, spenderAddress, enqueueSnackbar, setAllowance]);
 
   const checkApprove = useCallback(
     async (amount: BigNumber) => {

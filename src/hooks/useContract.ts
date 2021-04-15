@@ -39,4 +39,12 @@ export const useHZN = (writable: boolean = false) => {
   return useContract(TokenAddresses[Token.HZN], hznAbi, writable) as HZN;
 };
 
+export const useLP = (writable: boolean = false) => {
+  return useContract(
+    TokenAddresses[Token.HZN_BNB_LP],
+    erc20Abi,
+    writable
+  ) as Erc20;
+};
+
 export default useContract;
