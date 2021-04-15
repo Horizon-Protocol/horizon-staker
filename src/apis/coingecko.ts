@@ -1,13 +1,13 @@
 import fetch from "cross-fetch";
 
 const ENDPOINT =
-  "https://api.coingecko.com/api/v3/simple/price?ids=red-pulse,horizon&vs_currencies=USD";
+  "https://api.coingecko.com/api/v3/simple/price?ids=red-pulse,horizon-protocol&vs_currencies=USD";
 
 interface Result {
   "red-pulse": {
     usd: number;
   };
-  horizon?: {
+  "horizon-protocol"?: {
     usd: number;
   };
 }
@@ -19,7 +19,7 @@ export async function fetchPrice(): Promise<{ phb: number; hzn: number }> {
 
     return {
       phb: data["red-pulse"].usd,
-      hzn: data["horizon"]?.usd || 0,
+      hzn: data["horizon-protocol"]?.usd || 0,
     };
   } catch (error) {
     return { phb: 0, hzn: 0 };
