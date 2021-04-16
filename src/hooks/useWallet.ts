@@ -53,6 +53,9 @@ export default function useWallet() {
         default:
           if (wallet.error?.message) {
             errorMsg = wallet.error.message;
+            if (errorMsg.indexOf("Invariant failed") > -1) {
+              errorMsg = "Please switch wallet network to Binance Smart Chain";
+            }
           }
           break;
       }
