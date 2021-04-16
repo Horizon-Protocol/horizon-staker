@@ -1,9 +1,9 @@
-name: Deploy Mainnet Staing
+name: Deploy Mainnet
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - '*'
 
 jobs:
   build:
@@ -33,14 +33,14 @@ jobs:
         run: yarn generate-types && yarn build
         env:
           REACT_APP_CHAIN_ID: 56
-          REACT_APP_COMMIT_VERSION: staing-${{steps.get-tag.outputs.tag}}
+          REACT_APP_COMMIT_VERSION: ${{steps.get-tag.outputs.tag}}
 
       - name: Upload to S3
         uses: jakejarvis/s3-sync-action@master
         with:
           args: --acl public-read --follow-symlinks --delete
         env:
-          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET_STAGING }}
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_S3_REGION }} # optional: defaults to us-east-1
