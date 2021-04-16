@@ -43,7 +43,10 @@ const cards: StakeCardProps[] = [
       <>
         Stake BEP-20 PHB to earn HZN. <br />
         To convert your existing PHX or BEP-2 PHB to BEP-20 PHB, click{" "}
-        <Link href='https://horizonprotocol.com' target='_blank'>
+        <Link
+          href='https://horizonprotocol.medium.com/swap-guide-phx-nep5-phb-bep2-and-phb-bep20-f79c0d12135c'
+          target='_blank'
+        >
           here
         </Link>
         .
