@@ -5,9 +5,9 @@ import Header from "@components/Header";
 import Home from "./Home";
 import "./App.css";
 
-const COMMIT_TIME = process.env.REACT_APP_COMMIT_TIME;
+const COMMIT_VERSION = process.env.REACT_APP_COMMIT_VERSION;
 
-const UpdateTimestamp = withStyles(() => ({
+const Version = withStyles(() => ({
   root: {
     position: "absolute",
     right: 12,
@@ -22,10 +22,8 @@ function App() {
       <div className='App'>
         <Header />
         <Home />
-        {COMMIT_TIME ? (
-          <UpdateTimestamp variant='caption'>
-            Version: {COMMIT_TIME}
-          </UpdateTimestamp>
+        {COMMIT_VERSION ? (
+          <Version variant='caption'>Version: {COMMIT_VERSION}</Version>
         ) : null}
       </div>
       <WalletsDialog />
