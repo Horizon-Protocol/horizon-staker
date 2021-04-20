@@ -65,7 +65,7 @@ const cards: StakeCardProps[] = [
     ),
     links: [
       {
-        href: `https://exchange.pancakeswap.finance/#/swap?inputCurrency=${
+        href: `https://exchange.pancakeswap.finance/#/swap?outputCurrency=${
           TOKEN_CONTRACT_ADDRESS[56][Token.HZN]
         }`,
         logo: cakeLogo,
