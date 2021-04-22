@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "@material-ui/core";
 import useRequest from "@ahooksjs/use-request";
 import StakeCard, { StakeCardProps } from "@components/StakeCard";
-import { Token, TOKEN_CONTRACT_ADDRESS } from "@utils/constants";
+import { Token, TOKEN_ADDRESS, Action } from "@utils/constants";
 import useWallet from "@hooks/useWallet";
 import useFetchState from "@hooks/useFetchState";
 import phbBg from "@assets/bgs/phb.png";
@@ -66,7 +66,7 @@ const cards: StakeCardProps[] = [
     links: [
       {
         href: `https://exchange.pancakeswap.finance/#/swap?outputCurrency=${
-          TOKEN_CONTRACT_ADDRESS[56][Token.HZN]
+          TOKEN_ADDRESS[56][Token.HZN]
         }`,
         logo: cakeLogo,
         text: "Buy HZN",
@@ -77,6 +77,7 @@ const cards: StakeCardProps[] = [
     token: Token.HZN_BNB_LP,
     bg: bnbBg,
     color: "#D2884F",
+    open: false,
     desc: (
       <>
         Stake HZN-BNB LPs to earn HZN. <br />
@@ -86,12 +87,33 @@ const cards: StakeCardProps[] = [
     links: [
       {
         href: `https://exchange.pancakeswap.finance/#/add/BNB/${
-          TOKEN_CONTRACT_ADDRESS[56][Token.HZN]
+          TOKEN_ADDRESS[56][Token.HZN]
         }`,
         logo: cakeLogo,
         text: "GET HZN-BNB LP TOKENS",
       },
     ],
+  },
+  {
+    token: Token.HZN_BNB_LP_LEGACY,
+    bg: bnbBg,
+    color: "#FF325F",
+    cardTitle: "Please Unstake",
+    disabledActions: [Action.Stake],
+    desc: (
+      <>
+        Due to the Pancakeswap migration, this pool is no longer active. Please
+        unstake your tokens and go through the LP migration process{" "}
+        <Link
+          href='https://pancakeswap.medium.com/the-great-migration-vote-4093cb3edf23'
+          target='_blank'
+        >
+          here
+        </Link>
+        .
+      </>
+    ),
+    links: [],
   },
 ];
 

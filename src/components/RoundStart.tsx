@@ -33,7 +33,11 @@ const Times: {
     // start: new Date("2021-03-22T21:22:19Z"),
     // end: new Date("2021-03-29T21:22:19Z"),
   },
-  [Token.HZN_BNB_LP]: {},
+  [Token.HZN_BNB_LP]: {
+    // start: new Date("2021-03-22T21:22:19Z"),
+    // end: new Date("2021-03-29T21:22:19Z"),
+  },
+  [Token.HZN_BNB_LP_LEGACY]: {},
 };
 
 const padZero = (num: number) => num.toString().padStart(2, "0");

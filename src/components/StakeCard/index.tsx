@@ -12,6 +12,7 @@ import useWallet from "@hooks/useWallet";
 import ExternalLink from "@components/ExternalLink";
 import ConnectButton from "../ConnectButton";
 import CardSection from "./CardSection";
+import Pending from "./Pending";
 import Stats from "./Stats";
 import Earned from "./Earned";
 import AmountStake from "./AmountStake";
@@ -74,20 +75,26 @@ interface LinkProps {
 
 export interface StakeCardProps extends CardProps {
   token: TokenEnum;
+  cardTitle?: string | React.ReactNode;
   desc: string | React.ReactNode;
   bg: string;
   color?: string;
   logo?: string;
   links?: LinkProps[];
+  open?: boolean;
+  disabledActions?: ActionEnum[];
 }
 
 export default function StakeCard({
   token,
   bg,
   color = defaultTheme.palette.primary.main,
+  cardTitle,
   desc,
   logo,
   links,
+  open = true,
+  disabledActions,
   ...props
 }: StakeCardProps) {
   const classes = useStyles();
@@ -102,7 +109,7 @@ export default function StakeCard({
       {...props}
     >
       <StyledHeader
-        title={`Stake ${token}`}
+        title={cardTitle || `Stake ${token}`}
         subheader={
           <Typography className={classes.desc} color='textSecondary'>
             {desc}
@@ -114,24 +121,35 @@ export default function StakeCard({
       />
       <StyledContent>
         <Stats token={token} />
-        <Earned token={token} />
-        {connected ? (
-          <AmountStake logo={logo} token={token} />
-        ) : (
-          <CardSection>
-            <ConnectButton fullWidth rounded size='large' />
-          </CardSection>
-        )}
       </StyledContent>
-      {links?.length ? (
+      <div
+        style={{
+          position: open ? undefined : "relative",
+        }}
+      >
+        <StyledContent>
+          <Earned token={token} />
+          {connected ? (
+            <AmountStake
+              logo={logo}
+              token={token}
+              disabledActions={disabledActions}
+            />
+          ) : (
+            <CardSection>
+              <ConnectButton fullWidth rounded size='large' />
+            </CardSection>
+          )}
+        </StyledContent>
         <StyledLinks>
-          {links.map(({ href, logo, text }) => (
+          {links?.map(({ href, logo, text }) => (
             <ExternalLink key={href} href={href} logo={logo}>
               {text}
             </ExternalLink>
           ))}
         </StyledLinks>
-      ) : null}
+        {!open && <Pending>pending</Pending>}
+      </div>
     </StyledCard>
   );
 }

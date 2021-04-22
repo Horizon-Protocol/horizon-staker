@@ -5,7 +5,7 @@ import { useSnackbar } from "notistack";
 import { Erc20, HZN } from "@abis/types";
 import { tokenAllowanceAtomFamily } from "@atoms/balance";
 import { Token } from "@utils/constants";
-import { usePHB, useHZN, useLP } from "./useContract";
+import { usePHB, useHZN, useLP, useLegacyLP } from "./useContract";
 import useWallet from "./useWallet";
 
 export const useTokenAllowance = (token: TokenEnum, spenderAddress: string) => {
@@ -18,20 +18,23 @@ export const useTokenAllowance = (token: TokenEnum, spenderAddress: string) => {
   const phbContract = usePHB(true);
   const hznContract = useHZN(true);
   const lpContract = useLP(true);
+  const legacyLpContract = useLegacyLP(true);
 
   const tokenContract: Erc20 | HZN | null = useMemo(() => {
     switch (token) {
+      case Token.PHB:
+        return phbContract;
       case Token.HZN:
         return hznContract;
       case Token.HZN_BNB_LP:
         return lpContract;
-      case Token.PHB:
-        return phbContract;
+      case Token.HZN_BNB_LP_LEGACY:
+        return legacyLpContract;
       default:
         break;
     }
     return null;
-  }, [token, hznContract, lpContract, phbContract]);
+  }, [token, phbContract, hznContract, lpContract, legacyLpContract]);
 
   const fetchAllowance = useCallback(async () => {
     if (account && tokenContract) {

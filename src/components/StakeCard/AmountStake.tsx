@@ -3,7 +3,8 @@ import { BigNumber, constants, utils } from "ethers";
 import { Box, Button, Collapse, Typography } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { useSnackbar } from "notistack";
-import { StakingAddresses } from "@utils/constants";
+import { useAtomValue } from "jotai/utils";
+import { Token, StakingAddresses, Action } from "@utils/constants";
 import { cardContent } from "@utils/theme/common";
 import useFetchState from "@hooks/useFetchState";
 import { useTokenAllowance } from "@hooks/useAllowance";
@@ -16,9 +17,9 @@ import {
   withdrawableAtomFamily,
 } from "@atoms/balance";
 import { tokenStatAtomFamily } from "@atoms/stat";
+import { TokenName } from "@utils/constants";
 import { getFullDisplayBalance } from "@utils/formatters";
 import AmountInput from "./AmountInput";
-import { useAtomValue } from "jotai/utils";
 
 const useStyles = makeStyles(({ palette }) => ({
   root: {
@@ -78,31 +79,40 @@ const InputButton = withStyles(({ palette }) => ({
 interface Props {
   token: TokenEnum;
   logo?: string;
-}
-
-enum Action {
-  Stake = 1,
-  Unstake,
+  disabledActions?: ActionEnum[];
 }
 
 const Actions = [
   {
     key: Action.Stake,
     label: "+",
+    disabled: false,
   },
   {
     key: Action.Unstake,
     label: "-",
+    disabled: false,
   },
 ];
 
-export default function AmountStake({ token, logo }: Props) {
+export default function AmountStake({ token, logo, disabledActions }: Props) {
   const classes = useStyles();
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [currentAction, setCurrentAction] = useState<Action>();
   const [input, setInput] = useState<string>();
   const [isMax, setIsMax] = useState<boolean>(false);
   const { enqueueSnackbar } = useSnackbar();
+
+  const actions = useMemo(() => {
+    if (disabledActions) {
+      return Actions.map(({ key, ...item }) => ({
+        ...item,
+        key,
+        disabled: disabledActions.indexOf(key) > -1,
+      }));
+    }
+    return Actions;
+  }, [disabledActions]);
 
   const refresh = useFetchState();
 
@@ -233,7 +243,7 @@ export default function AmountStake({ token, logo }: Props) {
   ]);
 
   const { btnLabel, btnDisabled } = useMemo(() => {
-    const stakedNotStarted = false; //currentAction === Action.Stake && !isRoundActive;
+    const stakedNotStarted = currentAction === Action.Stake && !isRoundActive;
     return {
       btnLabel: stakedNotStarted
         ? "Not Started"
@@ -253,30 +263,36 @@ export default function AmountStake({ token, logo }: Props) {
             fullWidth
             loading={loading}
             onClick={handleApprove}
+            disabled={token === Token.HZN_BNB_LP_LEGACY}
           >
             Approve Contract
           </PrimaryButton>
         ) : (
           <>
             <AmountLabel variant='caption' color='primary'>
-              {token} Staked
+              {TokenName[token]} Staked
             </AmountLabel>
             <Box className={classes.amountBox}>
               <Box className={classes.staked}>
                 <Amount variant='body1'>{getFullDisplayBalance(staked)}</Amount>
               </Box>
               <Box className={classes.buttons}>
-                {Actions.map(({ key, label }) => (
-                  <InputButton
-                    key={key}
-                    variant='contained'
-                    color={currentAction === key ? "primary" : "secondary"}
-                    size='small'
-                    onClick={() => handleAction(key)}
-                  >
-                    {label}
-                  </InputButton>
-                ))}
+                {actions.map(({ key, label, disabled }) =>
+                  disabled ? (
+                    <i key={key} />
+                  ) : (
+                    <InputButton
+                      key={key}
+                      disabled={disabled}
+                      variant='contained'
+                      color={currentAction === key ? "primary" : "secondary"}
+                      size='small'
+                      onClick={() => handleAction(key)}
+                    >
+                      {label}
+                    </InputButton>
+                  )
+                )}
               </Box>
             </Box>
           </>

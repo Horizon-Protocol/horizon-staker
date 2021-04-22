@@ -47,4 +47,12 @@ export const useLP = (writable: boolean = false) => {
   ) as Erc20;
 };
 
+export const useLegacyLP = (writable: boolean = false) => {
+  return useContract(
+    TokenAddresses[Token.HZN_BNB_LP_LEGACY],
+    erc20Abi,
+    writable
+  ) as Erc20;
+};
+
 export default useContract;
