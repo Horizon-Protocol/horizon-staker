@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useRef } from "react";
 import { Box, Button, InputBase, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import NumberFormat from "react-number-format";
@@ -48,7 +48,7 @@ const useStyles = makeStyles(({ palette }) => ({
 interface Props {
   token: TokenEnum;
   input?: string;
-  onInput: (v: string) => void;
+  onInput: (v: string, max?: boolean) => void;
   amount: BigNumber; // ehter BN format of input
   max: BigNumber;
   lockDownSeconds: BigNumber | null;
@@ -74,9 +74,17 @@ export default function AmountInput({
 }: Props) {
   const classes = useStyles();
 
+  const maxRef = useRef<boolean>();
+
   const setMax = useCallback(() => {
-    onInput(getFullDisplayBalance(max));
-  }, [max, onInput]);
+    if (!amount.eq(max)) {
+      maxRef.current = true;
+      onInput(
+        getFullDisplayBalance(max, { mantissa: 6, trimMantissa: true }),
+        true
+      );
+    }
+  }, [amount, max, onInput]);
 
   const lockDownTime = useMemo(
     () =>
@@ -95,12 +103,18 @@ export default function AmountInput({
           {logo ? <img src={logo} alt={""} className={classes.logo} /> : null}
           <Typography>{token}</Typography>
         </span>
-        <InputBase
+        <NumberFormat
           value={input}
-          onChange={(e) => onInput(e.target.value)}
-          className={classes.input}
+          onValueChange={(values) => {
+            onInput(values.value, maxRef.current);
+            maxRef.current = false;
+          }}
+          allowNegative={false}
+          thousandSeparator
+          isNumericString
           placeholder='0.0'
-          inputComponent={NumberFormatCustom as any}
+          customInput={InputBase}
+          className={classes.input}
         />
         <Button
           variant='text'
@@ -133,33 +147,5 @@ export default function AmountInput({
         {btnLabel}
       </PrimaryButton>
     </Box>
-  );
-}
-
-interface NumberFormatCustomProps {
-  inputRef: (instance: NumberFormat | null) => void;
-  onChange: (event: { target: { name: string; value: string } }) => void;
-  name: string;
-}
-
-function NumberFormatCustom(props: NumberFormatCustomProps) {
-  const { inputRef, onChange, ...other } = props;
-
-  return (
-    <NumberFormat
-      {...other}
-      getInputRef={inputRef}
-      onValueChange={(values) => {
-        onChange({
-          target: {
-            name: props.name,
-            value: values.value,
-          },
-        });
-      }}
-      allowNegative={false}
-      thousandSeparator
-      isNumericString
-    />
   );
 }

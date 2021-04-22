@@ -101,6 +101,7 @@ export default function AmountStake({ token, logo }: Props) {
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [currentAction, setCurrentAction] = useState<Action>();
   const [input, setInput] = useState<string>();
+  const [isMax, setIsMax] = useState<boolean>(false);
   const { enqueueSnackbar } = useSnackbar();
 
   const refresh = useFetchState();
@@ -130,12 +131,23 @@ export default function AmountStake({ token, logo }: Props) {
     return constants.Zero;
   }, [currentAction, available, withdrawable]);
 
-  const amount = useMemo(
-    () => utils.parseUnits((input || "0").replace(/[^0-9.]/g, "")),
-    [input]
+  const amount: BigNumber = useMemo(
+    () =>
+      isMax
+        ? inputMax
+        : utils.parseUnits((input || "0").replace(/[^0-9.]/g, "")),
+    [input, isMax, inputMax]
   );
 
-  const handleAction: (action: Action) => void = useCallback((action) => {
+  const handleInput = useCallback<(val: string, max?: boolean) => void>(
+    (val, max = false) => {
+      setIsMax(max);
+      setInput(val);
+    },
+    []
+  );
+
+  const handleAction = useCallback<(action: Action) => void>((action) => {
     setCurrentAction((prevAction) =>
       prevAction === action ? undefined : action
     );
@@ -221,7 +233,7 @@ export default function AmountStake({ token, logo }: Props) {
   ]);
 
   const { btnLabel, btnDisabled } = useMemo(() => {
-    const stakedNotStarted = currentAction === Action.Stake && !isRoundActive;
+    const stakedNotStarted = false; //currentAction === Action.Stake && !isRoundActive;
     return {
       btnLabel: stakedNotStarted
         ? "Not Started"
@@ -276,7 +288,7 @@ export default function AmountStake({ token, logo }: Props) {
             token={token}
             logo={logo}
             input={input}
-            onInput={setInput}
+            onInput={handleInput}
             amount={amount}
             max={inputMax}
             lockDownSeconds={lockDownSeconds}
