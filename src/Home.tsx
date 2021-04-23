@@ -78,6 +78,7 @@ const cards: StakeCardProps[] = [
     bg: bnbBg,
     color: "#D2884F",
     // open: false,
+    disabledActions: [Action.Stake],
     desc: (
       <>
         Stake HZN-BNB LPs to earn HZN. <br />
