@@ -105,7 +105,7 @@ const cards: StakeCardProps[] = [
         Due to the Pancakeswap migration, this pool is no longer active. Please
         unstake your tokens and go through the LP migration process{" "}
         <Link
-          href='https://pancakeswap.medium.com/the-great-migration-vote-4093cb3edf23'
+          href='https://v1exchange.pancakeswap.finance/#/migrate'
           target='_blank'
         >
           here
@@ -113,7 +113,14 @@ const cards: StakeCardProps[] = [
         .
       </>
     ),
-    links: [],
+    links: [
+      {
+        href:
+          "https://pancakeswap.medium.com/the-great-migration-vote-4093cb3edf23",
+        logo: cakeLogo,
+        text: "Pancakeswap v2 Migration",
+      },
+    ],
   },
 ];
 
