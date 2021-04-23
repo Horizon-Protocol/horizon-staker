@@ -81,18 +81,20 @@ const cards: StakeCardProps[] = [
     disabledActions: [Action.Stake],
     desc: (
       <>
-        Stake HZN-BNB LPs to earn HZN. <br />
-        You can provide liquidity on Pancakeswap to get HZN-BNB LP tokens.
+        Staking for this pool is disabled until the PancakeSwap V2 migration is
+        complete.
+        {/* Stake HZN-BNB LPs to earn HZN. <br />
+        You can provide liquidity on Pancakeswap to get HZN-BNB LP tokens. */}
       </>
     ),
     links: [
-      {
-        href: `https://exchange.pancakeswap.finance/#/add/BNB/${
-          TOKEN_ADDRESS[56][Token.HZN]
-        }`,
-        logo: cakeLogo,
-        text: "GET HZN-BNB LP TOKENS",
-      },
+      // {
+      //   href: `https://exchange.pancakeswap.finance/#/add/BNB/${
+      //     TOKEN_ADDRESS[56][Token.HZN]
+      //   }`,
+      //   logo: cakeLogo,
+      //   text: "GET HZN-BNB LP TOKENS",
+      // },
     ],
   },
   {
