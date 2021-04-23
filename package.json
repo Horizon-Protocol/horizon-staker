@@ -1,6 +1,6 @@
 {
   "name": "horizon-staker",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "dependencies": {
     "@ahooksjs/use-request": "^2.8.3",
     "@binance-chain/bsc-use-wallet": "^0.8.1",
