@@ -77,7 +77,7 @@ const cards: StakeCardProps[] = [
     token: Token.HZN_BNB_LP,
     bg: bnbBg,
     color: "#D2884F",
-    open: false,
+    // open: false,
     desc: (
       <>
         Stake HZN-BNB LPs to earn HZN. <br />

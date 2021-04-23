@@ -14,9 +14,7 @@ export default function useFetchPrice() {
 
   const setPHBPrice = useUpdateAtom(tokenPriceAtomFamily(Token.PHB));
   const setHZNPrice = useUpdateAtom(tokenPriceAtomFamily(Token.HZN));
-  const setLpPrice = useUpdateAtom(
-    tokenPriceAtomFamily(Token.HZN_BNB_LP_LEGACY)
-  );
+  const setLpPrice = useUpdateAtom(tokenPriceAtomFamily(Token.HZN_BNB_LP));
 
   const run = useCallback(async () => {
     const now = Date.now() / 1000;

@@ -77,7 +77,7 @@ export const TOKEN_ADDRESS: {
   56: {
     [Token.PHB]: "0xdff88a0a43271344b760b58a35076bf05524195c",
     [Token.HZN]: "0xc0eff7749b125444953ef89682201fb8c6a917cd",
-    [Token.HZN_BNB_LP]: "",
+    [Token.HZN_BNB_LP]: "0xf7fcd7e7b3853bf59bca9183476f218ed07ed3b0",
     [Token.HZN_BNB_LP_LEGACY]: "0xee4ca18e91012bf87fefde3dd6723a8834347a4d",
   },
   97: {
@@ -86,14 +86,6 @@ export const TOKEN_ADDRESS: {
     [Token.HZN_BNB_LP]: "",
     [Token.HZN_BNB_LP_LEGACY]: "",
   },
-};
-
-// horizon summary contract
-export const SUMMARY_CONTRACT_ADDRESS: {
-  [chain: number]: string;
-} = {
-  56: "",
-  97: "0x19165a78Abd8ec4a2eAC02d98d527b698Bb9c526",
 };
 
 // staking contract
@@ -105,7 +97,7 @@ export const STAKING_CONTRACT_ADDRESS: {
   56: {
     [Token.PHB]: "0xD4552F3e19B91BeD5EF2c76a67ABdbFfeD5caEEC",
     [Token.HZN]: "0x67D5a94F444DF4bBA254645065a4137fc665Bf98",
-    [Token.HZN_BNB_LP]: "",
+    [Token.HZN_BNB_LP]: "0x56075e576E59B323E84348877655c56De7cfD6d8",
     [Token.HZN_BNB_LP_LEGACY]: "0xB9C6C9F41d3Da1C81c869e527F7b8f44D6e949b6",
   },
   97: {
@@ -121,7 +113,6 @@ const EnvChainId = parseInt(process.env.REACT_APP_CHAIN_ID);
 export const ChainId = [56, 97].indexOf(EnvChainId) > -1 ? EnvChainId : 97;
 export const ChainName = CHAIN_NAME_MAP[ChainId];
 export const TokenAddresses = TOKEN_ADDRESS[ChainId];
-export const SummaryAddress = SUMMARY_CONTRACT_ADDRESS[ChainId];
 export const StakingAddresses = STAKING_CONTRACT_ADDRESS[ChainId];
 
 // BSC 3 seconds per block
