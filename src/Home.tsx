@@ -88,6 +88,12 @@ const cards: StakeCardProps[] = [
       </>
     ),
     links: [
+      {
+        href:
+          "https://pancakeswap.medium.com/the-great-migration-vote-4093cb3edf23",
+        logo: cakeLogo,
+        text: "Pancakeswap v2 Migration",
+      },
       // {
       //   href: `https://exchange.pancakeswap.finance/#/add/BNB/${
       //     TOKEN_ADDRESS[56][Token.HZN]

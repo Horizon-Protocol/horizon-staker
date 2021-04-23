@@ -7,6 +7,8 @@ import { tokenPriceAtomFamily } from "@atoms/price";
 import { Token } from "@/utils/constants";
 import { useLP } from "./useContract";
 
+const lpDisabled = true;
+
 export default function useFetchPrice() {
   const [timestamp, setTimestamp] = useState<number>(0);
 
@@ -25,8 +27,8 @@ export default function useFetchPrice() {
     setTimestamp(now);
     const [{ phb, hzn }, totalLiquidity, lpTotalSupply] = await Promise.all([
       fetchPrice(),
-      fetchTotalLiquidity(),
-      lpToken ? lpToken.totalSupply() : constants.Zero,
+      lpDisabled ? 0 : fetchTotalLiquidity(),
+      !lpDisabled && lpToken ? lpToken.totalSupply() : constants.Zero,
     ]);
 
     const lpPrice = lpTotalSupply.gt(0)
