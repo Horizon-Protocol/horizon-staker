@@ -5,6 +5,7 @@ import NumberFormat from "react-number-format";
 import { BigNumber } from "ethers";
 import prettyMilliseconds from "pretty-ms";
 import PrimaryButton from "@components/PrimaryButton";
+import { TokenName } from "@utils/constants";
 import { getFullDisplayBalance } from "@utils/formatters";
 
 const useStyles = makeStyles(({ palette }) => ({
@@ -101,7 +102,7 @@ export default function AmountInput({
       <Box className={classes.inputBox}>
         <span className={classes.token}>
           {logo ? <img src={logo} alt={""} className={classes.logo} /> : null}
-          <Typography>{token}</Typography>
+          <Typography>{TokenName[token]}</Typography>
         </span>
         <NumberFormat
           value={input}
