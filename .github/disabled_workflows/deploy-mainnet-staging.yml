@@ -33,7 +33,7 @@ jobs:
         run: yarn generate-types && yarn build
         env:
           REACT_APP_CHAIN_ID: 56
-          REACT_APP_COMMIT_VERSION: staing-${{ steps.get-commit-time.outputs.commitTime }}
+          REACT_APP_COMMIT_VERSION: staging-${{ steps.get-commit-time.outputs.commitTime }}
 
       - name: Upload to S3
         uses: jakejarvis/s3-sync-action@master
