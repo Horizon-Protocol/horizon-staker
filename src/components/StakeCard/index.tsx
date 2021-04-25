@@ -7,6 +7,8 @@ import {
   CardActions,
   CardContent,
 } from "@material-ui/core";
+import { useAtomValue } from "jotai/utils";
+import { stakedAtomFamily, withdrawableAtomFamily } from "@atoms/balance";
 import defaultTheme from "@utils/theme";
 import useWallet from "@hooks/useWallet";
 import ExternalLink from "@components/ExternalLink";
@@ -16,6 +18,8 @@ import Pending from "./Pending";
 import Stats from "./Stats";
 import Earned from "./Earned";
 import AmountStake from "./AmountStake";
+import { useMemo } from "react";
+import { Token } from "@/utils/constants";
 
 const useStyles = makeStyles(() => ({
   desc: {
@@ -99,6 +103,20 @@ export default function StakeCard({
 }: StakeCardProps) {
   const classes = useStyles();
   const { connected } = useWallet();
+
+  const staked = useAtomValue(stakedAtomFamily(token));
+  const withdrawable = useAtomValue(withdrawableAtomFamily(token));
+
+  const cardEnabled = useMemo(() => {
+    if (token === Token.HZN_BNB_LP_LEGACY) {
+      return !staked.isZero() || !withdrawable.isZero();
+    }
+    return true;
+  }, [staked, token, withdrawable]);
+
+  if (!cardEnabled) {
+    return null;
+  }
 
   return (
     <StyledCard
