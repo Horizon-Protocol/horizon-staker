@@ -1,6 +1,7 @@
 import { Connectors } from "@binance-chain/bsc-use-wallet";
 import BinanceLogo from "@assets/wallets/binance.svg";
 import MetamaskLogo from "@assets/wallets/metamask.svg";
+import TrustLogo from "@assets/wallets/trust.svg";
 import { BigNumber } from "ethers";
 
 export enum Action {
@@ -35,6 +36,7 @@ export const TokenShortName = {
 export enum SupportedWallet {
   Metamask = "Metamask",
   Binance = "Binance",
+  Trust = "Trust",
 }
 
 declare global {
@@ -62,6 +64,12 @@ export const SUPPORTED_WALLETS: WalletDetail[] = [
     label: "Binance Wallet",
     logo: BinanceLogo,
     connectorId: "bsc",
+  },
+  {
+    key: SupportedWallet.Trust,
+    label: "Trust Wallet",
+    logo: TrustLogo,
+    connectorId: "injected",
   },
 ];
 
