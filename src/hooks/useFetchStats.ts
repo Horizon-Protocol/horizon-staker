@@ -13,7 +13,6 @@ export function useFetchStat(token: TokenEnum) {
   const setStat = useUpdateAtom(tokenStatAtomFamily(token));
 
   const fetchData = useCallback(async () => {
-    console.log("fetch stat:", token);
     let res: BigNumber[] = [];
     if (stakingContract) {
       res = await Promise.all([
