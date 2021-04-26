@@ -64,7 +64,8 @@ const StyledListItem = withStyles(({ palette }) => ({
 
 const StyledListItemText = withStyles(({ palette }) => ({
   root: {
-    paddingRight: 56,
+    paddingRight: 48,
+    whiteSpace: "nowrap",
   },
   primary: {
     textAlign: "center",

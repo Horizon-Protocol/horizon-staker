@@ -6,16 +6,16 @@ import {
   earnedAtomFamily,
   withdrawableAtomFamily,
 } from "@atoms/balance";
-import { tokenStatAtomFamily } from "@atoms/stat";
 import useWallet from "./useWallet";
 import useStaking from "./useStaking";
-import { BSC_BLOCK_TIME, Token } from "@/utils/constants";
+import { Token } from "@/utils/constants";
 
 export default function useFetchStakingData(token: TokenEnum) {
   const { account } = useWallet();
   const stakingContract = useStaking(token);
 
-  const isLegacy = token === Token.HZN_BNB_LP_LEGACY;
+  const isIgnore =
+    token === Token.HZN_BNB_LP_DEPRECATED || token === Token.HZN_BNB_LP_LEGACY;
 
   // staked
   const setStaked = useUpdateAtom(stakedAtomFamily(token));
@@ -26,9 +26,6 @@ export default function useFetchStakingData(token: TokenEnum) {
   // withdraw
   const setWithdrawable = useUpdateAtom(withdrawableAtomFamily(token));
 
-  // withdraw
-  const setStat = useUpdateAtom(tokenStatAtomFamily(token));
-
   const fetchData = useCallback(async () => {
     let res: BigNumber[] = [];
     if (account && stakingContract) {
@@ -37,8 +34,8 @@ export default function useFetchStakingData(token: TokenEnum) {
         stakingContract.earned(account), // user staked
         stakingContract.withdrawableAmount(account), // user withdrawable Amount
         stakingContract.totalSupply(), // total staked
-        isLegacy ? constants.Zero : stakingContract.periodFinish(), // finish time
-        isLegacy ? constants.Zero : stakingContract.rewardRate(), // rewards per second
+        isIgnore ? constants.Zero : stakingContract.periodFinish(), // finish time
+        isIgnore ? constants.Zero : stakingContract.rewardRate(), // rewards per second
         // stakingContract.rewardsDuration(), // rewardDuration in seconds
         stakingContract.lockDownDuration(), // lockDownDuration in seconds
       ]);
@@ -47,31 +44,16 @@ export default function useFetchStakingData(token: TokenEnum) {
       staked = constants.Zero,
       earned = constants.Zero,
       withdrawable = constants.Zero,
-      totalStaked = constants.Zero,
-      periodFinish = constants.Zero,
-      rewardsPerSecond = constants.Zero,
-      // rewardsDurationSeconds = constants.Zero,
-      lockDownSeconds = constants.Zero,
     ] = res;
     setStaked(staked);
     setEarned(earned);
     setWithdrawable(withdrawable);
-    const finishTimestamp = periodFinish.toNumber();
-    const now = Date.now() / 1000;
-    setStat({
-      isRoundActive: finishTimestamp > 0 && now < finishTimestamp,
-      total: totalStaked,
-      rewardsPerBlock: rewardsPerSecond.mul(BSC_BLOCK_TIME),
-      // rewardsDurationSeconds,
-      lockDownSeconds,
-    });
     return constants.Zero;
   }, [
     account,
-    isLegacy,
+    isIgnore,
     setEarned,
     setStaked,
-    setStat,
     setWithdrawable,
     stakingContract,
   ]);

@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Contract, ContractInterface } from "ethers";
 import erc20Abi from "@abis/erc20.json";
 import hznAbi from "@abis/HZN.json";
 import { Erc20, HZN } from "@abis/types";
 import useWallet from "@hooks/useWallet";
 import { TokenAddresses, Token } from "@utils/constants";
+import useRpcProvider from "./useRpcProvider";
 
 const useContract = (
   address: string,
@@ -12,6 +13,7 @@ const useContract = (
   writable: boolean = false
 ) => {
   const { provider } = useWallet();
+
   const [contract, setContract] = useState<Contract>();
 
   useEffect(() => {
@@ -23,6 +25,17 @@ const useContract = (
       }
     }
   }, [address, abi, provider, writable]);
+
+  return contract;
+};
+
+export const useRpcContract = (address: string, abi: ContractInterface) => {
+  const rpcProvider = useRpcProvider();
+  const contract = useMemo(() => new Contract(address, abi, rpcProvider), [
+    abi,
+    address,
+    rpcProvider,
+  ]);
 
   return contract;
 };
@@ -42,6 +55,14 @@ export const useHZN = (writable: boolean = false) => {
 export const useLP = (writable: boolean = false) => {
   return useContract(
     TokenAddresses[Token.HZN_BNB_LP],
+    erc20Abi,
+    writable
+  ) as Erc20;
+};
+
+export const useDeprecatedLP = (writable: boolean = false) => {
+  return useContract(
+    TokenAddresses[Token.HZN_BNB_LP_DEPRECATED],
     erc20Abi,
     writable
   ) as Erc20;

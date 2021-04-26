@@ -21,6 +21,7 @@
     "date-fns": "^2.19.0",
     "ethers": "^5.0.29",
     "jotai": "^0.14.0",
+    "lodash": "^4.17.21",
     "notistack": "^1.0.3",
     "numbro": "^2.3.2",
     "pretty-ms": "^7.0.1",
@@ -60,6 +61,7 @@
   },
   "devDependencies": {
     "@typechain/ethers-v5": "^5.0.0",
+    "@types/lodash": "^4.14.168",
     "craco-alias": "^2.1.1",
     "typechain": "^4.0.1"
   }

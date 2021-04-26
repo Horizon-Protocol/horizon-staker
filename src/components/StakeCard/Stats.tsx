@@ -34,8 +34,6 @@ const useStyles = makeStyles({
 export default function Stats({ token }: { token: TokenEnum }) {
   const classes = useStyles();
 
-  const isLp = token === Token.HZN_BNB_LP;
-
   const hznPrice = useAtomValue(tokenPriceAtomFamily(Token.HZN));
   const stakeTokenPrice = useAtomValue(tokenPriceAtomFamily(token));
   const { total, rewardsPerBlock, isRoundActive } = useAtomValue(
@@ -75,9 +73,7 @@ export default function Stats({ token }: { token: TokenEnum }) {
           Total Staked
         </Typography>
         <Typography variant='body1' classes={{ root: classes.total }}>
-          {isLp
-            ? "- -"
-            : `${getFullDisplayBalance(total)} ${TokenShortName[token]}`}
+          {`${getFullDisplayBalance(total)} ${TokenShortName[token]}`}
         </Typography>
       </div>
     </Box>

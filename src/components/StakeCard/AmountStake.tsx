@@ -7,10 +7,11 @@ import { useAtomValue } from "jotai/utils";
 import { Token, StakingAddresses, Action } from "@utils/constants";
 import { cardContent } from "@utils/theme/common";
 import useFetchState from "@hooks/useFetchState";
+import { useFetchStat } from "@hooks/useFetchStats";
 import { useTokenAllowance } from "@hooks/useAllowance";
 import useStaking from "@hooks/useStaking";
 import PrimaryButton from "@components/PrimaryButton";
-import RoundStart from "@components/RoundStart";
+// import RoundStart from "@components/RoundStart";
 import {
   availableAtomFamily,
   stakedAtomFamily,
@@ -114,7 +115,13 @@ export default function AmountStake({ token, logo, disabledActions }: Props) {
     return Actions;
   }, [disabledActions]);
 
-  const refresh = useFetchState();
+  const refreshState = useFetchState();
+  const refreshStat = useFetchStat(token);
+
+  const refresh = useCallback(() => {
+    refreshState();
+    refreshStat();
+  }, [refreshStat, refreshState]);
 
   const stakingContract = useStaking(token);
   const {
@@ -313,7 +320,7 @@ export default function AmountStake({ token, logo, disabledActions }: Props) {
             loading={submitting}
             disabled={btnDisabled}
           />
-          {currentAction === Action.Stake && <RoundStart token={token} />}
+          {/* {currentAction === Action.Stake && <RoundStart token={token} />} */}
         </Box>
       </Collapse>
     </>
