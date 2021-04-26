@@ -14,7 +14,6 @@ import {
 } from "./useContract";
 import useWallet from "./useWallet";
 import useFetchStakingData from "./useFetchStakingData";
-import useFetchPrice from "./useFetchPrice";
 
 export default function useFetchState() {
   const { account } = useWallet();
@@ -27,9 +26,6 @@ export default function useFetchState() {
   const lpToken = useLP();
   const deprecatedLpToken = useDeprecatedLP();
   const legacyLpToken = useLegacyLP();
-
-  // price
-  const fetchPrice = useFetchPrice();
 
   // all loading
   const setLoading = useUpdateAtom(loadingAllAtom);
@@ -49,6 +45,9 @@ export default function useFetchState() {
   const fetchPHBStakingData = useFetchStakingData(Token.PHB);
   const fetchHZNStakingData = useFetchStakingData(Token.HZN);
   const fetchLPStakingData = useFetchStakingData(Token.HZN_BNB_LP);
+  const fetchDeprecatedLPStakingData = useFetchStakingData(
+    Token.HZN_BNB_LP_DEPRECATED
+  );
   const fetchLegacyLPStakingData = useFetchStakingData(Token.HZN_BNB_LP_LEGACY);
 
   const fetchBalances = useCallback(async () => {
@@ -69,8 +68,8 @@ export default function useFetchState() {
         fetchPHBStakingData(),
         fetchHZNStakingData(),
         fetchLPStakingData(),
+        fetchDeprecatedLPStakingData(),
         fetchLegacyLPStakingData(),
-        fetchPrice(),
       ]);
 
       setAvailablePHB(phb);
@@ -89,15 +88,17 @@ export default function useFetchState() {
     phbToken,
     hznToken,
     lpToken,
+    deprecatedLpToken,
     legacyLpToken,
     fetchPHBStakingData,
     fetchHZNStakingData,
     fetchLPStakingData,
+    fetchDeprecatedLPStakingData,
     fetchLegacyLPStakingData,
-    fetchPrice,
     setAvailablePHB,
     setAvailableHZN,
     setAvailableLP,
+    setAvailableDeprecatedLP,
     setAvailableLegacyLP,
     enqueueSnackbar,
   ]);

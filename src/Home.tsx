@@ -5,6 +5,7 @@ import useRequest from "@ahooksjs/use-request";
 import StakeCard, { StakeCardProps } from "@components/StakeCard";
 import { Token, TOKEN_ADDRESS, Action } from "@utils/constants";
 import useWallet from "@hooks/useWallet";
+import useFetchStats from "@hooks/useFetchStats";
 import useFetchState from "@hooks/useFetchState";
 import phbBg from "@assets/bgs/phb.png";
 import hznBg from "@assets/bgs/hzn.png";
@@ -156,7 +157,16 @@ export default function Home() {
 
   const { connected } = useWallet();
 
+  const fetchStats = useFetchStats();
   const fetchState = useFetchState();
+
+  useRequest(fetchStats, {
+    loadingDelay: 500,
+    pollingInterval: 10000,
+    pollingWhenHidden: false,
+    refreshOnWindowFocus: true,
+    throttleInterval: 1000,
+  });
 
   const { run, cancel } = useRequest(fetchState, {
     manual: true,
@@ -172,9 +182,8 @@ export default function Home() {
       run();
     } else {
       cancel();
-      fetchState();
     }
-  }, [cancel, connected, fetchState, run]);
+  }, [cancel, connected, run]);
 
   return (
     <div className={classes.container}>
