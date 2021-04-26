@@ -1,6 +1,6 @@
 import fetch from "cross-fetch";
 
-const ENDPOINT = "https://api.pancakeswap.info/api/pairs/";
+const ENDPOINT = "https://api.pancakeswap.info/api/v2/pairs/";
 
 interface Pair {
   pair_address: string;
