@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useAtomValue } from "jotai/utils";
 import { cardContent } from "@utils/theme/common";
 import { Token, TokenShortName } from "@utils/constants";
-import { getFullDisplayBalance } from "@utils/formatters";
+import { getFullDisplayBalance, formatNumber } from "@utils/formatters";
 import { getApy } from "@utils/apy";
 import { tokenStatAtomFamily } from "@atoms/stat";
 import { useMemo } from "react";
@@ -63,7 +63,7 @@ export default function Stats({ token }: { token: TokenEnum }) {
           APY
         </Typography>
         <Typography variant='body1' classes={{ root: classes.apy }}>
-          {apy ? `${apy} %` : "- -"}
+          {apy ? `${formatNumber(apy)} %` : "- -"}
         </Typography>
       </div>
       <div className={classes.item}>
