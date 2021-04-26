@@ -78,14 +78,32 @@ const cards: StakeCardProps[] = [
     bg: bnbBg,
     color: "#D2884F",
     // open: false,
-    disabledActions: [Action.Stake],
+    // disabledActions: [Action.Stake],
     desc: (
       <>
-        Staking for this pool is disabled until the PancakeSwap V2 migration is
-        complete.
-        {/* Stake HZN-BNB LPs to earn HZN. <br />
-        You can provide liquidity on Pancakeswap to get HZN-BNB LP tokens. */}
+        Stake HZN-BNB LPs to earn HZN. <br />
+        You can provide liquidity on Pancakeswap to get HZN-BNB LP tokens.
       </>
+    ),
+    links: [
+      {
+        href: `https://exchange.pancakeswap.finance/#/add/BNB/${
+          TOKEN_ADDRESS[56][Token.HZN]
+        }`,
+        logo: cakeLogo,
+        text: "GET HZN-BNB LP TOKENS",
+      },
+    ],
+  },
+  {
+    token: Token.HZN_BNB_LP_DEPRECATED,
+    bg: bnbBg,
+    color: "#FF325F",
+    // open: false,
+    cardTitle: "Please Unstake",
+    disabledActions: [Action.Stake],
+    desc: (
+      <>Deprecated staking pool due to PancakeSwap V2 migration incident.</>
     ),
     links: [
       {

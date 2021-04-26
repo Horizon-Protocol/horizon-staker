@@ -15,7 +15,8 @@ export default function useFetchStakingData(token: TokenEnum) {
   const { account } = useWallet();
   const stakingContract = useStaking(token);
 
-  const isLegacy = token === Token.HZN_BNB_LP_LEGACY;
+  const isIgnore =
+    token === Token.HZN_BNB_LP_DEPRECATED || token === Token.HZN_BNB_LP_LEGACY;
 
   // staked
   const setStaked = useUpdateAtom(stakedAtomFamily(token));
@@ -37,8 +38,8 @@ export default function useFetchStakingData(token: TokenEnum) {
         stakingContract.earned(account), // user staked
         stakingContract.withdrawableAmount(account), // user withdrawable Amount
         stakingContract.totalSupply(), // total staked
-        isLegacy ? constants.Zero : stakingContract.periodFinish(), // finish time
-        isLegacy ? constants.Zero : stakingContract.rewardRate(), // rewards per second
+        isIgnore ? constants.Zero : stakingContract.periodFinish(), // finish time
+        isIgnore ? constants.Zero : stakingContract.rewardRate(), // rewards per second
         // stakingContract.rewardsDuration(), // rewardDuration in seconds
         stakingContract.lockDownDuration(), // lockDownDuration in seconds
       ]);
@@ -68,7 +69,7 @@ export default function useFetchStakingData(token: TokenEnum) {
     return constants.Zero;
   }, [
     account,
-    isLegacy,
+    isIgnore,
     setEarned,
     setStaked,
     setStat,

@@ -10,7 +10,7 @@ import useFetchState from "@hooks/useFetchState";
 import { useTokenAllowance } from "@hooks/useAllowance";
 import useStaking from "@hooks/useStaking";
 import PrimaryButton from "@components/PrimaryButton";
-import RoundStart from "@components/RoundStart";
+// import RoundStart from "@components/RoundStart";
 import {
   availableAtomFamily,
   stakedAtomFamily,
@@ -313,7 +313,7 @@ export default function AmountStake({ token, logo, disabledActions }: Props) {
             loading={submitting}
             disabled={btnDisabled}
           />
-          {currentAction === Action.Stake && <RoundStart token={token} />}
+          {/* {currentAction === Action.Stake && <RoundStart token={token} />} */}
         </Box>
       </Collapse>
     </>

@@ -12,6 +12,7 @@ export enum Token {
   PHB = "PHB",
   HZN = "HZN",
   HZN_BNB_LP = "HZN-BNB LP",
+  HZN_BNB_LP_DEPRECATED = "HZN-BNB LP Deprecated",
   HZN_BNB_LP_LEGACY = "HZN-BNB LP Legacy",
 }
 
@@ -19,6 +20,7 @@ export const TokenName = {
   [Token.PHB]: "PHB",
   [Token.HZN]: "HZN",
   [Token.HZN_BNB_LP]: "HZN-BNB LP",
+  [Token.HZN_BNB_LP_DEPRECATED]: "HZN-BNB LP",
   [Token.HZN_BNB_LP_LEGACY]: "HZN-BNB LP",
 };
 
@@ -26,6 +28,7 @@ export const TokenShortName = {
   [Token.PHB]: "PHB",
   [Token.HZN]: "HZN",
   [Token.HZN_BNB_LP]: "LP",
+  [Token.HZN_BNB_LP_DEPRECATED]: "LP",
   [Token.HZN_BNB_LP_LEGACY]: "LP",
 };
 
@@ -77,13 +80,15 @@ export const TOKEN_ADDRESS: {
   56: {
     [Token.PHB]: "0xdff88a0a43271344b760b58a35076bf05524195c",
     [Token.HZN]: "0xc0eff7749b125444953ef89682201fb8c6a917cd",
-    [Token.HZN_BNB_LP]: "0xf7fcd7e7b3853bf59bca9183476f218ed07ed3b0",
+    [Token.HZN_BNB_LP]: "0xDc9a574b9B341D4a98cE29005b614e1E27430E74",
+    [Token.HZN_BNB_LP_DEPRECATED]: "0xf7fcd7e7b3853bf59bca9183476f218ed07ed3b0",
     [Token.HZN_BNB_LP_LEGACY]: "0xee4ca18e91012bf87fefde3dd6723a8834347a4d",
   },
   97: {
     [Token.PHB]: "0xf09f5e21f86692c614d2d7b47e3b9729dc1c436f",
     [Token.HZN]: "0x74ba52975dd4f0a9cde1b8d4d54b808ef9d0a3f8",
     [Token.HZN_BNB_LP]: "",
+    [Token.HZN_BNB_LP_DEPRECATED]: "",
     [Token.HZN_BNB_LP_LEGACY]: "",
   },
 };
@@ -97,13 +102,15 @@ export const STAKING_CONTRACT_ADDRESS: {
   56: {
     [Token.PHB]: "0xD4552F3e19B91BeD5EF2c76a67ABdbFfeD5caEEC",
     [Token.HZN]: "0x67D5a94F444DF4bBA254645065a4137fc665Bf98",
-    [Token.HZN_BNB_LP]: "0x56075e576E59B323E84348877655c56De7cfD6d8",
+    [Token.HZN_BNB_LP]: "0x84838d0AB37857fAd5979Fcf6BDDf8ddb1cC1dA8",
+    [Token.HZN_BNB_LP_DEPRECATED]: "0x56075e576E59B323E84348877655c56De7cfD6d8",
     [Token.HZN_BNB_LP_LEGACY]: "0xB9C6C9F41d3Da1C81c869e527F7b8f44D6e949b6",
   },
   97: {
     [Token.PHB]: "0x04f8bd779921F3df6EF0E98e4D2fb00D77ae051B",
     [Token.HZN]: "0x19b0E3B2413104b48Dc543A036CF808D5Fcb9d6F",
     [Token.HZN_BNB_LP]: "",
+    [Token.HZN_BNB_LP_DEPRECATED]: "",
     [Token.HZN_BNB_LP_LEGACY]: "",
   },
 };

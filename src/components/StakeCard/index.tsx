@@ -108,7 +108,10 @@ export default function StakeCard({
   const withdrawable = useAtomValue(withdrawableAtomFamily(token));
 
   const cardEnabled = useMemo(() => {
-    if (token === Token.HZN_BNB_LP_LEGACY) {
+    if (
+      token === Token.HZN_BNB_LP_LEGACY ||
+      token === Token.HZN_BNB_LP_DEPRECATED
+    ) {
       return !staked.isZero() || !withdrawable.isZero();
     }
     return true;

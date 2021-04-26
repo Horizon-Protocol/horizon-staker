@@ -5,7 +5,13 @@ import { useSnackbar } from "notistack";
 import { loadingAllAtom } from "@atoms/loading";
 import { availableAtomFamily } from "@atoms/balance";
 import { Token } from "@utils/constants";
-import { usePHB, useHZN, useLP, useLegacyLP } from "./useContract";
+import {
+  usePHB,
+  useHZN,
+  useLP,
+  useDeprecatedLP,
+  useLegacyLP,
+} from "./useContract";
 import useWallet from "./useWallet";
 import useFetchStakingData from "./useFetchStakingData";
 import useFetchPrice from "./useFetchPrice";
@@ -19,6 +25,7 @@ export default function useFetchState() {
   const phbToken = usePHB();
   const hznToken = useHZN();
   const lpToken = useLP();
+  const deprecatedLpToken = useDeprecatedLP();
   const legacyLpToken = useLegacyLP();
 
   // price
@@ -31,6 +38,9 @@ export default function useFetchState() {
   const setAvailablePHB = useUpdateAtom(availableAtomFamily(Token.PHB));
   const setAvailableHZN = useUpdateAtom(availableAtomFamily(Token.HZN));
   const setAvailableLP = useUpdateAtom(availableAtomFamily(Token.HZN_BNB_LP));
+  const setAvailableDeprecatedLP = useUpdateAtom(
+    availableAtomFamily(Token.HZN_BNB_LP_DEPRECATED)
+  );
   const setAvailableLegacyLP = useUpdateAtom(
     availableAtomFamily(Token.HZN_BNB_LP_LEGACY)
   );
@@ -44,12 +54,15 @@ export default function useFetchState() {
   const fetchBalances = useCallback(async () => {
     try {
       setLoading(true);
-      const [phb, hzn, lp, legacyLp] = await Promise.all([
+      const [phb, hzn, lp, deprecatedLp, legacyLp] = await Promise.all([
         account && phbToken ? phbToken.balanceOf(account) : constants.Zero,
         account && hznToken
           ? hznToken.transferableSynthetix(account)
           : constants.Zero,
         account && lpToken ? lpToken.balanceOf(account) : constants.Zero,
+        account && deprecatedLpToken
+          ? deprecatedLpToken.balanceOf(account)
+          : constants.Zero,
         account && legacyLpToken
           ? legacyLpToken.balanceOf(account)
           : constants.Zero,
@@ -63,6 +76,7 @@ export default function useFetchState() {
       setAvailablePHB(phb);
       setAvailableHZN(hzn);
       setAvailableLP(lp);
+      setAvailableDeprecatedLP(deprecatedLp);
       setAvailableLegacyLP(legacyLp);
     } catch (e) {
       console.log(e);
