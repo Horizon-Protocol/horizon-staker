@@ -8,14 +8,13 @@ import {
 } from "@atoms/balance";
 import useWallet from "./useWallet";
 import useStaking from "./useStaking";
-import { Token } from "@/utils/constants";
+import { DEPRECATED_TOKENS } from "@/utils/constants";
 
 export default function useFetchStakingData(token: TokenEnum) {
   const { account } = useWallet();
   const stakingContract = useStaking(token);
 
-  const isIgnore =
-    token === Token.HZN_BNB_LP_DEPRECATED || token === Token.HZN_BNB_LP_LEGACY;
+  const isIgnore = DEPRECATED_TOKENS.indexOf(token) > -1;
 
   // staked
   const setStaked = useUpdateAtom(stakedAtomFamily(token));

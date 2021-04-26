@@ -19,7 +19,7 @@ import Stats from "./Stats";
 import Earned from "./Earned";
 import AmountStake from "./AmountStake";
 import { useMemo } from "react";
-import { Token } from "@/utils/constants";
+import { DEPRECATED_TOKENS } from "@/utils/constants";
 
 const useStyles = makeStyles(() => ({
   desc: {
@@ -108,10 +108,7 @@ export default function StakeCard({
   const withdrawable = useAtomValue(withdrawableAtomFamily(token));
 
   const cardEnabled = useMemo(() => {
-    if (
-      token === Token.HZN_BNB_LP_LEGACY ||
-      token === Token.HZN_BNB_LP_DEPRECATED
-    ) {
+    if (DEPRECATED_TOKENS.indexOf(token) > -1) {
       return !staked.isZero() || !withdrawable.isZero();
     }
     return true;

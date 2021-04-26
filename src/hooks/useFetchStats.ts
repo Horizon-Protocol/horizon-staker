@@ -40,7 +40,7 @@ export function useFetchStat(token: TokenEnum) {
       lockDownSeconds,
     });
     return constants.Zero;
-  }, [setStat, stakingContract, token]);
+  }, [setStat, stakingContract]);
 
   return fetchData;
 }

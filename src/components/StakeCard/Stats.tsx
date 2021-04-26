@@ -44,9 +44,11 @@ export default function Stats({ token }: { token: TokenEnum }) {
     if (!isRoundActive) {
       return 0;
     }
+
     if (token === Token.HZN) {
       return getApy(1, 1, total, rewardsPerBlock);
     }
+
     return getApy(stakeTokenPrice, hznPrice, total, rewardsPerBlock);
   }, [isRoundActive, token, stakeTokenPrice, hznPrice, total, rewardsPerBlock]);
 

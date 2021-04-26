@@ -4,7 +4,7 @@ import { Box, Button, Collapse, Typography } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { useSnackbar } from "notistack";
 import { useAtomValue } from "jotai/utils";
-import { Token, StakingAddresses, Action } from "@utils/constants";
+import { DEPRECATED_TOKENS, StakingAddresses, Action } from "@utils/constants";
 import { cardContent } from "@utils/theme/common";
 import useFetchState from "@hooks/useFetchState";
 import { useFetchStat } from "@hooks/useFetchStats";
@@ -270,7 +270,7 @@ export default function AmountStake({ token, logo, disabledActions }: Props) {
             fullWidth
             loading={loading}
             onClick={handleApprove}
-            disabled={token === Token.HZN_BNB_LP_LEGACY}
+            disabled={DEPRECATED_TOKENS.indexOf(token) > -1}
           >
             Approve Contract
           </PrimaryButton>

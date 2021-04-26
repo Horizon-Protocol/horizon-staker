@@ -104,7 +104,10 @@ const cards: StakeCardProps[] = [
     cardTitle: "Please Unstake",
     disabledActions: [Action.Stake],
     desc: (
-      <>Deprecated staking pool due to PancakeSwap V2 migration incident.</>
+      <>
+        This pool is disabled, please unstake immediately. To transfer your
+        discontinued LP to the updated LP, click here.
+      </>
     ),
     links: [
       {

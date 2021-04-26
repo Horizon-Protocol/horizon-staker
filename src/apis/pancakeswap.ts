@@ -28,6 +28,7 @@ export async function fetchTotalLiquidity(): Promise<number> {
     const res = await fetch(ENDPOINT);
     const jsonData: { data: { [k: string]: Pair } } = await res.json();
     const pair = jsonData.data[pairAddress];
+
     if (pair) {
       return parseFloat(pair.liquidity);
     }

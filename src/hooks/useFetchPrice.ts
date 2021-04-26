@@ -4,15 +4,20 @@ import { useUpdateAtom } from "jotai/utils";
 import { fetchPrice } from "@/apis/coingecko";
 import { fetchTotalLiquidity } from "@/apis/pancakeswap";
 import { tokenPriceAtomFamily } from "@atoms/price";
-import { Token } from "@/utils/constants";
-import { useLP } from "./useContract";
+import erc20Abi from "@abis/erc20.json";
+import { Erc20 } from "@abis/types";
+import { TokenAddresses, Token } from "@utils/constants";
+import { useRpcContract } from "./useContract";
 
-const lpDisabled = true;
+const lpDisabled = false;
 
 export default function useFetchPrice() {
   const [timestamp, setTimestamp] = useState<number>(0);
 
-  const lpToken = useLP();
+  const lpToken = useRpcContract(
+    TokenAddresses[Token.HZN_BNB_LP],
+    erc20Abi
+  ) as Erc20;
 
   const setPHBPrice = useUpdateAtom(tokenPriceAtomFamily(Token.PHB));
   const setHZNPrice = useUpdateAtom(tokenPriceAtomFamily(Token.HZN));
