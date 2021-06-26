@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { constants, utils } from "ethers";
+import { constants } from "ethers";
 import { useUpdateAtom } from "jotai/utils";
 import { fetchPrice } from "@/apis/coingecko";
 import { tokenPriceAtomFamily } from "@atoms/price";
